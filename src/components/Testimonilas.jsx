@@ -62,7 +62,6 @@ const PHRASES = [
   "High-frequency digital architecture by 21Spheres",
 ];
 
-// Global Locations & People Profiles on the 3D Globe
 const GLOBE_MARKERS = [
   { name: "Robert M.", city: "SF, USA", lat: 37.77, lon: -122.41, img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" },
   { name: "Sarah K.", city: "London, UK", lat: 51.50, lon: -0.12, img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" },
@@ -76,7 +75,7 @@ export const Testimonials = () => {
   const [activePhraseIndex, setActivePhraseIndex] = useState(0);
   const [rotationAngle, setRotationAngle] = useState(0);
 
-  // Rotate 3D Globe continuously
+  // Continuous 3D Globe Rotation
   useEffect(() => {
     let animFrame;
     const animate = () => {
@@ -87,7 +86,7 @@ export const Testimonials = () => {
     return () => cancelAnimationFrame(animFrame);
   }, []);
 
-  // Smooth, single-step autoplay circular carousel
+  // Smooth circular card carousel timer
   useEffect(() => {
     const cardTimer = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % CARDS.length);
@@ -116,7 +115,7 @@ export const Testimonials = () => {
     <section
       id="testimonials"
       data-testid="testimonials-section"
-      className="relative z-10 bg-[#0c0a08] text-paper py-12 sm:py-16 md:py-20 select-none overflow-hidden border-t border-white/10"
+      className="relative z-10 bg-[#0c0a08] text-paper py-6 sm:py-8 lg:py-10 min-h-screen max-h-none lg:max-h-[920px] flex flex-col justify-between select-none overflow-hidden border-t border-white/10"
     >
       {/* Background Dotted Wave Curve */}
       <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
@@ -131,10 +130,10 @@ export const Testimonials = () => {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 flex flex-col items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full relative z-10 flex flex-col items-center my-auto">
         
         {/* Section Header */}
-        <div className="text-center mb-6 sm:mb-8">
+        <div className="text-center mb-4 sm:mb-6">
           <span className="font-mono text-[9px] sm:text-xs uppercase tracking-[0.25em] text-paper/40 font-light block mb-1">
             // 21SPHERES GLOBAL NETWORK
           </span>
@@ -143,250 +142,246 @@ export const Testimonials = () => {
           </h2>
         </div>
 
-        {/* Realistic Compact iPhone Screen Mockup with Clean 3D Globe Animation (No Glow) */}
-        <div className="relative w-[280px] sm:w-[320px] md:w-[340px] h-[410px] sm:h-[460px] rounded-[2.6rem] bg-[#08080a] p-2.5 sm:p-3 shadow-[0_25px_70px_rgba(0,0,0,0.8)] border-[6px] border-[#1e1e22] overflow-hidden flex flex-col justify-between mb-[-60px] sm:mb-[-80px] z-10">
+        {/* Responsive Grid: Side-by-Side on Desktop (lg), Stacked on Mobile/Tablet */}
+        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center justify-center">
           
-          {/* Top Status Bar */}
-          <div className="relative z-20 flex items-center justify-between px-4 pt-0.5 text-white/50 font-mono text-[10px]">
-            <span className="font-light text-white/80">17:47</span>
-            <div className="w-18 h-4 bg-black rounded-full flex items-center justify-center gap-1 px-2 border border-white/10">
-              <span className="w-1.5 h-1.5 rounded-full bg-slate-800" />
-            </div>
-            <div className="flex items-center gap-1 text-white/70">
-              <span className="text-[9px]">5G</span>
-              <div className="w-3.5 h-1.5 rounded-xs border border-white/60 p-0.5"><div className="w-full h-full bg-white rounded-xs"/></div>
-            </div>
-          </div>
-
-          {/* iPhone Inner Screen Canvas: Clean 3D Globe with People & Unboxed Larger Elevated Text */}
-          <div className="relative flex-1 bg-[#09090b] rounded-[2rem] overflow-hidden flex flex-col justify-between p-3.5 border border-white/10 shadow-inner mt-1">
-            
-            {/* Top Half: Interactive 3D Wireframe World Globe (Clean, No Glow) */}
-            <div className="relative w-full h-[210px] sm:h-[230px] flex items-center justify-center overflow-hidden">
+          {/* LEFT: Realistic Compact iPhone Screen Mockup with 3D Globe */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="relative w-[260px] sm:w-[290px] lg:w-[320px] h-[350px] sm:h-[390px] lg:h-[420px] rounded-[2.4rem] bg-[#08080a] p-2.5 shadow-[0_25px_70px_rgba(0,0,0,0.8)] border-[5px] border-[#1e1e22] overflow-hidden flex flex-col justify-between">
               
-              {/* Clean 3D Wireframe Globe SVG Grid */}
-              <svg className="absolute w-[140px] h-[140px] pointer-events-none z-0" viewBox="0 0 160 160">
-                {/* Globe Outline */}
-                <circle cx="80" cy="80" r="72" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" fill="none" />
+              {/* Top Status Bar */}
+              <div className="relative z-20 flex items-center justify-between px-3 pt-0.5 text-white/50 font-mono text-[9px]">
+                <span className="font-light text-white/80">17:47</span>
+                <div className="w-16 h-3.5 bg-black rounded-full flex items-center justify-center gap-1 px-2 border border-white/10">
+                  <span className="w-1.5 h-1.5 rounded-full bg-slate-800" />
+                </div>
+                <div className="flex items-center gap-1 text-white/70">
+                  <span className="text-[8px]">5G</span>
+                  <div className="w-3 h-1.5 rounded-xs border border-white/60 p-0.5"><div className="w-full h-full bg-white rounded-xs"/></div>
+                </div>
+              </div>
+
+              {/* iPhone Screen Content */}
+              <div className="relative flex-1 bg-[#09090b] rounded-[1.8rem] overflow-hidden flex flex-col justify-between p-3 border border-white/10 shadow-inner mt-1">
                 
-                {/* Latitude Lines */}
-                <ellipse cx="80" cy="80" rx="72" ry="24" stroke="rgba(255,255,255,0.12)" strokeWidth="1" fill="none" />
-                <ellipse cx="80" cy="80" rx="72" ry="48" stroke="rgba(255,255,255,0.12)" strokeWidth="1" fill="none" />
-                <line x1="8" y1="80" x2="152" y2="80" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="3 3" />
+                {/* 3D Wireframe Globe Container */}
+                <div className="relative w-full h-[180px] sm:h-[210px] lg:h-[230px] flex items-center justify-center overflow-hidden">
+                  <svg className="absolute w-[130px] h-[130px] sm:w-[140px] sm:h-[140px] pointer-events-none z-0" viewBox="0 0 160 160">
+                    <circle cx="80" cy="80" r="72" stroke="rgba(255,255,255,0.25)" strokeWidth="1.2" fill="none" />
+                    <ellipse cx="80" cy="80" rx="72" ry="24" stroke="rgba(255,255,255,0.12)" strokeWidth="1" fill="none" />
+                    <ellipse cx="80" cy="80" rx="72" ry="48" stroke="rgba(255,255,255,0.12)" strokeWidth="1" fill="none" />
+                    <line x1="8" y1="80" x2="152" y2="80" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="3 3" />
 
-                {/* Longitude Rotating Ellipse Grid */}
-                <ellipse
-                  cx="80"
-                  cy="80"
-                  rx={Math.abs(Math.cos((rotationAngle * Math.PI) / 180)) * 72}
-                  ry="72"
-                  stroke="rgba(255,255,255,0.25)"
-                  strokeWidth="1.2"
-                  fill="none"
-                />
-                <ellipse
-                  cx="80"
-                  cy="80"
-                  rx={Math.abs(Math.cos(((rotationAngle + 60) * Math.PI) / 180)) * 72}
-                  ry="72"
-                  stroke="rgba(255,255,255,0.12)"
-                  strokeWidth="1"
-                  fill="none"
-                />
-                <ellipse
-                  cx="80"
-                  cy="80"
-                  rx={Math.abs(Math.cos(((rotationAngle + 120) * Math.PI) / 180)) * 72}
-                  ry="72"
-                  stroke="rgba(255,255,255,0.12)"
-                  strokeWidth="1"
-                  fill="none"
-                />
-              </svg>
+                    <ellipse
+                      cx="80"
+                      cy="80"
+                      rx={Math.abs(Math.cos((rotationAngle * Math.PI) / 180)) * 72}
+                      ry="72"
+                      stroke="rgba(255,255,255,0.25)"
+                      strokeWidth="1.2"
+                      fill="none"
+                    />
+                    <ellipse
+                      cx="80"
+                      cy="80"
+                      rx={Math.abs(Math.cos(((rotationAngle + 60) * Math.PI) / 180)) * 72}
+                      ry="72"
+                      stroke="rgba(255,255,255,0.12)"
+                      strokeWidth="1"
+                      fill="none"
+                    />
+                    <ellipse
+                      cx="80"
+                      cy="80"
+                      rx={Math.abs(Math.cos(((rotationAngle + 120) * Math.PI) / 180)) * 72}
+                      ry="72"
+                      stroke="rgba(255,255,255,0.12)"
+                      strokeWidth="1"
+                      fill="none"
+                    />
+                  </svg>
 
-              {/* 3D Rotating People Avatar Badges & Location Markers */}
-              <div className="relative w-[140px] h-[140px] flex items-center justify-center z-10 pointer-events-none">
-                {GLOBE_MARKERS.map((marker, idx) => {
-                  const radius = 66;
-                  const phi = (90 - marker.lat) * (Math.PI / 180);
-                  const theta = (marker.lon + rotationAngle) * (Math.PI / 180);
+                  {/* Location & Avatar Markers */}
+                  <div className="relative w-[130px] h-[130px] sm:w-[140px] sm:h-[140px] flex items-center justify-center z-10 pointer-events-none">
+                    {GLOBE_MARKERS.map((marker, idx) => {
+                      const radius = 64;
+                      const phi = (90 - marker.lat) * (Math.PI / 180);
+                      const theta = (marker.lon + rotationAngle) * (Math.PI / 180);
 
-                  const x = radius * Math.sin(phi) * Math.cos(theta);
-                  const y = radius * Math.cos(phi);
-                  const z = radius * Math.sin(phi) * Math.sin(theta);
+                      const x = radius * Math.sin(phi) * Math.cos(theta);
+                      const y = radius * Math.cos(phi);
+                      const z = radius * Math.sin(phi) * Math.sin(theta);
 
-                  // Front-facing half of the 3D globe only
-                  if (z <= -10) return null;
+                      if (z <= -10) return null;
+                      const opacity = Math.max(0.2, (z + 20) / 88);
 
-                  const opacity = Math.max(0.2, (z + 20) / 88);
+                      return (
+                        <motion.div
+                          key={idx}
+                          style={{
+                            position: "absolute",
+                            left: `calc(50% + ${x}px - 14px)`,
+                            top: `calc(50% - ${y}px - 14px)`,
+                            opacity,
+                            scale: 0.72 + (z / 66) * 0.28,
+                            zIndex: Math.floor(z + 100),
+                          }}
+                          className="flex items-center gap-1 bg-[#18181b]/90 backdrop-blur-md border border-white/40 p-0.5 pr-2 rounded-full shadow-md"
+                        >
+                          <img
+                            src={marker.img}
+                            alt={marker.name}
+                            className="w-4.5 h-4.5 rounded-full object-cover border border-white/60 shrink-0"
+                          />
+                          <span className="font-mono text-[7px] font-bold text-white whitespace-nowrap">
+                            {marker.city}
+                          </span>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                </div>
 
-                  return (
-                    <motion.div
-                      key={idx}
-                      style={{
-                        position: "absolute",
-                        left: `calc(50% + ${x}px - 14px)`,
-                        top: `calc(50% - ${y}px - 14px)`,
-                        opacity,
-                        scale: 0.75 + (z / 66) * 0.3,
-                        zIndex: Math.floor(z + 100),
-                      }}
-                      className="flex items-center gap-1 bg-[#18181b]/90 backdrop-blur-md border border-white/40 p-0.5 pr-2 rounded-full shadow-md"
+                {/* Network Text Banner */}
+                <div className="relative z-20 w-full text-center pb-3 pt-1 px-2">
+                  <div className="flex items-center justify-center gap-1.5 mb-1 text-white/60">
+                    <GlobeIcon className="w-3 h-3" />
+                    <span className="font-mono text-[8px] uppercase tracking-widest font-semibold">21SPHERES GLOBAL NETWORK</span>
+                  </div>
+                  <AnimatePresence mode="wait">
+                    <motion.h3
+                      key={activePhraseIndex}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.35 }}
+                      className="font-outfit text-xs sm:text-sm font-normal text-white leading-tight tracking-tight uppercase max-w-[220px] mx-auto"
                     >
-                      <img
-                        src={marker.img}
-                        alt={marker.name}
-                        className="w-5 h-5 rounded-full object-cover border border-white/60 shrink-0"
-                      />
-                      <span className="font-mono text-[7px] font-bold text-white whitespace-nowrap">
-                        {marker.city}
+                      {PHRASES[activePhraseIndex]}
+                    </motion.h3>
+                  </AnimatePresence>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT: SILKY SMOOTH SLIDING TESTIMONIALS CAROUSEL */}
+          <div className="lg:col-span-7 relative w-full h-[320px] sm:h-[350px] lg:h-[390px] flex items-center justify-center">
+            
+            {/* Carousel Navigation Arrows */}
+            <button
+              onClick={handlePrev}
+              aria-label="Previous testimonial"
+              className="absolute left-0 sm:left-2 lg:-left-4 z-50 p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-white/25 border border-white/20 text-white backdrop-blur-md transition-all active:scale-95 cursor-pointer shadow-lg"
+            >
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+            
+            <button
+              onClick={handleNext}
+              aria-label="Next testimonial"
+              className="absolute right-0 sm:right-2 lg:-right-4 z-50 p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-white/25 border border-white/20 text-white backdrop-blur-md transition-all active:scale-95 cursor-pointer shadow-lg"
+            >
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+
+            {/* Cards Stack */}
+            <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+              {CARDS.map((card, idx) => {
+                let offset = idx - activeIndex;
+                if (offset > Math.floor(CARDS.length / 2)) offset -= CARDS.length;
+                if (offset < -Math.floor(CARDS.length / 2)) offset += CARDS.length;
+
+                const isCenter = offset === 0;
+                const isVisible = Math.abs(offset) <= 2;
+
+                if (!isVisible) return null;
+
+                let translateX = offset * 320;
+                if (typeof window !== "undefined" && window.innerWidth < 640) translateX = offset * 220;
+
+                const scale = isCenter ? 1.02 : 0.88;
+                const opacity = isCenter ? 1 : Math.abs(offset) === 1 ? 0.5 : 0;
+                const zIndex = isCenter ? 40 : 30 - Math.abs(offset) * 10;
+
+                return (
+                  <motion.div
+                    key={card.id}
+                    onClick={() => setActiveIndex(idx)}
+                    animate={{
+                      x: translateX,
+                      scale,
+                      opacity,
+                    }}
+                    transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                    style={{ zIndex, position: "absolute" }}
+                    className={`w-[270px] sm:w-[320px] md:w-[360px] rounded-[2rem] p-2 sm:p-2.5 flex flex-col justify-between transition-colors duration-300 cursor-pointer select-none ${
+                      isCenter
+                        ? "bg-black/90 backdrop-blur-2xl border border-white/35 shadow-[0_25px_60px_rgba(0,0,0,0.9)]"
+                        : "bg-[#0d0d0f]/80 backdrop-blur-md border border-white/15 shadow-xl"
+                    }`}
+                  >
+                    {/* Top Container */}
+                    <div className="bg-[#121215] rounded-[1.6rem] p-4 sm:p-5 border border-white/10 shadow-md text-white text-left flex flex-col justify-between min-h-[160px] sm:min-h-[180px]">
+                      <div>
+                        {/* Eyebrow Tag */}
+                        <div className="font-mono text-[8px] sm:text-[9px] tracking-wider uppercase text-white/50 font-semibold mb-1.5">
+                          {card.tag}
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="font-outfit text-base sm:text-xl md:text-2xl font-light tracking-tight text-white leading-tight capitalize mb-1">
+                          {card.title}
+                        </h3>
+                      </div>
+
+                      {/* Subhead Quote Text */}
+                      <p className="font-outfit text-xs sm:text-sm text-white/80 font-normal leading-relaxed line-clamp-3 mt-2">
+                        <span className="font-bold text-white">21Spheres delivered:</span> "{card.subhead}"
+                      </p>
+                    </div>
+
+                    {/* Lower Author Bar */}
+                    <div className="p-2.5 sm:p-3 flex items-center justify-between text-left">
+                      <div className="flex items-center gap-2">
+                        <img
+                          src={card.avatar}
+                          alt={card.name}
+                          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-white/40 shadow-md shrink-0"
+                        />
+                        <div className="font-outfit leading-tight">
+                          <span className="font-bold text-xs sm:text-sm text-white block">
+                            {card.name}
+                          </span>
+                          <span className="text-[9px] sm:text-[10px] text-white/60 font-medium block">
+                            {card.role}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Verified Badge */}
+                      <span className="font-mono text-[7px] sm:text-[8px] uppercase tracking-wider text-white/90 bg-white/10 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/20 shrink-0 hidden sm:inline-block">
+                        Verified 21Spheres Build ↗
                       </span>
-                    </motion.div>
-                  );
-                })}
-              </div>
-
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
-
-            {/* Elevated Larger Text Banner */}
-            <div className="relative z-20 w-full text-center pb-12 sm:pb-14 pt-1 px-3">
-              <div className="flex items-center justify-center gap-1.5 mb-1.5 text-white/60">
-                <GlobeIcon className="w-3.5 h-3.5" />
-                <span className="font-mono text-[9px] uppercase tracking-widest font-semibold">21SPHERES GLOBAL NETWORK</span>
-              </div>
-              <AnimatePresence mode="wait">
-                <motion.h3
-                  key={activePhraseIndex}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -6 }}
-                  transition={{ duration: 0.35 }}
-                  className="font-outfit text-sm sm:text-base font-normal text-white leading-snug tracking-tight uppercase max-w-[240px] mx-auto"
-                >
-                  {PHRASES[activePhraseIndex]}
-                </motion.h3>
-              </AnimatePresence>
-            </div>
-
           </div>
+
         </div>
 
-        {/* SILKY SMOOTH SLIDING CIRCULAR CAROUSEL (Exact design preserved, 0 skipping, no jerky 3D flips) */}
-        <div className="relative z-30 w-full max-w-5xl h-[340px] sm:h-[380px] flex items-center justify-center mt-4">
-          
-          {/* Carousel Navigation Arrows */}
-          <button
-            onClick={handlePrev}
-            aria-label="Previous testimonial"
-            className="absolute left-2 sm:left-6 z-50 p-2.5 sm:p-3 rounded-full bg-white/10 hover:bg-white/25 border border-white/20 text-white backdrop-blur-md transition-all active:scale-95 cursor-pointer shadow-lg"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          
-          <button
-            onClick={handleNext}
-            aria-label="Next testimonial"
-            className="absolute right-2 sm:right-6 z-50 p-2.5 sm:p-3 rounded-full bg-white/10 hover:bg-white/25 border border-white/20 text-white backdrop-blur-md transition-all active:scale-95 cursor-pointer shadow-lg"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
-
-          {/* Cards Stack */}
-          <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-            {CARDS.map((card, idx) => {
-              // Calculate shortest circular offset cleanly (-2, -1, 0, 1, 2)
-              let offset = idx - activeIndex;
-              if (offset > Math.floor(CARDS.length / 2)) offset -= CARDS.length;
-              if (offset < -Math.floor(CARDS.length / 2)) offset += CARDS.length;
-
-              const isCenter = offset === 0;
-              const isVisible = Math.abs(offset) <= 2;
-
-              if (!isVisible) return null;
-
-              // Smooth horizontal slide offset without jerky 3D rotation
-              let translateX = offset * 340;
-              if (window.innerWidth < 640) translateX = offset * 240;
-
-              const scale = isCenter ? 1.05 : 0.88;
-              const opacity = isCenter ? 1 : Math.abs(offset) === 1 ? 0.6 : 0;
-              const zIndex = isCenter ? 40 : 30 - Math.abs(offset) * 10;
-
-              return (
-                <motion.div
-                  key={card.id}
-                  onClick={() => setActiveIndex(idx)}
-                  animate={{
-                    x: translateX,
-                    scale,
-                    opacity,
-                  }}
-                  transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ zIndex, position: "absolute" }}
-                  className={`w-[280px] sm:w-[330px] md:w-[360px] rounded-[2.2rem] p-2 sm:p-2.5 flex flex-col justify-between transition-colors duration-300 cursor-pointer select-none ${
-                    isCenter
-                      ? "bg-black/90 backdrop-blur-2xl border border-white/35 shadow-[0_30px_70px_rgba(0,0,0,0.9)]"
-                      : "bg-[#0d0d0f]/80 backdrop-blur-md border border-white/15 shadow-xl"
-                  }`}
-                >
-                  {/* TOP TIER BOX: Dark Container with Lighter Weight Title */}
-                  <div className="bg-[#121215] rounded-[1.7rem] p-4 sm:p-5 border border-white/10 shadow-md text-white text-left flex flex-col justify-between min-h-[170px] sm:min-h-[190px]">
-                    <div>
-                      {/* Eyebrow Tag */}
-                      <div className="font-mono text-[9px] sm:text-[10px] tracking-wider uppercase text-white/50 font-semibold mb-1.5">
-                        {card.tag}
-                      </div>
-
-                      {/* Main Title with Lighter Font Weight */}
-                      <h3 className="font-outfit text-lg sm:text-2xl font-light tracking-tight text-white leading-tight capitalize mb-1">
-                        {card.title}
-                      </h3>
-                    </div>
-
-                    {/* Subhead Quote Text */}
-                    <p className="font-outfit text-xs sm:text-sm text-white/80 font-normal leading-relaxed line-clamp-3 mt-2">
-                      <span className="font-bold text-white">21Spheres delivered:</span> "{card.subhead}"
-                    </p>
-                  </div>
-
-                  {/* LOWER TIER AREA: Frosted Panel with Author & Verified Badge */}
-                  <div className="p-3 sm:p-4 pt-2.5 sm:pt-3 flex items-center justify-between text-left">
-                    <div className="flex items-center gap-2.5">
-                      <img
-                        src={card.avatar}
-                        alt={card.name}
-                        className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border border-white/40 shadow-md shrink-0"
-                      />
-                      <div className="font-outfit leading-tight">
-                        <span className="font-bold text-xs sm:text-sm text-white block">
-                          {card.name}
-                        </span>
-                        <span className="text-[10px] text-white/60 font-medium block">
-                          {card.role}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Verified 21Spheres Badge */}
-                    <span className="font-mono text-[8px] sm:text-[9px] uppercase tracking-wider text-white/90 bg-white/10 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 shrink-0 hidden sm:inline-block">
-                      Verified 21Spheres Build ↗
-                    </span>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Circular Carousel Dots Indicator */}
-        <div className="flex items-center gap-2 mt-4 z-40">
+        {/* Carousel Dots Indicator */}
+        <div className="flex items-center gap-2 mt-4 sm:mt-6 z-40">
           {CARDS.map((_, i) => (
             <button
               key={i}
               onClick={() => setActiveIndex(i)}
               aria-label={`Go to slide ${i + 1}`}
-              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                i === activeIndex ? "w-6 bg-white" : "w-2 bg-white/20 hover:bg-white/40"
+              className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                i === activeIndex ? "w-6 bg-white" : "w-1.5 bg-white/20 hover:bg-white/40"
               }`}
             />
           ))}
