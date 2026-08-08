@@ -6,6 +6,7 @@ import { LogoMark } from "./components/LogoMark";
 const LINKS = [
   { label: "What We Do", href: "#what-we-do" },
   { label: "Products", href: "#products" },
+  { label: "How We Work", href: "#how-we-work" },
   { label: "About", href: "#about" },
   { label: "Testimonials", href: "#testimonials" },
 ];
@@ -45,7 +46,7 @@ export const Navbar = () => {
           </a>
 
           {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center gap-8 lg:gap-10">
+          <div className="hidden md:flex items-center gap-7 lg:gap-9">
             {LINKS.map((l) => (
               <a
                 key={l.label}
@@ -70,13 +71,13 @@ export const Navbar = () => {
               <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </a>
 
-            <a
-              href="#contact"
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent("open-contact-modal"))}
               data-testid="nav-cta-start"
-              className="hidden sm:inline-flex group relative overflow-hidden rounded-full bg-ink px-4 py-2 sm:px-5 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium text-paper transition-transform duration-300 hover:scale-[1.03] shadow-xs"
+              className="hidden sm:inline-flex group relative overflow-hidden rounded-full bg-ink px-4 py-2 sm:px-5 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium text-paper transition-transform duration-300 hover:scale-[1.03] shadow-xs cursor-pointer"
             >
               <span className="relative z-10">Start a Project</span>
-            </a>
+            </button>
 
             {/* Mobile Hamburger Toggle Button */}
             <button
@@ -126,13 +127,15 @@ export const Navbar = () => {
                 <ArrowUpRight className="h-4 w-4" />
               </a>
 
-              <a
-                href="#contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="w-full text-center rounded-full bg-ink py-3.5 font-outfit text-sm font-semibold text-paper shadow-md"
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent("open-contact-modal"));
+                }}
+                className="w-full text-center rounded-full bg-ink py-3.5 font-outfit text-sm font-semibold text-paper shadow-md cursor-pointer"
               >
                 Start a Project
-              </a>
+              </button>
               <p className="text-center font-mono text-xs text-ink/40 pt-1">
                 hello@21spheres.studio
               </p>

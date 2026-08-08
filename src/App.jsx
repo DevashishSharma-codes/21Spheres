@@ -12,9 +12,12 @@ import { ProductShowcase } from "./components/ProductShowcase";
 import { About } from "./components/About";
 import { Testimonials } from "./components/Testimonilas";
 import { FeaturedTestimonial } from "./components/FeaturedTestimonial";
+import { HowWeWork } from "./components/HowWeWork";
+import { BookingSection } from "./components/BookingSection";
 import { WisprFlowMarquee } from "./components/Marque";
 import { Footer } from "./components/Footer";
 import { LogoMark } from "./components/LogoMark";
+import { ContactModal } from "./components/ContactModal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -234,7 +237,20 @@ export const Hero = () => {
    Main App Export with Lenis Liquid Smooth Scroll Integration
 --------------------------------------------------------- */
 export default function App() {
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const [bookingDetails, setBookingDetails] = useState(null);
+
   useEffect(() => {
+    const handleOpenModal = (e) => {
+      setIsContactModalOpen(true);
+      if (e.detail?.date) {
+        setBookingDetails(e.detail);
+      } else {
+        setBookingDetails(null);
+      }
+    };
+    window.addEventListener("open-contact-modal", handleOpenModal);
+
     // Initialize Lenis Inertia Smooth Scroll
     const lenis = new Lenis({
       duration: 0.85,
@@ -266,6 +282,7 @@ export default function App() {
     }, 150);
 
     return () => {
+      window.removeEventListener("open-contact-modal", handleOpenModal);
       clearTimeout(refreshTimer);
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
@@ -282,11 +299,18 @@ export default function App() {
         <MarqueeStrip />
         <ProductShowcase />
         <About />
+        <HowWeWork />
+        <BookingSection />
         <FeaturedTestimonial />
         <Testimonials />
         <WisprFlowMarquee />
       </main>
       <Footer />
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+        bookingDetails={bookingDetails}
+      />
     </div>
   );
 }

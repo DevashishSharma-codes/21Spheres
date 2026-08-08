@@ -35,7 +35,6 @@ export const ProductModal = ({
     if (typeof window !== "undefined") {
       if (window.lenis) window.lenis.stop();
       document.body.style.overflow = "hidden";
-      document.body.style.touchAction = "none";
     }
 
     const handleKeyDown = (e) => {
@@ -50,7 +49,6 @@ export const ProductModal = ({
       if (typeof window !== "undefined") {
         if (window.lenis) window.lenis.start();
         document.body.style.overflow = "auto";
-        document.body.style.touchAction = "";
       }
       window.removeEventListener("keydown", handleKeyDown);
     };
@@ -79,9 +77,9 @@ export const ProductModal = ({
   const modalElement = (
     <AnimatePresence>
       <div
-        className="fixed inset-0 z-[999999] flex items-center justify-center p-2 sm:p-5 lg:p-8 select-none overscroll-none"
+        className="fixed inset-0 z-[999999] flex items-center justify-center p-2 sm:p-5 lg:p-8 select-none"
         style={{
-          background: "rgba(0, 0, 0, 0.7)",
+          background: "rgba(0, 0, 0, 0.75)",
           backdropFilter: "blur(18px)",
           WebkitBackdropFilter: "blur(18px)",
         }}
@@ -94,9 +92,9 @@ export const ProductModal = ({
           exit={{ opacity: 0, scale: 0.96, y: 16 }}
           transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-6xl h-[92vh] sm:h-[90vh] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden flex flex-col justify-between shadow-[0_32px_80px_rgba(0,0,0,0.75),inset_0_1px_2px_rgba(255,255,255,0.35)] touch-auto"
+          className="relative w-full max-w-6xl h-[92vh] sm:h-[90vh] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden flex flex-col justify-between shadow-[0_32px_80px_rgba(0,0,0,0.75),inset_0_1px_2px_rgba(255,255,255,0.35)]"
           style={{
-            background: "rgba(20, 20, 24, 0.88)",
+            background: "rgba(20, 20, 24, 0.92)",
             backdropFilter: "blur(45px) saturate(210%)",
             WebkitBackdropFilter: "blur(45px) saturate(210%)",
             border: "1px solid rgba(255, 255, 255, 0.18)",
@@ -146,13 +144,28 @@ export const ProductModal = ({
             </div>
           </div>
 
-          {/* RESPONSIVE SMOOTH SCROLLABLE CONTAINER */}
+          {/* RESPONSIVE SMOOTH SCROLLABLE CONTAINER FOR MOBILE & PC */}
           <div
-            className="flex-1 w-full overflow-y-auto overscroll-contain p-3 sm:p-6 flex flex-col lg:grid lg:grid-cols-[45%_55%] gap-5 sm:gap-6"
-            style={{ touchAction: "pan-y", WebkitOverflowScrolling: "touch" }}
+            data-lenis-prevent="true"
+            data-lenis-prevent-touch="true"
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            className="flex-1 w-full min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain p-4 sm:p-7 flex flex-col lg:grid lg:grid-cols-[48%_52%] gap-6 sm:gap-8 touch-pan-y"
+            style={{ WebkitOverflowScrolling: "touch" }}
           >
-            {/* EDITORIAL CONTENT PANEL */}
-            <div className="w-full h-auto lg:h-full lg:overflow-y-auto pr-0 lg:pr-3">
+            {/* EDITORIAL CONTENT PANEL WITH DEDICATED SCROLL */}
+            <div
+              data-lenis-prevent="true"
+              data-lenis-prevent-touch="true"
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              className="w-full h-auto lg:h-full lg:min-h-0 lg:overflow-y-auto overflow-x-hidden pr-0 lg:pr-4 overscroll-contain touch-pan-y"
+              style={{
+                WebkitOverflowScrolling: "touch",
+                scrollbarWidth: "thin",
+                scrollbarColor: "rgba(255, 255, 255, 0.25) transparent",
+              }}
+            >
               <ProductContent
                 product={currentProduct}
                 currentIndex={displayIndex}
@@ -161,7 +174,7 @@ export const ProductModal = ({
             </div>
 
             {/* HERO IMAGE & GALLERY PANEL */}
-            <div className="h-[280px] sm:h-[380px] lg:h-full min-h-[260px] w-full flex-shrink-0">
+            <div className="h-[280px] sm:h-[380px] lg:h-full min-h-[260px] w-full flex-shrink-0 overflow-hidden">
               <ProductImageGrid product={currentProduct} />
             </div>
           </div>

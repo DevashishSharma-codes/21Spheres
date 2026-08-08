@@ -15,21 +15,18 @@ export const ProductContent = ({
     "Unified insurance API gateway connecting POSP agents, aggregators, and underwriters for instant quote generation and policy issuance.";
 
   return (
-    <div
-      className="w-full flex flex-col justify-between select-text pr-0 lg:pr-4 lg:overflow-y-auto lg:h-full touch-pan-y space-y-5 sm:space-y-6"
-      style={{ scrollbarWidth: "thin", scrollbarColor: "rgba(255, 255, 255, 0.2) transparent" }}
-    >
-      {/* Magazine Editorial Top Header */}
+    <div className="w-full flex flex-col select-text space-y-5 sm:space-y-6">
+      {/* Editorial Top Header */}
       <div className="space-y-3 pt-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 bg-[#84cc16] rounded-full animate-pulse" />
             <span className="font-mono text-xs uppercase tracking-widest text-[#84cc16] font-bold">
-              ISSUE #24 // {category}
+              {category}
             </span>
           </div>
           <span className="font-mono text-[10px] uppercase text-white/40 tracking-widest hidden sm:inline-block">
-            21SPHERES EDITORIAL SPEC
+            21SPHERES SPEC
           </span>
         </div>
 
