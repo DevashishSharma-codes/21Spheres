@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 import { LogoMark } from "./components/LogoMark";
 
 const LINKS = [
@@ -59,12 +59,21 @@ export const Navbar = () => {
             ))}
           </div>
 
-          {/* Desktop CTA & Mobile Menu Toggle Button */}
-          <div className="flex items-center gap-3">
+          {/* Desktop Dual CTA Buttons & Mobile Menu Toggle Button */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <a
+              href="#products"
+              data-testid="nav-cta-products"
+              className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-ink/20 bg-white/40 backdrop-blur-md px-4 py-2 sm:px-5 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium text-ink transition-all duration-300 hover:bg-ink hover:text-paper shadow-xs group"
+            >
+              <span>See Products</span>
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </a>
+
             <a
               href="#contact"
-              data-testid="nav-cta"
-              className="hidden sm:inline-flex group relative overflow-hidden rounded-full bg-ink px-5 py-2.5 font-outfit text-xs sm:text-sm font-medium text-paper transition-transform duration-300 hover:scale-[1.03]"
+              data-testid="nav-cta-start"
+              className="hidden sm:inline-flex group relative overflow-hidden rounded-full bg-ink px-4 py-2 sm:px-5 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium text-paper transition-transform duration-300 hover:scale-[1.03] shadow-xs"
             >
               <span className="relative z-10">Start a Project</span>
             </a>
@@ -107,7 +116,16 @@ export const Navbar = () => {
               ))}
             </div>
 
-            <div className="pt-8 border-t border-ink/10 flex flex-col space-y-4">
+            <div className="pt-8 border-t border-ink/10 flex flex-col space-y-3">
+              <a
+                href="#products"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-ink/20 bg-white/60 py-3 font-outfit text-sm font-semibold text-ink shadow-xs"
+              >
+                <span>See Products</span>
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+
               <a
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
@@ -115,7 +133,7 @@ export const Navbar = () => {
               >
                 Start a Project
               </a>
-              <p className="text-center font-mono text-xs text-ink/40">
+              <p className="text-center font-mono text-xs text-ink/40 pt-1">
                 hello@21spheres.studio
               </p>
             </div>

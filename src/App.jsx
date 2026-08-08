@@ -36,17 +36,17 @@ const lineItem = {
 
 // Converging SVG Line Paths & Dash Array Config
 const PATHS = [
-  { d: "M 0 0 L 0 404.609", transform: "translate(370 0)", dim: 20 },
+  { d: "M 0 0 L 0 408", transform: "translate(370 0)", dim: 20 },
   {
-    d: "M 164 0 L 98.814 0 L 0 83.557 L 0 205",
+    d: "M 145 0 L 98.814 0 L -15 83.557 L -15 298",
     transform: "translate(400 110)",
   },
   {
-    d: "M 0 0 L 56.317 0 C 93.572 34.834 114.632 53.417 155 84.826 L 155 206",
+    d: "M 0 0 L 56.317 0 C 93.572 34.834 114.632 53.417 173.848 84.826 L 173.848 298",
     transform: "translate(181.152 110)",
   },
-  { d: "M 0 0 L 295 0 L 295 81", transform: "translate(0 221)" },
-  { d: "M 296 0 L 0 0 L 0 79", transform: "translate(438 221)" },
+  { d: "M 0 0 L 340 0 L 340 187", transform: "translate(0 221)" },
+  { d: "M 0 0 L -340 0 L -340 187", transform: "translate(740 221)" },
 ];
 
 /* ---------------------------------------------------------
@@ -57,28 +57,56 @@ const PATHS = [
 --------------------------------------------------------- */
 function HeroLineAnimation() {
   return (
-    <div className="pointer-events-none z-20 w-full px-4 sm:px-6 pb-3 sm:pb-5 md:pb-6 mt-auto">
+    <div className="pointer-events-none z-20 w-full px-4 sm:px-6 pb-2 sm:pb-3 md:pb-4 mt-auto">
       {/* Responsive stage with max-height & viewport scaling */}
-      <div className="relative mx-auto aspect-[734/405] max-h-[22vh] sm:max-h-[26vh] md:max-h-[28vh] lg:max-h-[30vh] w-full max-w-[520px] sm:max-w-[660px] lg:max-w-[740px]">
-        {/* Responsive Capability Tags */}
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[50.41%] top-0 z-30 w-fit -translate-x-1/2 -translate-y-1/2">
+      <div className="relative mx-auto aspect-[734/405] max-h-[22vh] sm:max-h-[26vh] md:max-h-[28vh] lg:max-h-[30vh] w-full max-w-[500px] sm:max-w-[650px] lg:max-w-[740px]">
+        {/* Staggered Entrance Capability Tags */}
+        <motion.div
+          initial={{ opacity: 0, y: 16, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[50.41%] top-0 z-30 w-fit -translate-x-1/2 -translate-y-1/2"
+        >
           Autonomous AI Agents
-        </div>
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[24.68%] top-[27.16%] z-30 w-fit -translate-x-1/2 -translate-y-1/2">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 16, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 1.28, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[24.68%] top-[27.16%] z-30 w-fit -translate-x-1/2 -translate-y-1/2"
+        >
           High Scale Platforms
-        </div>
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[76.84%] top-[27.16%] z-30 w-fit max-w-[55%] -translate-x-1/2 -translate-y-1/2 sm:max-w-none">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 16, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 1.36, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[76.84%] top-[27.16%] z-30 w-fit max-w-[55%] -translate-x-1/2 -translate-y-1/2 sm:max-w-none"
+        >
           Native Mobile Apps
-        </div>
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[12%] sm:left-0 top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 16, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 1.44, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[12%] sm:left-0 top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2"
+        >
           Cloud Infrastructure
-        </div>
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[88%] sm:left-full top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2">
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 16, scale: 0.96 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 1.52, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[88%] sm:left-full top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2"
+        >
           Enterprise Systems
-        </div>
+        </motion.div>
 
-        {/* Converging SVG Line Paths at z-10 */}
-        <svg
+        {/* Converging SVG Line Paths Fade-In Entrance */}
+        <motion.svg
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.0, delay: 1.35, ease: "easeOut" }}
           role="presentation"
           viewBox="0 0 734 405"
           className="absolute inset-0 h-full w-full z-10"
@@ -108,12 +136,29 @@ function HeroLineAnimation() {
               />
             </g>
           ))}
-        </svg>
+        </motion.svg>
 
-        {/* Destination Node: Glossy Black Translucent Box with White 21Spheres LogoMark */}
-        <div className="pointer-events-auto absolute bottom-0 left-[50.41%] size-12 sm:size-18 md:size-22 lg:size-26 -translate-x-1/2 translate-y-1/2 rounded-xl bg-gradient-to-br from-black/90 via-black/75 to-black/50 backdrop-blur-xl border border-white/40 shadow-2xl p-1.5 sm:p-2 z-40 flex items-center justify-center">
-          <LogoMark className="text-white w-5 h-5 sm:w-7 sm:h-7 lg:w-9 lg:h-9 drop-shadow-lg" />
-        </div>
+        {/* Destination Node: Refined Charcoal Glassmorphic Box Staggered Entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 24, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.9, delay: 1.55, ease: [0.22, 1, 0.36, 1] }}
+          className="pointer-events-auto absolute bottom-0 left-[50.41%] size-13 sm:size-17 md:size-20 lg:size-22 -translate-x-1/2 translate-y-1/2 rounded-2xl sm:rounded-[1.4rem] p-1.5 sm:p-2 z-50 flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(52, 52, 62, 0.93) 0%, rgba(26, 26, 34, 0.96) 100%)",
+            backdropFilter: "blur(32px) saturate(200%)",
+            WebkitBackdropFilter: "blur(32px) saturate(200%)",
+            border: "1px solid rgba(255, 255, 255, 0.28)",
+            boxShadow:
+              "inset 0 1.5px 2px rgba(255, 255, 255, 0.45), 0 12px 32px rgba(0, 0, 0, 0.3)",
+          }}
+        >
+          {/* Glossy Top Glass Curved Lens Reflection */}
+          <div className="absolute inset-x-2 top-0.5 h-3.5 rounded-t-xl bg-gradient-to-b from-white/35 to-transparent pointer-events-none opacity-85" />
+
+          <LogoMark className="relative z-10 text-white w-5.5 h-5.5 sm:w-7.5 sm:h-7.5 lg:w-9.5 lg:h-9.5 drop-shadow-[0_4px_12px_rgba(255,255,255,0.4)]" />
+        </motion.div>
       </div>
     </div>
   );
@@ -127,7 +172,7 @@ export const Hero = () => {
     <section
       id="top"
       data-testid="hero-section"
-      className="relative min-h-[100dvh] h-[100dvh] w-full max-w-full overflow-hidden flex flex-col items-center justify-between bg-[#fdfbf9] select-none"
+      className="relative min-h-[100dvh] h-[100dvh] w-full max-w-full overflow-hidden flex flex-col items-center justify-between bg-[#fdfbf9] select-none py-2 sm:py-4"
     >
       {/* Background image */}
       <motion.div
@@ -147,18 +192,18 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-paper/40 via-transparent to-paper z-0" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(253,251,249,0.65),transparent_70%)] z-0" />
 
-      {/* Hero Headline & Subtext Content seated under Navbar with balanced flex centering */}
-      <div className="relative z-20 max-w-5xl mx-auto px-5 sm:px-8 text-center pt-20 sm:pt-24 md:pt-24 lg:pt-24 flex-1 flex flex-col items-center justify-center">
+      {/* Hero Headline & Subtext Content positioned slightly upward utilizing top space with balanced lower spacing */}
+      <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-8 text-center pt-7 sm:pt-10 md:pt-11 lg:pt-12 mb-2 sm:mb-4 flex-1 flex flex-col items-center justify-center">
         {/* Main Headline */}
         <motion.h1
           variants={lineContainer}
           initial="hidden"
           animate="show"
           data-testid="hero-heading"
-          className="font-outfit font-light tracking-tighter leading-[0.98] text-ink text-[9.5vw] sm:text-5xl md:text-6xl lg:text-[4.8rem]"
+          className="font-outfit font-light tracking-[-0.05em] leading-[1.02] text-ink text-[9.5vw] sm:text-5xl md:text-6xl lg:text-[5.0rem]"
         >
           {LINES.map((line, i) => (
-            <span key={i} className="block overflow-hidden pb-[0.12em]">
+            <span key={i} className="block overflow-hidden pb-[0.25em] -mb-[0.18em]">
               <motion.span variants={lineItem} className="block">
                 {line}
               </motion.span>
@@ -172,28 +217,11 @@ export const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
           data-testid="hero-subheading"
-          className="mx-auto mt-3 sm:mt-4 max-w-lg text-xs sm:text-sm md:text-base font-light leading-relaxed text-ink/85 px-2"
+          className="mx-auto mt-3.5 sm:mt-4.5 max-w-lg text-xs sm:text-sm md:text-base font-light leading-relaxed text-ink/85 px-2"
         >
           We design, build, and ship high-performance web, mobile, and
           AI-powered products for modern businesses.
         </motion.p>
-
-        {/* Single Black "View Products" CTA Button with Equal Balanced Top/Bottom Margins */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
-          className="my-5 sm:my-6 md:my-7 lg:my-8 flex flex-row items-center justify-center"
-        >
-          <a
-            href="#products"
-            data-testid="hero-cta-primary"
-            className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 sm:px-8 py-2.5 sm:py-3 font-outfit text-xs sm:text-sm font-medium text-paper transition-transform duration-300 hover:scale-[1.04] shadow-md"
-          >
-            View Products
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
-        </motion.div>
       </div>
 
       {/* Converging SVG Line Animation Stage at Bottom */}

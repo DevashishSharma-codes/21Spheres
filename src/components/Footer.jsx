@@ -177,8 +177,8 @@ export const Footer = () => {
             <Logo3DCanvas />
           </div>
 
-          {/* Single Font Lighter Weight Brand Title Below Logo */}
-          <h2 className="w-full text-center font-outfit font-light tracking-tighter leading-[0.85] select-none text-[13vw] sm:text-[15vw] md:text-[17vw] lg:text-[18.5vw] xl:text-[19.5vw] bg-gradient-to-b from-[#17130f] via-[#17130f]/80 to-[#17130f]/20 bg-clip-text text-transparent pb-2">
+          {/* Single Font Lighter Weight Brand Title Below Logo - Responsive Sizing to Prevent Clipping */}
+          <h2 className="w-full text-center font-outfit font-light tracking-tight leading-[0.88] select-none text-[11.5vw] sm:text-[13vw] md:text-[14.5vw] lg:text-[15.5vw] xl:text-[16vw] bg-gradient-to-b from-[#17130f] via-[#17130f]/80 to-[#17130f]/20 bg-clip-text text-transparent px-2 pb-2">
             21spheres
           </h2>
         </div>

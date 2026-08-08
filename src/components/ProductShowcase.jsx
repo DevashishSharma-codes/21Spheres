@@ -16,17 +16,12 @@ const FALLBACK_HERO_IMAGE =
 const CLOUD_BACKDROP_IMAGE =
   "https://static.prod-images.emergentagent.com/jobs/aaff03bd-13eb-4784-a3f9-c2ad7e7acf3a/images/7c1aafe5306058007c7c92a2a22e1fb606d2e6c48cbf50c3a393af8c07c0079a.jpeg";
 
-const LOCK_DURATION = 400; // ms, cooldown between product changes
-const WHEEL_THRESHOLD = 4; // px, ignore trackpad/mouse micro-noise
-const TOUCH_THRESHOLD = 35; // px, min swipe distance to count as a step
-
 export function ProductShowcase() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(null);
 
   const activeIdxRef = useRef(0);
-  const isLockedRef = useRef(false);
   const containerRef = useRef(null);
   const pinnedCanvasRef = useRef(null);
   const stRef = useRef(null);
@@ -36,7 +31,7 @@ export function ProductShowcase() {
     setIsModalOpen(true);
   };
 
-  // GSAP ScrollTrigger Synchronized Pinning (Tablet & Desktop only >= 640px)
+  // GSAP ScrollTrigger Synchronized Pinning + Snap (Tablet & Desktop >= 640px)
   useEffect(() => {
     if (typeof window === "undefined" || window.innerWidth < 640) return;
 
@@ -49,12 +44,18 @@ export function ProductShowcase() {
         trigger: el,
         pin: canvas,
         start: "top top",
-        end: () => `+=${window.innerHeight * 2.2}`,
+        end: () => `+=${window.innerHeight * 3.5}`,
         pinSpacing: true,
+        scrub: 0.15,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        snap: {
+          snapTo: 1 / (PRODUCTS.length - 1),
+          duration: { min: 0.15, max: 0.3 },
+          delay: 0.01,
+          ease: "power1.out",
+        },
         onUpdate: (self) => {
-          if (isLockedRef.current) return;
           const rawIdx = Math.round(self.progress * (PRODUCTS.length - 1));
           const clampedIdx = Math.min(PRODUCTS.length - 1, Math.max(0, rawIdx));
           if (clampedIdx !== activeIdxRef.current) {
@@ -65,101 +66,12 @@ export function ProductShowcase() {
       });
     }, containerRef);
 
-    const goToStep = (direction, behavior = "auto") => {
-      const nextIdx = activeIdxRef.current + direction;
-      if (nextIdx < 0 || nextIdx > PRODUCTS.length - 1) return;
-
-      isLockedRef.current = true;
-      activeIdxRef.current = nextIdx;
-      setActiveIdx(nextIdx);
-
-      const st = stRef.current;
-      if (st) {
-        let targetScroll;
-        if (nextIdx === 0) {
-          targetScroll = st.start + 5;
-        } else if (nextIdx === PRODUCTS.length - 1) {
-          targetScroll = st.end - 5;
-        } else {
-          const progressRatio = nextIdx / (PRODUCTS.length - 1);
-          targetScroll = st.start + progressRatio * (st.end - st.start);
-        }
-        window.scrollTo({ top: targetScroll, behavior });
-      }
-
-      window.setTimeout(() => {
-        isLockedRef.current = false;
-      }, LOCK_DURATION);
-    };
-
-    const handleWheel = (e) => {
-      const st = stRef.current;
-      if (!st || !st.isActive) return;
-
-      const direction = e.deltaY > 0 ? 1 : -1;
-
-      if (Math.abs(e.deltaY) < WHEEL_THRESHOLD) {
-        e.preventDefault();
-        return;
-      }
-
-      const atLastGoingDown = direction === 1 && activeIdxRef.current === PRODUCTS.length - 1;
-      const atFirstGoingUp = direction === -1 && activeIdxRef.current === 0;
-
-      // At either end, release control so the page smoothly transitions to next/previous section
-      if (atLastGoingDown || atFirstGoingUp) return;
-
-      e.preventDefault();
-
-      if (isLockedRef.current) return;
-
-      goToStep(direction);
-    };
-
-    let touchStartY = 0;
-
-    const handleTouchStart = (e) => {
-      touchStartY = e.touches[0].clientY;
-    };
-
-    const handleTouchMove = (e) => {
-      const st = stRef.current;
-      if (!st || !st.isActive) return;
-
-      const deltaY = touchStartY - e.touches[0].clientY;
-      const direction = deltaY > 0 ? 1 : -1;
-
-      const atLastGoingDown = direction === 1 && activeIdxRef.current === PRODUCTS.length - 1;
-      const atFirstGoingUp = direction === -1 && activeIdxRef.current === 0;
-
-      if (atLastGoingDown || atFirstGoingUp) return;
-
-      if (Math.abs(deltaY) < TOUCH_THRESHOLD) {
-        e.preventDefault();
-        return;
-      }
-
-      e.preventDefault();
-
-      if (isLockedRef.current) return;
-
-      goToStep(direction);
-      touchStartY = e.touches[0].clientY;
-    };
-
-    window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
-    window.addEventListener("touchmove", handleTouchMove, { passive: false });
-
     const timer = setTimeout(() => {
       ScrollTrigger.refresh();
-    }, 100);
+    }, 120);
 
     return () => {
       clearTimeout(timer);
-      window.removeEventListener("wheel", handleWheel);
-      window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
       ctx.revert();
     };
   }, []);
@@ -167,28 +79,20 @@ export function ProductShowcase() {
   const activeProduct = PRODUCTS[activeIdx] || PRODUCTS[0];
 
   const handleSelectProduct = (targetIdx) => {
-    if (isLockedRef.current) return;
-
-    activeIdxRef.current = targetIdx;
-    setActiveIdx(targetIdx);
+    const clamped = Math.min(PRODUCTS.length - 1, Math.max(0, targetIdx));
+    activeIdxRef.current = clamped;
+    setActiveIdx(clamped);
 
     if (stRef.current && window.innerWidth >= 640) {
-      isLockedRef.current = true;
       const st = stRef.current;
-      let targetScroll;
-      if (targetIdx === 0) {
-        targetScroll = st.start + 5;
-      } else if (targetIdx === PRODUCTS.length - 1) {
-        targetScroll = st.end - 5;
-      } else {
-        const progressRatio = targetIdx / (PRODUCTS.length - 1);
-        targetScroll = st.start + progressRatio * (st.end - st.start);
-      }
-      window.scrollTo({ top: targetScroll, behavior: "smooth" });
+      const progressRatio = clamped / (PRODUCTS.length - 1);
+      const targetScroll = st.start + progressRatio * (st.end - st.start);
 
-      window.setTimeout(() => {
-        isLockedRef.current = false;
-      }, LOCK_DURATION);
+      if (window.lenis) {
+        window.lenis.scrollTo(targetScroll, { duration: 0.65 });
+      } else {
+        window.scrollTo({ top: targetScroll, behavior: "smooth" });
+      }
     }
   };
 
@@ -218,11 +122,11 @@ export function ProductShowcase() {
         onSelectProduct={(p) => {
           setModalProduct(p);
           const foundIdx = PRODUCTS.findIndex((item) => item.id === p.id);
-          if (foundIdx !== -1) setActiveIdx(foundIdx);
+          if (foundIdx !== -1) handleSelectProduct(foundIdx);
         }}
       />
 
-      {/* MOBILE RESPONSIVE VIEW (<640px): Clean Full-Width Product Card (No GSAP Pinning / Scroll Lock) */}
+      {/* MOBILE RESPONSIVE VIEW (<640px): Clean Full-Width Product Card */}
       <div className="block sm:hidden w-full min-h-[90dvh] bg-[#fdfbf9] text-ink p-4 pt-14 pb-6 flex flex-col justify-between">
         {/* Top Header Row with Counter & Prev/Next Arrows */}
         <div className="flex items-center justify-between pb-3 border-b border-ink/10">
@@ -307,7 +211,7 @@ export function ProductShowcase() {
           {PRODUCTS.map((_, idx) => (
             <button
               key={idx}
-              onClick={() => setActiveIdx(idx)}
+              onClick={() => handleSelectProduct(idx)}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 idx === activeIdx ? "w-5 bg-ink" : "w-1.5 bg-ink/20"
               }`}
@@ -316,7 +220,7 @@ export function ProductShowcase() {
         </div>
       </div>
 
-      {/* TABLET, IPAD & DESKTOP PINNED CANVAS (>=640px): GSAP ScrollTrigger Stage */}
+      {/* TABLET, IPAD & DESKTOP PINNED CANVAS (>=640px): Native GSAP ScrollTrigger Stage */}
       <div
         ref={pinnedCanvasRef}
         className="hidden sm:flex w-full h-screen bg-[#fdfbf9] text-ink select-none overflow-hidden flex-col justify-between m-0 p-0 rounded-none border-none shadow-none"
