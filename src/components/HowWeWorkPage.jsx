@@ -74,11 +74,11 @@ export const HowWeWorkPage = ({ onNavigate }) => {
               </div>
 
               {/* Middle Column (4 Cols on lg): Isometric Hardware Stack Cell */}
-              <div className="lg:col-span-4 flex items-center justify-center p-4 sm:p-8 lg:p-10 relative bg-black min-h-[540px] lg:min-h-[760px]">
+              <div className="lg:col-span-4 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative bg-black min-h-[260px] sm:min-h-[340px] lg:min-h-[480px]">
                 <img
                   src={howWeWorkStack}
                   alt="5-layer isometric tech hardware architecture stack"
-                  className="w-full max-w-[440px] sm:max-w-[520px] lg:max-w-[580px] xl:max-w-[640px] h-auto object-contain z-10"
+                  className="w-full max-w-[280px] sm:max-w-[380px] lg:max-w-[480px] xl:max-w-[540px] max-h-[320px] sm:max-h-[420px] lg:max-h-[540px] h-auto object-contain z-10 mx-auto"
                 />
               </div>
 

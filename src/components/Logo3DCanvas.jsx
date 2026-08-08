@@ -61,10 +61,27 @@ export const Logo3DCanvas = () => {
     let time = 0;
     let lastTimeStamp = performance.now();
 
-    // High-Precision 60fps Sub-Pixel Delta Render Loop
+    // Pre-compute sphere gradient color stops (avoid recalculating every frame)
+    const SPHERE_COLORS = [
+      { stop: 0, color: "#FFFFFF" },       // Specular Top-Left Highlight
+      { stop: 0.4, color: "#F1F5F9" },     // Pearl White Body
+      { stop: 0.75, color: "#CBD5E1" },    // Mid Shadow
+      { stop: 1, color: "#64748B" },       // Shaded Bottom-Right Edge
+    ];
+
+    let frameCount = 0;
+
+    // High-Precision 30fps (throttled) Sub-Pixel Delta Render Loop
     const render = (now) => {
       const delta = Math.min((now - lastTimeStamp) / 1000, 0.033);
       lastTimeStamp = now;
+
+      // Skip every other frame → 30fps (visually identical for orbital motion)
+      frameCount++;
+      if (frameCount % 2 !== 0) {
+        animationFrameId = requestAnimationFrame(render);
+        return;
+      }
 
       // Smooth speed lerp
       spinSpeed += (targetSpinSpeed - spinSpeed) * (delta * 6);
@@ -104,7 +121,65 @@ export const Logo3DCanvas = () => {
         return { facet, avgZ };
       }).sort((a, b) => b.avgZ - a.avgZ);
 
-      // Draw Static Metallic Core Facets
+      // Calculate EXACTLY 21 REALISTIC 3D WHITE SPHERES in true 3D space
+      const TOTAL_DOTS = 21;
+      const orbitRadius = 1.72;
+      const projectedDots = [];
+
+      for (let i = 0; i < TOTAL_DOTS; i++) {
+        const angle = (i / TOTAL_DOTS) * Math.PI * 2 + time;
+
+        // 3D Orbital Path in world coordinates around the central octahedron
+        const x3d = Math.cos(angle) * orbitRadius;
+        const y3d = Math.sin(angle) * 0.28; // 3D orbital inclination tilt
+        const z3d = Math.sin(angle) * orbitRadius;
+
+        // Project using the exact same 3D camera/rotation matrix as the core octahedron
+        const proj = projectStatic([x3d, y3d, z3d]);
+
+        projectedDots.push({
+          x: proj.x,
+          y: proj.y,
+          z: proj.z,
+          scale: proj.scale,
+        });
+      }
+
+      // Separate spheres into back (z > 0) and front (z <= 0) for 3D depth occlusion
+      const backDots = projectedDots.filter((d) => d.z > 0).sort((a, b) => b.z - a.z);
+      const frontDots = projectedDots.filter((d) => d.z <= 0).sort((a, b) => b.z - a.z);
+
+      // Helper function to render a 3D Pearl White Sphere
+      const renderSphere = ({ x, y, scale }) => {
+        const r = 5.6 * scale;
+
+        const sphereGrad = ctx.createRadialGradient(
+          x - r * 0.35,
+          y - r * 0.35,
+          r * 0.05,
+          x,
+          y,
+          r
+        );
+        SPHERE_COLORS.forEach(({ stop, color }) => {
+          sphereGrad.addColorStop(stop, color);
+        });
+
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fillStyle = sphereGrad;
+        ctx.shadowBlur = 0;
+        ctx.fill();
+
+        ctx.strokeStyle = "rgba(15, 23, 42, 0.4)";
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      };
+
+      // STEP 1: Render Back Spheres FIRST (Behind the Central Logo)
+      backDots.forEach(renderSphere);
+
+      // STEP 2: Render Static Metallic Core Facets (Solidly occludes back spheres)
       sortedFacets.forEach(({ facet, avgZ }) => {
         const p1 = projectedCore[facet[0]];
         const p2 = projectedCore[facet[1]];
@@ -119,7 +194,7 @@ export const Logo3DCanvas = () => {
         ctx.closePath();
 
         const grad = ctx.createLinearGradient(p1.x, p1.y, p3.x, p3.y);
-        const alpha = 0.88;
+        const alpha = 0.98; // Solid metallic opacity to hide spheres passing behind
         const colorVal = Math.floor(brightness * 245);
         grad.addColorStop(0, `rgba(${colorVal}, ${colorVal}, ${colorVal + 15}, ${alpha})`);
         grad.addColorStop(1, `rgba(${Math.floor(colorVal * 0.35)}, ${Math.floor(colorVal * 0.35)}, ${Math.floor(colorVal * 0.45)}, ${alpha})`);
@@ -132,66 +207,8 @@ export const Logo3DCanvas = () => {
         ctx.stroke();
       });
 
-      // EXACTLY 21 REALISTIC 3D WHITE SPHERES (Sub-Pixel Smooth Orbital Physics)
-      const TOTAL_DOTS = 21;
-      const orbitRadius = baseRadius * 1.75;
-
-      const projectedDots = [];
-
-      for (let i = 0; i < TOTAL_DOTS; i++) {
-        const angle = (i / TOTAL_DOTS) * Math.PI * 2 + time;
-
-        // 3D Orbital Path around the static logo
-        const ox = Math.cos(angle) * orbitRadius;
-        const oy = Math.sin(angle) * orbitRadius * 0.42; // Tilted ellipse orbit
-        const oz = Math.sin(angle) * 0.6;
-
-        // Apply perspective projection
-        const scale = focalLength / (focalLength + oz * 45);
-        const px = cx + ox * scale;
-        const py = cy + oy * scale;
-
-        projectedDots.push({
-          x: px,
-          y: py,
-          z: oz,
-          scale,
-        });
-      }
-
-      // Sort 21 dots by depth
-      projectedDots.sort((a, b) => b.z - a.z);
-
-      // Render each of the 21 dots as a 3D Pearl White Sphere
-      projectedDots.forEach(({ x, y, scale }) => {
-        const r = 5.6 * scale;
-
-        // 3D Spherical Radial Gradient Simulation
-        const sphereGrad = ctx.createRadialGradient(
-          x - r * 0.35,
-          y - r * 0.35,
-          r * 0.05,
-          x,
-          y,
-          r
-        );
-        sphereGrad.addColorStop(0, "#FFFFFF");       // Specular Top-Left Highlight
-        sphereGrad.addColorStop(0.4, "#F1F5F9");     // Pearl White Body
-        sphereGrad.addColorStop(0.75, "#CBD5E1");    // Mid Shadow
-        sphereGrad.addColorStop(1, "#64748B");       // Shaded Bottom-Right Edge
-
-        // Draw 3D Sphere
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = sphereGrad;
-        ctx.shadowBlur = 0; // Zero glow
-        ctx.fill();
-
-        // Crisp Metallic Rim Outline
-        ctx.strokeStyle = "rgba(15, 23, 42, 0.4)";
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-      });
+      // STEP 3: Render Front Spheres LAST (In Front of the Central Logo)
+      frontDots.forEach(renderSphere);
 
       animationFrameId = requestAnimationFrame(render);
     };

@@ -59,6 +59,35 @@ const STATUS_STEPS = [
   },
 ];
 
+/* CSS-only waveform bar animation styles injected once */
+const waveformStyleId = "waveform-css-anim";
+function ensureWaveformStyles() {
+  if (typeof document === "undefined") return;
+  if (document.getElementById(waveformStyleId)) return;
+  const style = document.createElement("style");
+  style.id = waveformStyleId;
+  // Generate 8 unique keyframe variants for visual diversity
+  let css = "";
+  for (let i = 0; i < 8; i++) {
+    const h1 = 20 + (i % 3) * 8;
+    const h2 = 30 + (i % 8) * 7;
+    const h3 = 50;
+    css += `
+@keyframes waveBar${i} {
+  0%, 100% { height: ${h1}%; }
+  50% { height: ${h2}%; }
+  75% { height: ${h3}%; }
+}`;
+  }
+  css += `
+@keyframes waveSlide {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0%); }
+}`;
+  style.textContent = css;
+  document.head.appendChild(style);
+}
+
 function AudioStatusText() {
   const [index, setIndex] = useState(0);
 
@@ -70,11 +99,11 @@ function AudioStatusText() {
   }, []);
 
   const current = STATUS_STEPS[index];
-  const characters = current.text.split("");
 
   return (
     <div className="absolute -top-9 sm:-top-11 md:-top-14 inset-x-0 mx-auto flex items-center justify-center z-40 pointer-events-none w-max">
       <AnimatePresence mode="wait">
+        {/* Single motion.div fade transition — no per-character blur filters */}
         <motion.div
           key={index}
           initial={{ opacity: 0, y: 10 }}
@@ -84,23 +113,7 @@ function AudioStatusText() {
           className="flex items-center justify-center gap-1.5 sm:gap-2 md:gap-2.5 text-xs sm:text-base md:text-lg lg:text-xl font-outfit font-semibold text-ink drop-shadow-xs"
         >
           {current.icon}
-          <motion.div className="flex items-center justify-center">
-            {characters.map((char, charIdx) => (
-              <motion.span
-                key={charIdx}
-                initial={{ opacity: 0, y: 5, filter: "blur(2px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                transition={{
-                  duration: 0.25,
-                  delay: charIdx * 0.02,
-                  ease: "easeOut",
-                }}
-                className={char === " " ? "w-1.5 sm:w-2 inline-block" : "inline-block"}
-              >
-                {char}
-              </motion.span>
-            ))}
-          </motion.div>
+          <span>{current.text}</span>
         </motion.div>
       </AnimatePresence>
     </div>
@@ -108,32 +121,33 @@ function AudioStatusText() {
 }
 
 function WaveformMarquee() {
-  const bars = Array.from({ length: WAVE_BAR_COUNT }, (_, index) => index);
+  useEffect(() => {
+    ensureWaveformStyles();
+  }, []);
+
+  const bars = Array.from({ length: WAVE_BAR_COUNT }, (_, i) => i);
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      <motion.div
+      {/* CSS-only sliding + CSS-only bar height animations — zero Framer Motion overhead */}
+      <div
         className="flex h-full w-max items-center gap-1 sm:gap-1.5 px-2 sm:px-3"
-        animate={{ x: ["-50%", "0%"] }}
-        transition={{ duration: 4, ease: "linear", repeat: Infinity }}
+        style={{
+          animation: "waveSlide 4s linear infinite",
+        }}
       >
-        {[...bars, ...bars].map((index, key) => (
-          <motion.span
+        {[...bars, ...bars].map((barIndex, key) => (
+          <span
             key={key}
             className="block w-1 sm:w-1.5 shrink-0 rounded-full bg-ink"
-            animate={{
-              height: ["20%", `${30 + (index % 8) * 7}%`, "50%", "20%"],
-            }}
-            transition={{
-              duration: 0.35 + (index % 4) * 0.1,
-              ease: "linear",
-              repeat: Infinity,
-              repeatType: "reverse",
-              delay: index * 0.05,
+            style={{
+              animation: `waveBar${barIndex % 8} ${0.35 + (barIndex % 4) * 0.1}s linear infinite alternate`,
+              animationDelay: `${barIndex * 0.05}s`,
+              height: "20%",
             }}
           />
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -340,7 +354,8 @@ export function WisprFlowMarquee() {
         <img
           src={MOUNTAIN_IMG}
           alt="Cloud mountains background"
-          className="w-full h-full object-cover grayscale brightness-75 contrast-125 mix-blend-multiply scale-105"
+          loading="lazy"
+          className="w-full h-full object-cover grayscale brightness-75 contrast-125 scale-105"
         />
       </div>
 
@@ -369,3 +384,4 @@ export function WisprFlowMarquee() {
 }
 
 export default WisprFlowMarquee;
+

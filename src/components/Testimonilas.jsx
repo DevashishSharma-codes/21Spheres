@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Globe as GlobeIcon } from "lucide-react";
 
@@ -73,17 +73,60 @@ const GLOBE_MARKERS = [
 export const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [activePhraseIndex, setActivePhraseIndex] = useState(0);
-  const [rotationAngle, setRotationAngle] = useState(0);
+  // Globe marker positions updated at ~10fps via interval (not 60fps rAF)
+  const [markerPositions, setMarkerPositions] = useState([]);
 
-  // Continuous 3D Globe Rotation
+  // Refs for direct DOM manipulation of SVG ellipses (no React re-renders)
+  const ellipse1Ref = useRef(null);
+  const ellipse2Ref = useRef(null);
+  const ellipse3Ref = useRef(null);
+  const rotationRef = useRef(0);
+  const animFrameRef = useRef(null);
+
+  // 3D Globe SVG ellipse rotation via direct DOM mutation (zero React re-renders)
   useEffect(() => {
-    let animFrame;
     const animate = () => {
-      setRotationAngle((prev) => (prev + 0.6) % 360);
-      animFrame = requestAnimationFrame(animate);
+      rotationRef.current = (rotationRef.current + 0.6) % 360;
+      const angle = rotationRef.current;
+
+      // Directly set SVG attributes — bypasses React entirely
+      if (ellipse1Ref.current) {
+        ellipse1Ref.current.setAttribute("rx", String(Math.abs(Math.cos((angle * Math.PI) / 180)) * 72));
+      }
+      if (ellipse2Ref.current) {
+        ellipse2Ref.current.setAttribute("rx", String(Math.abs(Math.cos(((angle + 60) * Math.PI) / 180)) * 72));
+      }
+      if (ellipse3Ref.current) {
+        ellipse3Ref.current.setAttribute("rx", String(Math.abs(Math.cos(((angle + 120) * Math.PI) / 180)) * 72));
+      }
+
+      animFrameRef.current = requestAnimationFrame(animate);
     };
-    animFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animFrame);
+    animFrameRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animFrameRef.current);
+  }, []);
+
+  // Globe markers updated at 10fps via setInterval (not 60fps)
+  useEffect(() => {
+    const updateMarkers = () => {
+      const angle = rotationRef.current;
+      const positions = GLOBE_MARKERS.map((marker) => {
+        const radius = 64;
+        const phi = (90 - marker.lat) * (Math.PI / 180);
+        const theta = (marker.lon + angle) * (Math.PI / 180);
+
+        const x = radius * Math.sin(phi) * Math.cos(theta);
+        const y = radius * Math.cos(phi);
+        const z = radius * Math.sin(phi) * Math.sin(theta);
+
+        return { x, y, z, visible: z > -10, opacity: Math.max(0.2, (z + 20) / 88), scale: 0.72 + (z / 66) * 0.28, zIndex: Math.floor(z + 100) };
+      });
+      setMarkerPositions(positions);
+    };
+
+    updateMarkers(); // Initial
+    const interval = setInterval(updateMarkers, 100); // 10fps
+    return () => clearInterval(interval);
   }, []);
 
   // Smooth circular card carousel timer
@@ -101,15 +144,15 @@ export const Testimonials = () => {
     return () => clearInterval(phraseTimer);
   }, []);
 
-  const handlePrev = (e) => {
+  const handlePrev = useCallback((e) => {
     e?.stopPropagation();
     setActiveIndex((prev) => (prev - 1 + CARDS.length) % CARDS.length);
-  };
+  }, []);
 
-  const handleNext = (e) => {
+  const handleNext = useCallback((e) => {
     e?.stopPropagation();
     setActiveIndex((prev) => (prev + 1) % CARDS.length);
-  };
+  }, []);
 
   return (
     <section
@@ -159,28 +202,32 @@ export const Testimonials = () => {
                     <ellipse cx="80" cy="80" rx="72" ry="48" stroke="rgba(255,255,255,0.12)" strokeWidth="1" fill="none" />
                     <line x1="8" y1="80" x2="152" y2="80" stroke="rgba(255,255,255,0.2)" strokeWidth="1" strokeDasharray="3 3" />
 
+                    {/* These 3 ellipses are updated directly via refs — no React re-renders */}
                     <ellipse
+                      ref={ellipse1Ref}
                       cx="80"
                       cy="80"
-                      rx={Math.abs(Math.cos((rotationAngle * Math.PI) / 180)) * 72}
+                      rx="72"
                       ry="72"
                       stroke="rgba(255,255,255,0.25)"
                       strokeWidth="1.2"
                       fill="none"
                     />
                     <ellipse
+                      ref={ellipse2Ref}
                       cx="80"
                       cy="80"
-                      rx={Math.abs(Math.cos(((rotationAngle + 60) * Math.PI) / 180)) * 72}
+                      rx="72"
                       ry="72"
                       stroke="rgba(255,255,255,0.12)"
                       strokeWidth="1"
                       fill="none"
                     />
                     <ellipse
+                      ref={ellipse3Ref}
                       cx="80"
                       cy="80"
-                      rx={Math.abs(Math.cos(((rotationAngle + 120) * Math.PI) / 180)) * 72}
+                      rx="72"
                       ry="72"
                       stroke="rgba(255,255,255,0.12)"
                       strokeWidth="1"
@@ -188,30 +235,23 @@ export const Testimonials = () => {
                     />
                   </svg>
 
-                  {/* Location & Avatar Markers */}
+                  {/* Location & Avatar Markers — updated at 10fps via interval */}
                   <div className="relative w-[130px] h-[130px] sm:w-[140px] sm:h-[140px] flex items-center justify-center z-10 pointer-events-none">
                     {GLOBE_MARKERS.map((marker, idx) => {
-                      const radius = 64;
-                      const phi = (90 - marker.lat) * (Math.PI / 180);
-                      const theta = (marker.lon + rotationAngle) * (Math.PI / 180);
-
-                      const x = radius * Math.sin(phi) * Math.cos(theta);
-                      const y = radius * Math.cos(phi);
-                      const z = radius * Math.sin(phi) * Math.sin(theta);
-
-                      if (z <= -10) return null;
-                      const opacity = Math.max(0.2, (z + 20) / 88);
+                      const pos = markerPositions[idx];
+                      if (!pos || !pos.visible) return null;
 
                       return (
-                        <motion.div
+                        <div
                           key={idx}
                           style={{
                             position: "absolute",
-                            left: `calc(50% + ${x}px - 14px)`,
-                            top: `calc(50% - ${y}px - 14px)`,
-                            opacity,
-                            scale: 0.72 + (z / 66) * 0.28,
-                            zIndex: Math.floor(z + 100),
+                            left: `calc(50% + ${pos.x}px - 14px)`,
+                            top: `calc(50% - ${pos.y}px - 14px)`,
+                            opacity: pos.opacity,
+                            transform: `scale(${pos.scale})`,
+                            zIndex: pos.zIndex,
+                            transition: "left 0.1s linear, top 0.1s linear, opacity 0.1s linear, transform 0.1s linear",
                           }}
                           className="flex items-center gap-1 bg-[#18181b]/90 backdrop-blur-md border border-white/40 p-0.5 pr-2 rounded-full shadow-md"
                         >
@@ -223,7 +263,7 @@ export const Testimonials = () => {
                           <span className="font-mono text-[7px] font-bold text-white whitespace-nowrap">
                             {marker.city}
                           </span>
-                        </motion.div>
+                        </div>
                       );
                     })}
                   </div>

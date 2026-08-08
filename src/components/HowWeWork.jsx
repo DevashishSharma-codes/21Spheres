@@ -7,7 +7,7 @@ export const HowWeWork = () => {
     <section
       id="how-we-work"
       data-testid="how-we-work-section"
-      className="relative z-10 w-full min-h-screen lg:h-screen lg:max-h-screen flex flex-col justify-center bg-[#0c0a08] text-white py-10 sm:py-14 lg:py-6 pt-20 sm:pt-24 lg:pt-14 border-t border-white/10 select-none overflow-hidden"
+      className="relative z-10 w-full min-h-screen flex flex-col justify-center bg-[#0c0a08] text-white py-12 sm:py-16 lg:py-10 pt-20 sm:pt-24 lg:pt-16 border-t border-white/10 select-none overflow-hidden"
     >
       {/* High-Tech Radial Glow Overlay matching Manifesto section */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_32%,rgba(255,255,255,0.06),transparent_60%)] pointer-events-none z-0" />
@@ -17,7 +17,7 @@ export const HowWeWork = () => {
       <div className="relative z-10 max-w-[1480px] mx-auto px-4 sm:px-6 md:px-10 w-full flex flex-col justify-center h-full">
         
         {/* Header: Left Headline | Right Subtext + CTA */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-end mb-8 sm:mb-10 lg:mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-12 items-end mb-6 sm:mb-8 lg:mb-8">
           
           {/* Left Headline */}
           <motion.div
@@ -27,7 +27,7 @@ export const HowWeWork = () => {
             transition={{ duration: 0.7 }}
             className="lg:col-span-7"
           >
-            <h2 className="font-outfit text-3xl sm:text-5xl md:text-6xl font-light tracking-tight text-white leading-[1.05]">
+            <h2 className="font-outfit text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-light tracking-tight text-white leading-[1.05]">
               Powered by 21Spheres' <br />
               <span className="text-[#c7e099] font-normal">Engineering Engine</span>
             </h2>
@@ -39,7 +39,7 @@ export const HowWeWork = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="lg:col-span-5 flex flex-col gap-3 sm:gap-4 items-start lg:items-start"
+            className="lg:col-span-5 flex flex-col gap-2.5 sm:gap-3.5 items-start lg:items-start"
           >
             <p className="font-outfit text-xs sm:text-sm font-light text-white/70 leading-relaxed">
               Most traditional agencies using slow, bloated development cycles deliver sub-par software with high maintenance costs.
@@ -50,7 +50,7 @@ export const HowWeWork = () => {
             <div className="pt-1">
               <button
                 onClick={() => window.dispatchEvent(new CustomEvent("open-contact-modal"))}
-                className="inline-flex items-center gap-2 rounded-none border border-white/30 bg-white/5 hover:bg-white hover:text-black text-white px-5 py-2.5 font-outfit text-xs sm:text-sm font-medium tracking-wide transition-all duration-300 shadow-sm cursor-pointer"
+                className="inline-flex items-center gap-2 rounded-none border border-white/30 bg-white/5 hover:bg-white hover:text-black text-white px-5 py-2 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium tracking-wide transition-all duration-300 shadow-sm cursor-pointer"
               >
                 <span>Start a Project</span>
                 <ArrowRight size={14} />
@@ -74,16 +74,16 @@ export const HowWeWork = () => {
             <div className="lg:col-span-4 flex flex-col divide-y divide-white/15">
               
               {/* Cell 1: SYSTEM ARCHITECTURE */}
-              <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-center min-h-[200px] sm:min-h-[220px] lg:min-h-[240px] hover:bg-white/[0.015] transition-colors">
+              <div className="p-5 sm:p-6 lg:p-8 flex flex-col justify-center min-h-[160px] sm:min-h-[180px] lg:min-h-[200px] hover:bg-white/[0.015] transition-colors">
                 
                 {/* Minimalist Asterisk Stroke Icon */}
-                <div className="text-white/40 mb-3">
+                <div className="text-white/40 mb-2.5">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75">
                     <path d="M12 4v16M4 12h16M6.34 6.34l11.32 11.32M6.34 17.66L17.66 6.34" />
                   </svg>
                 </div>
                 
-                <h3 className="font-outfit text-sm sm:text-base font-bold tracking-wider text-white uppercase mb-2">
+                <h3 className="font-outfit text-sm sm:text-base font-bold tracking-wider text-white uppercase mb-1.5">
                   SYSTEM ARCHITECTURE
                 </h3>
                 <p className="font-outfit text-xs sm:text-sm font-light text-white/70 leading-relaxed">
@@ -92,17 +92,17 @@ export const HowWeWork = () => {
               </div>
 
               {/* Cell 2: DETERMINISTIC STACK */}
-              <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-center min-h-[200px] sm:min-h-[220px] lg:min-h-[240px] hover:bg-white/[0.015] transition-colors">
+              <div className="p-5 sm:p-6 lg:p-8 flex flex-col justify-center min-h-[160px] sm:min-h-[180px] lg:min-h-[200px] hover:bg-white/[0.015] transition-colors">
                 
                 {/* Minimalist Lens Stroke Icon */}
-                <div className="text-white/40 mb-3">
+                <div className="text-white/40 mb-2.5">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <circle cx="11" cy="11" r="7" />
                     <path d="m21 21-4.35-4.35" />
                   </svg>
                 </div>
 
-                <h3 className="font-outfit text-sm sm:text-base font-bold tracking-wider text-white uppercase mb-2">
+                <h3 className="font-outfit text-sm sm:text-base font-bold tracking-wider text-white uppercase mb-1.5">
                   DETERMINISTIC STACK
                 </h3>
                 <p className="font-outfit text-xs sm:text-sm font-light text-white/70 leading-relaxed">
@@ -113,19 +113,19 @@ export const HowWeWork = () => {
             </div>
 
             {/* Middle Column (4 Cols on lg): 5-Layer Isometric Stack Graphic with Dotted Projection Lines */}
-            <div className="lg:col-span-4 flex items-center justify-center p-4 sm:p-8 lg:p-10 relative bg-transparent min-h-[400px] lg:min-h-[480px]">
+            <div className="lg:col-span-4 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative bg-transparent min-h-[260px] sm:min-h-[320px] lg:min-h-[360px] xl:min-h-[400px]">
               
               {/* Dotted Vertical Layer Guide Projection Lines matching reference screenshot */}
-              <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0" viewBox="0 0 400 480" fill="none">
-                <line x1="200" y1="80" x2="200" y2="400" stroke="white" strokeWidth="1" strokeDasharray="3 3" />
-                <line x1="130" y1="120" x2="130" y2="360" stroke="white" strokeWidth="1" strokeDasharray="3 3" />
-                <line x1="270" y1="120" x2="270" y2="360" stroke="white" strokeWidth="1" strokeDasharray="3 3" />
+              <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20 z-0" viewBox="0 0 400 480" preserveAspectRatio="xMidYMid meet" fill="none">
+                <line x1="200" y1="40" x2="200" y2="440" stroke="white" strokeWidth="1" strokeDasharray="3 3" />
+                <line x1="130" y1="80" x2="130" y2="400" stroke="white" strokeWidth="1" strokeDasharray="3 3" />
+                <line x1="270" y1="80" x2="270" y2="400" stroke="white" strokeWidth="1" strokeDasharray="3 3" />
               </svg>
 
               <img
                 src={howWeWorkStack}
                 alt="5-layer isometric tech hardware architecture stack"
-                className="w-full max-w-[340px] sm:max-w-[400px] lg:max-w-[440px] max-h-[440px] h-auto object-contain z-10"
+                className="w-full max-w-[240px] sm:max-w-[320px] md:max-w-[360px] lg:max-w-[380px] xl:max-w-[420px] max-h-[260px] sm:max-h-[340px] lg:max-h-[380px] xl:max-h-[420px] h-auto object-contain z-10 mx-auto"
               />
             </div>
 
@@ -133,17 +133,17 @@ export const HowWeWork = () => {
             <div className="lg:col-span-4 flex flex-col divide-y divide-white/15">
               
               {/* Cell 1: AUTONOMOUS AI AGENTS */}
-              <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-center min-h-[200px] sm:min-h-[220px] lg:min-h-[240px] hover:bg-white/[0.015] transition-colors">
+              <div className="p-5 sm:p-6 lg:p-8 flex flex-col justify-center min-h-[160px] sm:min-h-[180px] lg:min-h-[200px] hover:bg-white/[0.015] transition-colors">
                 
                 {/* Minimalist Targeted Quote Stroke Icon */}
-                <div className="text-white/40 mb-3">
+                <div className="text-white/40 mb-2.5">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2H4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h4c0 4-2 7-5 8" />
                     <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.75-2-2-2h-4c-1.25 0-2 .75-2 2v6c0 1.25.75 2 2 2h4c0 4-2 7-5 8" />
                   </svg>
                 </div>
 
-                <h3 className="font-outfit text-sm sm:text-base font-bold tracking-wider text-white uppercase mb-2">
+                <h3 className="font-outfit text-sm sm:text-base font-bold tracking-wider text-white uppercase mb-1.5">
                   AUTONOMOUS AI AGENTS
                 </h3>
                 <p className="font-outfit text-xs sm:text-sm font-light text-white/70 leading-relaxed">
@@ -152,16 +152,16 @@ export const HowWeWork = () => {
               </div>
 
               {/* Cell 2: ENTERPRISE SECURITY & DEPLOYMENT */}
-              <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-center min-h-[200px] sm:min-h-[220px] lg:min-h-[240px] hover:bg-white/[0.015] transition-colors">
+              <div className="p-5 sm:p-6 lg:p-8 flex flex-col justify-center min-h-[160px] sm:min-h-[180px] lg:min-h-[200px] hover:bg-white/[0.015] transition-colors">
                 
                 {/* Minimalist Chat Bubble Stroke Icon */}
-                <div className="text-white/40 mb-3">
+                <div className="text-white/40 mb-2.5">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                   </svg>
                 </div>
 
-                <h3 className="font-outfit text-sm sm:text-base font-bold tracking-wider text-white uppercase mb-2">
+                <h3 className="font-outfit text-sm sm:text-base font-bold tracking-wider text-white uppercase mb-1.5">
                   ENTERPRISE SECURITY
                 </h3>
                 <p className="font-outfit text-xs sm:text-sm font-light text-white/70 leading-relaxed">

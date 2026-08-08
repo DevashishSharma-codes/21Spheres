@@ -145,7 +145,7 @@ function HeroLineAnimation() {
           initial={{ opacity: 0, y: 24, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, delay: 1.55, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto absolute bottom-0 left-[50.41%] size-28 sm:size-36 md:size-40 lg:size-44 aspect-square -translate-x-1/2 translate-y-1/2 rounded-none p-3 sm:p-4 z-50 flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 border-2 border-white/90 ring-4 ring-black/5 shadow-none"
+          className="pointer-events-auto absolute bottom-0 left-[50.41%] size-24 sm:size-30 md:size-34 lg:size-38 aspect-square -translate-x-1/2 translate-y-1/2 rounded-none p-3 sm:p-4 z-50 flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 border-2 border-white/90 ring-4 ring-black/5 shadow-none"
           style={{
             background:
               "linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(235, 238, 242, 0.88) 100%)",
@@ -159,8 +159,8 @@ function HeroLineAnimation() {
           {/* Bubble Curved Gloss Arc */}
           <div className="absolute inset-x-2 top-1 h-10 sm:h-14 bg-gradient-to-b from-white via-white/50 to-transparent pointer-events-none opacity-90 z-0" style={{ borderRadius: "50% 50% 0 0 / 100% 100% 0 0" }} />
 
-          {/* Big Crisp Pure Black Logo */}
-          <LogoMark className="relative z-10 text-black w-16 h-16 sm:w-22 sm:h-22 md:w-26 md:h-26 shrink-0" />
+          {/* Crisp Pure Black Logo */}
+          <LogoMark className="relative z-10 text-black w-13 h-13 sm:w-18 sm:h-18 md:w-21 md:h-21 shrink-0" />
         </motion.div>
       </div>
     </div>

@@ -44,14 +44,22 @@ export function ProductShowcase() {
         trigger: el,
         pin: canvas,
         start: "top top",
-        end: () => `+=${window.innerHeight * 3.6}`,
+        // More scroll distance per product (~580px each on a 1080p laptop)
+        end: () => `+=${window.innerHeight * 7}`,
         pinSpacing: true,
-        scrub: 0.1,
+        // Higher scrub value = more damping for trackpad inertia
+        scrub: 0.8,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        // Snap to discrete product indices so scroll always lands on one product
+        snap: {
+          snapTo: 1 / PRODUCTS.length,
+          duration: { min: 0.2, max: 0.4 },
+          ease: "power1.inOut",
+        },
         onUpdate: (self) => {
           // Equal distribution across all products so each gets equal scroll height
-          const rawIdx = Math.floor(self.progress * PRODUCTS.length);
+          const rawIdx = Math.round(self.progress * (PRODUCTS.length - 1));
           const clampedIdx = Math.min(PRODUCTS.length - 1, Math.max(0, rawIdx));
           if (clampedIdx !== activeIdxRef.current) {
             activeIdxRef.current = clampedIdx;
@@ -283,7 +291,8 @@ export function ProductShowcase() {
             <img
               src={CLOUD_BACKDROP_IMAGE}
               alt="Black and white cloud landscape backdrop"
-              className="absolute inset-0 h-full w-full object-cover grayscale opacity-30 mix-blend-multiply pointer-events-none z-0"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover grayscale opacity-30 pointer-events-none z-0"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-[#fdfbf9]/80 via-transparent to-[#fdfbf9]/90 pointer-events-none z-0" />
 
