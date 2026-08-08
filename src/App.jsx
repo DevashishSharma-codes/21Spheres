@@ -91,7 +91,8 @@ function HeroLineAnimation() {
           transition={{ duration: 0.8, delay: 1.44, ease: [0.22, 1, 0.36, 1] }}
           className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[12%] sm:left-0 top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2"
         >
-          Cloud Infrastructure
+          <span className="block sm:inline">Cloud </span>
+          <span className="block sm:inline">Infrastructure</span>
         </motion.div>
         <motion.div
           initial={{ opacity: 0, y: 16, scale: 0.96 }}

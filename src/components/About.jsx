@@ -28,8 +28,7 @@ const STATS = [
   { value: "9 YRS", label: "Building Together" },
 ];
 
-const OWNER_PHOTO =
-  "https://media.licdn.com/dms/image/v2/D4D03AQEWOGYLeKJ7hg/profile-displayphoto-shrink_800_800/B4DZOqEUy8HcAg-/0/1733725081748?e=1787184000&v=beta&t=q21SaL9QWPvI10l3iwEdq3O-ed5_dJE5dEkoK4dfBC0";
+const OWNER_PHOTO = "/om-bawal-photo.jpg";
 
 const LEFT_CARD_BG =
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=85";
