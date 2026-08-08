@@ -115,29 +115,16 @@ export const Testimonials = () => {
     <section
       id="testimonials"
       data-testid="testimonials-section"
-      className="relative z-10 bg-[#0c0a08] text-paper py-6 sm:py-8 lg:py-10 min-h-screen max-h-none lg:max-h-[920px] flex flex-col justify-between select-none overflow-hidden border-t border-white/10"
+      className="relative z-10 bg-[#0c0a08] text-paper py-6 sm:py-10 lg:py-12 min-h-screen max-h-none lg:max-h-[920px] flex flex-col justify-between select-none overflow-hidden border-t border-white/10"
     >
-      {/* Background Dotted Wave Curve */}
-      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden opacity-20">
-        <svg className="w-full h-full" viewBox="0 0 1200 600" fill="none">
-          <path
-            d="M -100 300 C 300 100, 500 500, 1300 200"
-            stroke="rgba(255,255,255,0.4)"
-            strokeWidth="2"
-            strokeDasharray="4 10"
-            fill="none"
-          />
-        </svg>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full relative z-10 flex flex-col items-center my-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full relative z-10 flex flex-col items-center pt-2 sm:pt-4 mb-auto">
         
         {/* Section Header */}
-        <div className="text-center mb-4 sm:mb-6">
-          <span className="font-mono text-[9px] sm:text-xs uppercase tracking-[0.25em] text-paper/40 font-light block mb-1">
+        <div className="text-center mb-6 sm:mb-8 lg:mb-10">
+          <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.25em] text-paper/50 font-light block mb-2">
             // 21SPHERES GLOBAL NETWORK
           </span>
-          <h2 className="font-outfit text-lg sm:text-2xl lg:text-3xl font-light tracking-tight text-paper/90 uppercase">
+          <h2 className="font-outfit text-2xl sm:text-4xl lg:text-5xl font-light tracking-tight text-paper uppercase leading-tight">
             TRUSTED BY BUILDERS WORLDWIDE
           </h2>
         </div>

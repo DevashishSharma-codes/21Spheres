@@ -7,11 +7,18 @@ const MOUNTAIN_IMG =
   "https://static.prod-images.emergentagent.com/jobs/aaff03bd-13eb-4784-a3f9-c2ad7e7acf3a/images/7c1aafe5306058007c7c92a2a22e1fb606d2e6c48cbf50c3a393af8c07c0079a.jpeg";
 
 const PRODUCT_LINKS = [
-  "Products Overview",
-  "Models Overview",
-  "Search & Query",
-  "AI Copilots",
-  "Pricing & Plans",
+  "Bimakart Connect",
+  "Bimakart Center",
+  "Bimakart Suite",
+  "Policy OCR & Fraud AI",
+  "Quotation Bot",
+  "Enspire ChatBot",
+  "WTMF Wellness Bot",
+  "HahnnemenAI",
+  "The Repertory",
+  "Futureogy",
+  "Wealth Wisdom",
+  "Aadhar & PAN OCR",
 ];
 
 const DEV_LINKS = [
@@ -123,7 +130,7 @@ export const Footer = () => {
               <ul className="space-y-2 text-ink/75 font-light">
                 {PRODUCT_LINKS.map((link) => (
                   <li key={link}>
-                    <a href="#top" className="hover:text-black transition-colors">
+                    <a href="#products" className="hover:text-black transition-colors">
                       {link}
                     </a>
                   </li>
@@ -184,16 +191,18 @@ export const Footer = () => {
           </div>
 
         </div>
+      </div>
 
-        {/* Bottom Brand Section: Centered 3D Logo Canvas + 21Spheres Title Below */}
-        <div className="pt-2 sm:pt-4 pb-2 flex flex-col items-center justify-center text-center -mt-2 sm:-mt-4">
-          {/* Centered 3D Logo Canvas */}
-          <div className="shrink-0 -mb-6 sm:-mb-8">
-            <Logo3DCanvas />
-          </div>
+      {/* FULL-WIDTH Bottom Brand Section: Centered 3D Logo Canvas + 21Spheres Title */}
+      <div className="relative z-10 w-full max-w-full overflow-hidden pt-2 sm:pt-4 pb-2 flex flex-col items-center justify-center text-center -mt-2 sm:-mt-4 px-2 sm:px-4">
+        {/* Centered 3D Logo Canvas */}
+        <div className="shrink-0 -mb-6 sm:-mb-8">
+          <Logo3DCanvas />
+        </div>
 
-          {/* Single Font Lighter Weight Brand Title Below Logo */}
-          <h2 className="w-full text-center font-outfit font-light tracking-tight leading-[0.88] select-none text-[11.5vw] sm:text-[13vw] md:text-[14.5vw] lg:text-[15.5vw] xl:text-[16vw] bg-gradient-to-b from-[#17130f] via-[#17130f]/80 to-[#17130f]/20 bg-clip-text text-transparent px-2 pb-2">
+        {/* Single Font Lighter Weight Brand Title Below Logo - Full Width Scaling */}
+        <div className="w-full max-w-full overflow-hidden flex items-center justify-center">
+          <h2 className="w-full text-center font-outfit font-light tracking-tighter leading-[0.88] select-none text-[13.2vw] bg-gradient-to-b from-[#17130f] via-[#17130f]/80 to-[#17130f]/20 bg-clip-text text-transparent pb-2 whitespace-nowrap">
             21spheres
           </h2>
         </div>
