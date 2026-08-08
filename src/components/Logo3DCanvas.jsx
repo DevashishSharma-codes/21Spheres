@@ -75,7 +75,7 @@ export const Logo3DCanvas = () => {
 
       const cx = width / 2;
       const cy = height / 2;
-      const baseRadius = Math.min(width, height) * 0.22 * hoverScale;
+      const baseRadius = Math.min(width, height) * 0.32 * hoverScale;
       const focalLength = 450;
 
       // Project function for STATIC core
@@ -209,7 +209,7 @@ export const Logo3DCanvas = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 cursor-pointer mx-auto"
+      className="relative w-56 h-44 sm:w-72 sm:h-56 md:w-80 md:h-60 cursor-pointer mx-auto"
       title="Hover over 3D logo to accelerate the 21 orbiting white 3D spheres"
     />
   );

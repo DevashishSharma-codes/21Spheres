@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 
+const MOUNTAIN_IMG =
+  "https://static.prod-images.emergentagent.com/jobs/aaff03bd-13eb-4784-a3f9-c2ad7e7acf3a/images/7c1aafe5306058007c7c92a2a22e1fb606d2e6c48cbf50c3a393af8c07c0079a.jpeg";
+
 const ITEMS = [
   "Web Platforms",
   "Mobile Apps",
@@ -16,8 +19,17 @@ export const MarqueeStrip = () => {
       data-testid="marquee-strip"
       className="relative z-10 border-y border-ink/10 bg-paper py-6 md:py-8 overflow-hidden select-none"
     >
+      {/* Black & White Cloud Mountains Background Image with Less Opacity */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-25">
+        <img
+          src={MOUNTAIN_IMG}
+          alt="Cloud mountains background"
+          className="w-full h-full object-cover grayscale brightness-75 contrast-125 mix-blend-multiply scale-105"
+        />
+      </div>
+
       <motion.div
-        className="flex whitespace-nowrap shrink-0"
+        className="relative z-10 flex whitespace-nowrap shrink-0"
         animate={{ x: ["0%", "-50%"] }}
         transition={{
           repeat: Infinity,

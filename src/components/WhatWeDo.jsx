@@ -67,7 +67,7 @@ export const WhatWeDo = () => {
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.7, delay: idx * 0.08, ease: [0.16, 1, 0.3, 1] }}
               data-testid={`what-we-do-row-${s.num}`}
-              className="group py-10 md:py-14 grid grid-cols-1 md:grid-cols-12 items-center gap-6 md:gap-8 transition-colors duration-500 hover:bg-black/[0.015] px-4 -mx-4 rounded-2xl transform-gpu"
+              className="group py-8 md:py-12 grid grid-cols-1 md:grid-cols-12 items-center gap-4 md:gap-6 transition-colors duration-500 hover:bg-black/[0.015] px-3 sm:px-4 -mx-3 sm:-mx-4 rounded-2xl transform-gpu"
             >
               {/* Number */}
               <div className="md:col-span-1 text-sm font-outfit text-ink/30 font-medium">
@@ -75,25 +75,25 @@ export const WhatWeDo = () => {
               </div>
 
               {/* Title */}
-              <div className="md:col-span-4">
-                <h3 className="font-outfit text-2xl md:text-4xl font-medium tracking-tight text-ink transition-transform duration-500 ease-out group-hover:translate-x-2">
+              <div className="md:col-span-3 lg:col-span-3">
+                <h3 className="font-outfit text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium tracking-tight text-ink transition-transform duration-500 ease-out group-hover:translate-x-2">
                   {s.title}
                 </h3>
               </div>
 
               {/* Description */}
-              <div className="md:col-span-4">
-                <p className="text-sm md:text-base font-light text-ink/60 leading-relaxed max-w-md">
+              <div className="md:col-span-4 lg:col-span-4">
+                <p className="text-xs sm:text-sm md:text-base font-light text-ink/60 leading-relaxed max-w-md">
                   {s.desc}
                 </p>
               </div>
 
-              {/* Tags */}
-              <div className="md:col-span-3 flex flex-wrap md:justify-end gap-2">
+              {/* Tags — Guaranteed 1 Line on all laptops, desktop monitors, and screens */}
+              <div className="md:col-span-4 lg:col-span-4 flex flex-nowrap items-center md:justify-end gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar">
                 {s.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="font-outfit text-xs font-normal text-ink/65 border border-ink/15 rounded-full px-4 py-1.5 backdrop-blur-sm transition-colors duration-300 group-hover:border-ink/30 group-hover:bg-white"
+                    className="font-outfit text-[11px] sm:text-xs font-normal text-ink/65 border border-ink/15 rounded-full px-3 sm:px-3.5 py-1 sm:py-1.5 backdrop-blur-sm transition-colors duration-300 group-hover:border-ink/30 group-hover:bg-white shrink-0 whitespace-nowrap"
                   >
                     {tag}
                   </span>

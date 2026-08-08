@@ -1,125 +1,185 @@
 import {
   Network,
   Cpu,
-  Activity,
   Shield,
   Sparkles,
   BarChart3,
   Database,
-  Globe,
+  Layers,
+  MessageSquare,
+  HeartPulse,
+  Brain,
+  BookOpen,
+  Activity,
 } from "lucide-react";
 
 export const PRODUCTS = [
   {
-    id: "atlas",
-    name: "Atlas System",
-    product: "Network Infrastructure",
-    category: "Cloud Infrastructure",
+    id: "bimakart-connect",
+    name: "Bimakart Connect",
+    product: "Insurance Distribution API",
+    category: "InsurTech",
     tag: "Live",
-    version: "4.5",
-    metric: "300+ edge locations",
+    version: "2.4",
+    metric: "100+ Insurer Integrations",
     description:
-      "High-frequency global edge routing pipeline built for sub-millisecond latency and zero packet loss.",
+      "Unified insurance API gateway connecting POSP agents, aggregators, and underwriters for instant quote generation and policy issuance.",
     image:
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=85",
     icon: Network,
   },
   {
-    id: "radar",
-    name: "Radar Engine",
-    product: "Real-Time Pipeline",
-    category: "Data Engine",
+    id: "bimakart-center",
+    name: "Bimakart Center",
+    product: "Centralized Insurance Operations",
+    category: "InsurTech Platform",
     tag: "Live",
-    version: "2.4",
-    metric: "40B+ events/day",
-    description:
-      "Real-time telemetry and streaming ingestion engine processing billions of data events with zero latency.",
-    image:
-      "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=85",
-    icon: Cpu,
-  },
-  {
-    id: "flux",
-    name: "Flux Monitor",
-    product: "Signal Detection",
-    category: "Monitoring",
-    tag: "Live",
-    version: "1.8",
-    metric: "99.999% uptime",
-    description:
-      "Continuously scans global infrastructure to surface signal in noise and flag drift before production.",
-    image:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1920&q=85",
-    icon: Activity,
-  },
-  {
-    id: "sentinel",
-    name: "Sentinel Shield",
-    product: "Autonomous Security",
-    category: "AI Security",
-    tag: "Beta",
     version: "3.1",
-    metric: "Zero zero-day breaches",
+    metric: "500K+ Policies Managed",
     description:
-      "Autonomous threat detection agent enforcing real-time zero-trust policies across all microservices.",
+      "Command center dashboard for managing policy lifecycles, commissions, agent performance, and real-time claim tracking.",
     image:
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=85",
-    icon: Shield,
-  },
-  {
-    id: "muse",
-    name: "Muse Copilot",
-    product: "Design Engine",
-    category: "AI Copilot",
-    tag: "Beta",
-    version: "1.2",
-    metric: "26 languages",
-    description:
-      "A brand-aware AI design & writing partner trained on your design tokens. Drafts, edits, and localizes in seconds.",
-    image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1920&q=85",
-    icon: Sparkles,
-  },
-  {
-    id: "pulse",
-    name: "Pulse Analytics",
-    product: "Behavior Intelligence",
-    category: "Analytics",
-    tag: "Live",
-    version: "5.0",
-    metric: "50M+ DAUs tracked",
-    description:
-      "Deep user behavior tracking and conversion telemetry engine with automatic funnel attribution.",
-    image:
-      "https://images.unsplash.com/photo-1541888946425-d0fbb186c5f3?auto=format&fit=crop&w=1920&q=85",
-    icon: BarChart3,
-  },
-  {
-    id: "strata",
-    name: "Strata DB",
-    product: "Distributed Storage",
-    category: "Database",
-    tag: "Beta",
-    version: "2.0",
-    metric: "100K IOPS per node",
-    description:
-      "Multi-region distributed ACID key-value store with automatic failover and instantaneous replication.",
-    image:
-      "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1920&q=85",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1920&q=85",
     icon: Database,
   },
   {
-    id: "orbit",
-    name: "Orbit Mesh",
-    product: "Deploy Orchestration",
-    category: "Cloud Control",
+    id: "bimakart-suite",
+    name: "Bimakart Product Suite",
+    product: "Enterprise Insurance Suite",
+    category: "InsurTech Ecosystem",
+    tag: "Live",
+    version: "4.0",
+    metric: "End-to-End Automation",
+    description:
+      "Complete digital insurance stack combining distribution, underwriting automation, compliance engines, and agent portals.",
+    image:
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=85",
+    icon: Layers,
+  },
+  {
+    id: "policy-ocr-fraud",
+    name: "Policy OCR & Fraud AI",
+    product: "Policy OCR with Fraud Detection",
+    category: "Document Intelligence",
+    tag: "Live",
+    version: "2.0",
+    metric: "99.4% Extraction Accuracy",
+    description:
+      "Intelligent document parsing engine that reads complex insurance policy PDFs, detects tampering, and flags suspicious claim anomalies.",
+    image:
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1920&q=85",
+    icon: Shield,
+  },
+  {
+    id: "quotation-bot",
+    name: "Quotation Bot",
+    product: "Automated Rate Engine",
+    category: "Conversational Commerce",
+    tag: "Live",
+    version: "1.9",
+    metric: "<3s Quote Generation",
+    description:
+      "Instant quote generation bot calculating premium rates across multiple insurance carriers and outputting formatted comparison sheets.",
+    image:
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=85",
+    icon: Cpu,
+  },
+  {
+    id: "enspire-whatsapp-bot",
+    name: "Enspire WhatsApp ChatBot",
+    product: "Conversational Customer Care",
+    category: "Messaging AI",
+    tag: "Live",
+    version: "3.5",
+    metric: "2M+ Messages Handled",
+    description:
+      "Enterprise WhatsApp bot facilitating policy renewals, claim submissions, document downloads, and FAQs directly inside WhatsApp.",
+    image:
+      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1920&q=85",
+    icon: MessageSquare,
+  },
+  {
+    id: "wtmf-wellness-bot",
+    name: "WTMF Wellness Bot",
+    product: "WTMF Chat + Voice bot for mental wellness",
+    category: "Healthcare AI",
+    tag: "Live",
+    version: "1.5",
+    metric: "Multimodal Voice & Chat",
+    description:
+      "Empathetic chat and voice AI copilot offering guided mindfulness exercises, mood tracking, and supportive conversational care.",
+    image:
+      "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=1920&q=85",
+    icon: HeartPulse,
+  },
+  {
+    id: "hahnnemen-ai",
+    name: "HahnnemenAI",
+    product: "HahnnemenAI (Homeopathy AI)",
+    category: "Clinical AI",
+    tag: "Live",
+    version: "1.2",
+    metric: "100,000+ Symptom Mappings",
+    description:
+      "Specialized AI assistant analyzing clinical cases, rubrics, and symptom totals to assist homeopathic practitioners in remedy synthesis.",
+    image:
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1920&q=85",
+    icon: Brain,
+  },
+  {
+    id: "the-repertory",
+    name: "The Repertory",
+    product: "Medical Symptom Search Engine",
+    category: "Clinical Reference",
+    tag: "Live",
+    version: "2.1",
+    metric: "Sub-second Search Index",
+    description:
+      "High-speed digital repertory search platform enabling doctors to cross-reference symptoms, remedies, and classical medical literature.",
+    image:
+      "https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=1920&q=85",
+    icon: BookOpen,
+  },
+  {
+    id: "futureogy",
+    name: "Futureogy",
+    product: "Predictive Horizon Analytics",
+    category: "Predictive Intelligence",
+    tag: "Live",
+    version: "1.0",
+    metric: "Pattern Modeling Engine",
+    description:
+      "Next-gen predictive analytics framework identifying emerging industry trends and strategic decision scenarios through AI forecasting.",
+    image:
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1920&q=85",
+    icon: Sparkles,
+  },
+  {
+    id: "wealth-wisdom",
+    name: "Wealth Wisdom",
+    product: "Personal Finance & Investment Advisor",
+    category: "FinTech AI",
+    tag: "Live",
+    version: "2.8",
+    metric: "Automated Asset Allocation",
+    description:
+      "Smart wealth management platform offering portfolio health checks, personalized investment insights, and automated financial planning.",
+    image:
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=85",
+    icon: BarChart3,
+  },
+  {
+    id: "aadhar-pan-ocr",
+    name: "Aadhar and PAN OCR",
+    product: "Aadhar and PAN OCR (No LLM)",
+    category: "Identity & Verification",
     tag: "Live",
     version: "3.0",
-    metric: "<50ms cold start",
+    metric: "<50ms Deterministic Processing",
     description:
-      "Serverless container orchestrator deploying builds to global edge clusters in under three seconds.",
+      "Ultra-fast, deterministic computer vision OCR for extracting details from Indian identity cards locally without external LLM API dependencies.",
     image:
-      "https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1920&q=85",
-    icon: Globe,
+      "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=85",
+    icon: Activity,
   },
 ];

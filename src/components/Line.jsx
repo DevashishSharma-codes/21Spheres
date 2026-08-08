@@ -73,7 +73,7 @@ export default function LineSection() {
     <section
       id="line-section"
       data-testid="line-animation-section"
-      className="relative z-10 w-full h-screen bg-[#0c0a08] text-white py-4 sm:py-6 border-t border-white/10 overflow-hidden flex flex-col justify-between select-none"
+      className="relative z-10 w-full min-h-[100dvh] h-[100dvh] bg-[#0c0a08] text-white py-4 sm:py-6 border-t border-white/10 overflow-hidden flex flex-col justify-between select-none"
     >
       {/* Signature Studio Hero Image Asset Background */}
       <img
@@ -84,23 +84,23 @@ export default function LineSection() {
       />
 
       {/* Top Header Block */}
-      <div className="relative z-20 flex flex-col items-center justify-center px-6 text-center max-w-3xl mx-auto pt-16 sm:pt-20">
-        <div className="inline-flex items-center gap-2 border border-white/35 px-3 py-1 font-mono text-[10px] sm:text-xs uppercase tracking-widest text-white/90 bg-white/5 backdrop-blur-md shadow-lg mb-3">
-          <span>[ ENACTON_ECOSYSTEM ]</span>
+      <div className="relative z-20 flex flex-col items-center justify-center px-6 text-center max-w-3xl mx-auto pt-10 sm:pt-14 my-auto">
+        <div className="inline-flex items-center gap-2 border border-white/35 px-3 py-1 font-mono text-[10px] sm:text-xs uppercase tracking-widest text-white/90 bg-white/5 backdrop-blur-md shadow-lg mb-2.5">
+          <span>[ 21SPHERES_ECOSYSTEM ]</span>
         </div>
 
-        <h2 className="font-outfit text-2xl sm:text-3xl lg:text-4xl font-light uppercase tracking-tight text-white leading-tight">
-          READY TO BUILD THE FUTURE WITH ENACTON STUDIO?
+        <h2 className="font-outfit text-xl sm:text-3xl lg:text-4xl font-light uppercase tracking-tight text-white leading-tight">
+          READY TO BUILD THE FUTURE WITH 21SPHERES STUDIO?
         </h2>
 
         <p className="font-outfit mt-2 text-xs sm:text-sm font-extralight text-white/80 max-w-xl leading-relaxed">
           Autonomous AI agents, cloud infrastructure, and enterprise platforms converging into one unified engine.
         </p>
 
-        <div className="mt-4 sm:mt-5">
+        <div className="mt-3.5 sm:mt-4">
           <a
             href="#contact"
-            className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-2.5 font-outfit text-xs sm:text-sm font-medium text-ink transition-all duration-300 hover:scale-105 shadow-xl"
+            className="group inline-flex items-center gap-2 rounded-full bg-white px-5 sm:px-6 py-2 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium text-ink transition-all duration-300 hover:scale-105 shadow-xl"
           >
             <span>Discuss Your Project</span>
           </a>
@@ -108,9 +108,9 @@ export default function LineSection() {
       </div>
 
       {/* Converging SVG Stage Container */}
-      <div className="relative z-20 w-full max-w-[640px] sm:max-w-[700px] mx-auto px-4 pb-10 sm:pb-14 mt-auto">
-        <div className="relative mx-auto aspect-[734/405] w-full">
-          {/* Relevant EnactON Studio Product & Capability Tags */}
+      <div className="relative z-20 w-full max-w-[540px] sm:max-w-[660px] lg:max-w-[720px] mx-auto px-4 pb-6 sm:pb-10 mt-auto">
+        <div className="relative mx-auto aspect-[734/405] max-h-[22vh] sm:max-h-[26vh] lg:max-h-[28vh] w-full">
+          {/* Relevant 21Spheres Studio Product & Capability Tags */}
           <Tag className="absolute left-[50.41%] top-0 z-10 w-fit -translate-x-1/2">
             Autonomous AI Agents
           </Tag>
@@ -120,10 +120,10 @@ export default function LineSection() {
           <Tag className="absolute left-[76.84%] top-[27.16%] z-10 w-fit max-w-[60%] -translate-x-1/2 sm:max-w-none">
             Native Mobile Apps
           </Tag>
-          <Tag className="absolute left-0 top-[49.57%] z-10 w-fit -translate-x-1/2">
+          <Tag className="absolute left-[12%] sm:left-0 top-[49.57%] z-10 w-fit -translate-x-1/2">
             Cloud Infrastructure
           </Tag>
-          <Tag className="absolute left-full top-[49.57%] z-10 w-fit -translate-x-1/2">
+          <Tag className="absolute left-[88%] sm:left-full top-[49.57%] z-10 w-fit -translate-x-1/2">
             Enterprise Systems
           </Tag>
 
@@ -138,10 +138,10 @@ export default function LineSection() {
             ))}
           </svg>
 
-          {/* Solid White Square Box Destination Node containing Black EnactON Logo Mark */}
-          <div className="absolute bottom-0 left-[50.41%] size-20 sm:size-28 md:size-32 lg:size-36 -translate-x-1/2 translate-y-1/2 rounded-md bg-white/20 p-1 sm:p-1.5 z-20 shadow-2xl backdrop-blur-md">
+          {/* Solid White Square Box Destination Node containing Black 21Spheres Logo Mark */}
+          <div className="absolute bottom-0 left-[50.41%] size-16 sm:size-22 md:size-26 lg:size-28 -translate-x-1/2 translate-y-1/2 rounded-md bg-white/20 p-1 sm:p-1.5 z-20 shadow-2xl backdrop-blur-md">
             <div className="size-full bg-white rounded-xs shadow-xl flex items-center justify-center">
-              <LogoMark className="text-black w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12" />
+              <LogoMark className="text-black w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
             </div>
           </div>
         </div>

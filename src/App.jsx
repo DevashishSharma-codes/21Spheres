@@ -52,25 +52,28 @@ const PATHS = [
 /* ---------------------------------------------------------
    Hero Line Animation Component (Fully Responsive Across All Screens)
 --------------------------------------------------------- */
+/* ---------------------------------------------------------
+   Hero Line Animation Component (Fully Responsive Across All Screens)
+--------------------------------------------------------- */
 function HeroLineAnimation() {
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 w-full px-3 sm:px-6 pb-3 sm:pb-6 md:pb-8">
-      {/* Stage matches SVG viewBox (734:405) aspect ratio */}
-      <div className="relative mx-auto aspect-[734/405] max-h-[30vh] sm:max-h-[32vh] w-full max-w-[620px] sm:max-w-[720px] lg:max-w-[780px]">
+    <div className="pointer-events-none z-20 w-full px-4 sm:px-6 pb-3 sm:pb-5 md:pb-6 mt-auto">
+      {/* Responsive stage with max-height & viewport scaling */}
+      <div className="relative mx-auto aspect-[734/405] max-h-[22vh] sm:max-h-[26vh] md:max-h-[28vh] lg:max-h-[30vh] w-full max-w-[520px] sm:max-w-[660px] lg:max-w-[740px]">
         {/* Responsive Capability Tags */}
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2.5 py-1 text-center font-mono text-[8px] sm:text-[10px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-60 md:px-4 tracking-wider absolute left-[50.41%] top-0 z-30 w-fit -translate-x-1/2 -translate-y-1/2">
+        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[50.41%] top-0 z-30 w-fit -translate-x-1/2 -translate-y-1/2">
           Autonomous AI Agents
         </div>
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2.5 py-1 text-center font-mono text-[8px] sm:text-[10px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-60 md:px-4 tracking-wider absolute left-[24.68%] top-[27.16%] z-30 w-fit -translate-x-1/2 -translate-y-1/2">
+        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[24.68%] top-[27.16%] z-30 w-fit -translate-x-1/2 -translate-y-1/2">
           High Scale Platforms
         </div>
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2.5 py-1 text-center font-mono text-[8px] sm:text-[10px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-60 md:px-4 tracking-wider absolute left-[76.84%] top-[27.16%] z-30 w-fit max-w-[55%] -translate-x-1/2 -translate-y-1/2 sm:max-w-none">
+        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[76.84%] top-[27.16%] z-30 w-fit max-w-[55%] -translate-x-1/2 -translate-y-1/2 sm:max-w-none">
           Native Mobile Apps
         </div>
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2.5 py-1 text-center font-mono text-[8px] sm:text-[10px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-60 md:px-4 tracking-wider absolute left-0 top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2">
+        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[12%] sm:left-0 top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2">
           Cloud Infrastructure
         </div>
-        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2.5 py-1 text-center font-mono text-[8px] sm:text-[10px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-60 md:px-4 tracking-wider absolute left-full top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2">
+        <div className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[88%] sm:left-full top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2">
           Enterprise Systems
         </div>
 
@@ -107,9 +110,9 @@ function HeroLineAnimation() {
           ))}
         </svg>
 
-        {/* Destination Node: Glossy Black Translucent Box with White EnactON LogoMark */}
-        <div className="pointer-events-auto absolute bottom-0 left-[50.41%] size-16 sm:size-24 md:size-28 lg:size-32 -translate-x-1/2 translate-y-1/2 rounded-xl bg-gradient-to-br from-black/90 via-black/75 to-black/50 backdrop-blur-xl border border-white/40 shadow-2xl p-1.5 sm:p-2.5 z-40 flex items-center justify-center">
-          <LogoMark className="text-white w-7 h-7 sm:w-10 sm:h-10 lg:w-12 lg:h-12 drop-shadow-lg" />
+        {/* Destination Node: Glossy Black Translucent Box with White 21Spheres LogoMark */}
+        <div className="pointer-events-auto absolute bottom-0 left-[50.41%] size-12 sm:size-18 md:size-22 lg:size-26 -translate-x-1/2 translate-y-1/2 rounded-xl bg-gradient-to-br from-black/90 via-black/75 to-black/50 backdrop-blur-xl border border-white/40 shadow-2xl p-1.5 sm:p-2 z-40 flex items-center justify-center">
+          <LogoMark className="text-white w-5 h-5 sm:w-7 sm:h-7 lg:w-9 lg:h-9 drop-shadow-lg" />
         </div>
       </div>
     </div>
@@ -124,7 +127,7 @@ export const Hero = () => {
     <section
       id="top"
       data-testid="hero-section"
-      className="relative h-[100dvh] w-full max-w-full overflow-hidden flex flex-col items-center justify-between bg-[#fdfbf9] select-none"
+      className="relative min-h-[100dvh] h-[100dvh] w-full max-w-full overflow-hidden flex flex-col items-center justify-between bg-[#fdfbf9] select-none"
     >
       {/* Background image */}
       <motion.div
@@ -144,18 +147,18 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-paper/40 via-transparent to-paper z-0" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(253,251,249,0.65),transparent_70%)] z-0" />
 
-      {/* Hero Headline & Subtext Content */}
-      <div className="relative z-20 max-w-5xl mx-auto px-5 sm:px-8 text-center pt-20 sm:pt-28 pb-2">
+      {/* Hero Headline & Subtext Content seated under Navbar */}
+      <div className="relative z-20 max-w-5xl mx-auto px-5 sm:px-8 text-center pt-14 sm:pt-18 md:pt-20 lg:pt-20 pb-0">
         {/* Main Headline */}
         <motion.h1
           variants={lineContainer}
           initial="hidden"
           animate="show"
           data-testid="hero-heading"
-          className="font-outfit font-medium tracking-tighter leading-[1.0] text-ink text-[11vw] sm:text-6xl md:text-7xl lg:text-[5.6rem]"
+          className="font-outfit font-light tracking-tighter leading-[0.98] text-ink text-[9.5vw] sm:text-5xl md:text-6xl lg:text-[4.8rem]"
         >
           {LINES.map((line, i) => (
-            <span key={i} className="block overflow-hidden pb-[0.18em]">
+            <span key={i} className="block overflow-hidden pb-[0.12em]">
               <motion.span variants={lineItem} className="block">
                 {line}
               </motion.span>
@@ -165,37 +168,30 @@ export const Hero = () => {
 
         {/* Subtext */}
         <motion.p
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
           data-testid="hero-subheading"
-          className="mx-auto mt-4 sm:mt-6 max-w-2xl text-xs sm:text-base md:text-lg font-light leading-relaxed text-ink/85 px-2"
+          className="mx-auto mt-3 sm:mt-4 max-w-lg text-xs sm:text-sm md:text-base font-light leading-relaxed text-ink/85 px-2"
         >
           We design, build, and ship high-performance web, mobile, and
           AI-powered products for modern businesses.
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* Single Black "View Products" CTA Button */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: 1.35, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-4 sm:mt-6 flex flex-row items-center justify-center gap-3"
+          transition={{ duration: 0.8, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-3.5 sm:mt-5 flex flex-row items-center justify-center"
         >
           <a
-            href="#contact"
-            data-testid="hero-cta-primary"
-            className="group inline-flex items-center gap-2 rounded-full bg-ink px-5 sm:px-7 py-2.5 sm:py-3 font-outfit text-xs sm:text-sm font-medium text-paper transition-transform duration-300 hover:scale-[1.04] shadow-md"
-          >
-            Get Started
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
-          <a
             href="#products"
-            data-testid="hero-cta-secondary"
-            className="inline-flex items-center gap-2 rounded-full bg-white/60 backdrop-blur-md border border-white/90 px-5 sm:px-7 py-2.5 sm:py-3 font-outfit text-xs sm:text-sm font-medium text-ink transition-colors duration-300 hover:bg-white/90 shadow-sm"
+            data-testid="hero-cta-primary"
+            className="group inline-flex items-center gap-2 rounded-full bg-ink px-6 sm:px-8 py-2.5 sm:py-3 font-outfit text-xs sm:text-sm font-medium text-paper transition-transform duration-300 hover:scale-[1.04] shadow-md"
           >
             View Products
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </a>
         </motion.div>
       </div>
@@ -213,12 +209,16 @@ export default function App() {
   useEffect(() => {
     // Initialize Lenis Inertia Smooth Scroll
     const lenis = new Lenis({
-      duration: 1.2,
+      duration: 0.85,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
       wheelMultiplier: 1.0,
       touchMultiplier: 1.5,
     });
+
+    if (typeof window !== "undefined") {
+      window.lenis = lenis;
+    }
 
     // Synchronize Lenis Scroll Events with GSAP ScrollTrigger
     lenis.on("scroll", () => {
@@ -230,7 +230,7 @@ export default function App() {
     };
 
     gsap.ticker.add(updateLenis);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
 
     // Refresh ScrollTrigger calculations after Lenis mounts
     const refreshTimer = setTimeout(() => {

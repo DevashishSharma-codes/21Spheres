@@ -41,7 +41,7 @@ export const Navbar = () => {
             className="font-outfit text-xl md:text-2xl font-semibold tracking-tight flex items-center gap-2.5 text-ink"
           >
             <LogoMark size={22} className="text-ink" />
-            <span>EnactON</span>
+            <span>21Spheres</span>
           </a>
 
           {/* Desktop Navigation Links */}
@@ -116,7 +116,7 @@ export const Navbar = () => {
                 Start a Project
               </a>
               <p className="text-center font-mono text-xs text-ink/40">
-                hello@enacton.studio
+                hello@21spheres.studio
               </p>
             </div>
           </motion.div>
