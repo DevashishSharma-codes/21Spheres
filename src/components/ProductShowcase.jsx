@@ -16,12 +16,9 @@ const FALLBACK_HERO_IMAGE =
 const CLOUD_BACKDROP_IMAGE =
   "https://static.prod-images.emergentagent.com/jobs/aaff03bd-13eb-4784-a3f9-c2ad7e7acf3a/images/7c1aafe5306058007c7c92a2a22e1fb606d2e6c48cbf50c3a393af8c07c0079a.jpeg";
 
-// One full "step" of scroll = one product change. Tune these two to
-// change the feel: LOCK_DURATION must stay >= the product transition
-// duration below, or you'll get overlapping fades again.
-const LOCK_DURATION = 550; // ms, cooldown between product changes
+const LOCK_DURATION = 400; // ms, cooldown between product changes
 const WHEEL_THRESHOLD = 4; // px, ignore trackpad/mouse micro-noise
-const TOUCH_THRESHOLD = 40; // px, min swipe distance to count as a step
+const TOUCH_THRESHOLD = 35; // px, min swipe distance to count as a step
 
 export function ProductShowcase() {
   const [activeIdx, setActiveIdx] = useState(0);
@@ -40,11 +37,6 @@ export function ProductShowcase() {
   };
 
   // GSAP ScrollTrigger Synchronized Pinning (Tablet & Desktop only >= 640px)
-  // The section is pinned for the whole product range; instead of tying the
-  // active index to continuous scroll progress (which causes multi-index
-  // jumps on a hard flick), we intercept wheel/touch input directly and
-  // advance exactly one product per gesture, with a lock so rapid input
-  // during the transition is ignored rather than queued up.
   useEffect(() => {
     if (typeof window === "undefined" || window.innerWidth < 640) return;
 
@@ -52,17 +44,24 @@ export function ProductShowcase() {
     const canvas = pinnedCanvasRef.current;
     if (!el || !canvas) return;
 
-    const stepDistance = window.innerHeight; // scroll distance per product
-
     const ctx = gsap.context(() => {
       stRef.current = ScrollTrigger.create({
         trigger: el,
         pin: canvas,
         start: "top top",
-        end: () => `+=${stepDistance * (PRODUCTS.length - 1)}`,
+        end: () => `+=${window.innerHeight * 2.2}`,
         pinSpacing: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          if (isLockedRef.current) return;
+          const rawIdx = Math.round(self.progress * (PRODUCTS.length - 1));
+          const clampedIdx = Math.min(PRODUCTS.length - 1, Math.max(0, rawIdx));
+          if (clampedIdx !== activeIdxRef.current) {
+            activeIdxRef.current = clampedIdx;
+            setActiveIdx(clampedIdx);
+          }
+        },
       });
     }, containerRef);
 
@@ -76,8 +75,15 @@ export function ProductShowcase() {
 
       const st = stRef.current;
       if (st) {
-        const progressRatio = nextIdx / (PRODUCTS.length - 1);
-        const targetScroll = st.start + progressRatio * (st.end - st.start);
+        let targetScroll;
+        if (nextIdx === 0) {
+          targetScroll = st.start + 5;
+        } else if (nextIdx === PRODUCTS.length - 1) {
+          targetScroll = st.end - 5;
+        } else {
+          const progressRatio = nextIdx / (PRODUCTS.length - 1);
+          targetScroll = st.start + progressRatio * (st.end - st.start);
+        }
         window.scrollTo({ top: targetScroll, behavior });
       }
 
@@ -88,7 +94,7 @@ export function ProductShowcase() {
 
     const handleWheel = (e) => {
       const st = stRef.current;
-      if (!st || !st.isActive) return; // outside the pinned range, let native scroll run
+      if (!st || !st.isActive) return;
 
       const direction = e.deltaY > 0 ? 1 : -1;
 
@@ -100,12 +106,12 @@ export function ProductShowcase() {
       const atLastGoingDown = direction === 1 && activeIdxRef.current === PRODUCTS.length - 1;
       const atFirstGoingUp = direction === -1 && activeIdxRef.current === 0;
 
-      // At either end, release control so the page can scroll into/out of the section normally.
+      // At either end, release control so the page smoothly transitions to next/previous section
       if (atLastGoingDown || atFirstGoingUp) return;
 
       e.preventDefault();
 
-      if (isLockedRef.current) return; // swallow extra ticks mid-transition
+      if (isLockedRef.current) return;
 
       goToStep(direction);
     };
@@ -169,8 +175,15 @@ export function ProductShowcase() {
     if (stRef.current && window.innerWidth >= 640) {
       isLockedRef.current = true;
       const st = stRef.current;
-      const progressRatio = targetIdx / (PRODUCTS.length - 1);
-      const targetScroll = st.start + progressRatio * (st.end - st.start);
+      let targetScroll;
+      if (targetIdx === 0) {
+        targetScroll = st.start + 5;
+      } else if (targetIdx === PRODUCTS.length - 1) {
+        targetScroll = st.end - 5;
+      } else {
+        const progressRatio = targetIdx / (PRODUCTS.length - 1);
+        targetScroll = st.start + progressRatio * (st.end - st.start);
+      }
       window.scrollTo({ top: targetScroll, behavior: "smooth" });
 
       window.setTimeout(() => {
@@ -295,8 +308,9 @@ export function ProductShowcase() {
             <button
               key={idx}
               onClick={() => setActiveIdx(idx)}
-              className={`h-1.5 rounded-full transition-all duration-300 ${idx === activeIdx ? "w-5 bg-ink" : "w-1.5 bg-ink/20"
-                }`}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                idx === activeIdx ? "w-5 bg-ink" : "w-1.5 bg-ink/20"
+              }`}
             />
           ))}
         </div>
@@ -480,10 +494,11 @@ export function ProductShowcase() {
 
                       {/* Product Name Only on Orbital Curve */}
                       <h3
-                        className={`font-outfit transition-colors duration-300 ${isActive
+                        className={`font-outfit transition-colors duration-300 ${
+                          isActive
                             ? "text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold tracking-tight text-ink"
                             : "text-sm sm:text-base lg:text-xl font-normal text-ink/65 group-hover:text-ink"
-                          }`}
+                        }`}
                       >
                         {product.name}
                       </h3>

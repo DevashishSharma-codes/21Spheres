@@ -147,8 +147,8 @@ export const Hero = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-paper/40 via-transparent to-paper z-0" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(253,251,249,0.65),transparent_70%)] z-0" />
 
-      {/* Hero Headline & Subtext Content seated under Navbar */}
-      <div className="relative z-20 max-w-5xl mx-auto px-5 sm:px-8 text-center pt-14 sm:pt-18 md:pt-20 lg:pt-20 pb-0">
+      {/* Hero Headline & Subtext Content seated under Navbar with balanced flex centering */}
+      <div className="relative z-20 max-w-5xl mx-auto px-5 sm:px-8 text-center pt-20 sm:pt-24 md:pt-24 lg:pt-24 flex-1 flex flex-col items-center justify-center">
         {/* Main Headline */}
         <motion.h1
           variants={lineContainer}
@@ -178,12 +178,12 @@ export const Hero = () => {
           AI-powered products for modern businesses.
         </motion.p>
 
-        {/* Single Black "View Products" CTA Button */}
+        {/* Single Black "View Products" CTA Button with Equal Balanced Top/Bottom Margins */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.3, ease: [0.22, 1, 0.36, 1] }}
-          className="mt-3.5 sm:mt-5 flex flex-row items-center justify-center"
+          className="my-5 sm:my-6 md:my-7 lg:my-8 flex flex-row items-center justify-center"
         >
           <a
             href="#products"
