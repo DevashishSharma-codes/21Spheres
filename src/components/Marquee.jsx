@@ -14,10 +14,13 @@ export const MarqueeStrip = () => {
   return (
     <section
       data-testid="marquee-strip"
-      className="relative z-10 border-y border-ink/10 bg-paper py-6 md:py-8 overflow-hidden select-none"
+      className="relative z-10 bg-white py-6 md:py-8 overflow-hidden select-none"
     >
+      {/* Fine Dotted Matrix Canvas Overlay matching WhatWeDo */}
+      <div className="absolute inset-0 bg-[radial-gradient(#17130f_1px,transparent_1px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
+
       <motion.div
-        className="flex whitespace-nowrap shrink-0"
+        className="relative z-10 flex whitespace-nowrap shrink-0"
         animate={{ x: ["0%", "-50%"] }}
         transition={{
           repeat: Infinity,
@@ -28,10 +31,10 @@ export const MarqueeStrip = () => {
       >
         {repeated.map((item, i) => (
           <div key={i} className="flex items-center shrink-0">
-            <span className="font-outfit text-4xl md:text-6xl font-medium tracking-tight text-ink/90 whitespace-nowrap px-8 md:px-14">
+            <span className="font-outfit text-2xl sm:text-3xl md:text-4xl font-light tracking-tight text-ink/80 whitespace-nowrap px-6 md:px-10">
               {item}
             </span>
-            <span className="text-2xl md:text-4xl text-[#C2612B]">✦</span>
+            <span className="text-lg md:text-2xl text-[#C2612B]">✦</span>
           </div>
         ))}
       </motion.div>

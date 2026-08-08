@@ -31,7 +31,7 @@ export function ProductShowcase() {
     setIsModalOpen(true);
   };
 
-  // GSAP ScrollTrigger Synchronized Pinning + Snap (Tablet & Desktop >= 640px)
+  // GSAP ScrollTrigger Synchronized Pinning (Tablet & Desktop >= 640px)
   useEffect(() => {
     if (typeof window === "undefined" || window.innerWidth < 640) return;
 
@@ -44,19 +44,14 @@ export function ProductShowcase() {
         trigger: el,
         pin: canvas,
         start: "top top",
-        end: () => `+=${window.innerHeight * 3.5}`,
+        end: () => `+=${window.innerHeight * 3.6}`,
         pinSpacing: true,
-        scrub: 0.15,
+        scrub: 0.1,
         anticipatePin: 1,
         invalidateOnRefresh: true,
-        snap: {
-          snapTo: 1 / (PRODUCTS.length - 1),
-          duration: { min: 0.15, max: 0.3 },
-          delay: 0.01,
-          ease: "power1.out",
-        },
         onUpdate: (self) => {
-          const rawIdx = Math.round(self.progress * (PRODUCTS.length - 1));
+          // Equal distribution across all products so each gets equal scroll height
+          const rawIdx = Math.floor(self.progress * PRODUCTS.length);
           const clampedIdx = Math.min(PRODUCTS.length - 1, Math.max(0, rawIdx));
           if (clampedIdx !== activeIdxRef.current) {
             activeIdxRef.current = clampedIdx;
@@ -85,7 +80,7 @@ export function ProductShowcase() {
 
     if (stRef.current && window.innerWidth >= 640) {
       const st = stRef.current;
-      const progressRatio = clamped / (PRODUCTS.length - 1);
+      const progressRatio = (clamped + 0.5) / PRODUCTS.length;
       const targetScroll = st.start + progressRatio * (st.end - st.start);
 
       if (window.lenis) {

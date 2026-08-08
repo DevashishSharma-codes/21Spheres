@@ -11,6 +11,7 @@ import { WhatWeDo } from "./components/WhatWeDo";
 import { ProductShowcase } from "./components/ProductShowcase";
 import { About } from "./components/About";
 import { Testimonials } from "./components/Testimonilas";
+import { FeaturedTestimonial } from "./components/FeaturedTestimonial";
 import { WisprFlowMarquee } from "./components/Marque";
 import { Footer } from "./components/Footer";
 import { LogoMark } from "./components/LogoMark";
@@ -52,12 +53,9 @@ const PATHS = [
 /* ---------------------------------------------------------
    Hero Line Animation Component (Fully Responsive Across All Screens)
 --------------------------------------------------------- */
-/* ---------------------------------------------------------
-   Hero Line Animation Component (Fully Responsive Across All Screens)
---------------------------------------------------------- */
 function HeroLineAnimation() {
   return (
-    <div className="pointer-events-none z-20 w-full px-4 sm:px-6 pb-2 sm:pb-3 md:pb-4 mt-auto">
+    <div className="pointer-events-none z-20 w-full px-4 sm:px-6 pb-6 sm:pb-8 md:pb-10 mt-auto">
       {/* Responsive stage with max-height & viewport scaling */}
       <div className="relative mx-auto aspect-[734/405] max-h-[22vh] sm:max-h-[26vh] md:max-h-[28vh] lg:max-h-[30vh] w-full max-w-[500px] sm:max-w-[650px] lg:max-w-[740px]">
         {/* Staggered Entrance Capability Tags */}
@@ -139,26 +137,27 @@ function HeroLineAnimation() {
           ))}
         </motion.svg>
 
-        {/* Destination Node: Refined Charcoal Glassmorphic Box Staggered Entrance */}
+        {/* Destination Node: Sharp Glass Square Box with Transparent Outline & Bubble Glass Reflection */}
         <motion.div
           initial={{ opacity: 0, y: 24, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, delay: 1.55, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto absolute bottom-0 left-[50.41%] size-13 sm:size-17 md:size-20 lg:size-22 -translate-x-1/2 translate-y-1/2 rounded-2xl sm:rounded-[1.4rem] p-1.5 sm:p-2 z-50 flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105"
+          className="pointer-events-auto absolute bottom-0 left-[50.41%] size-28 sm:size-36 md:size-40 lg:size-44 aspect-square -translate-x-1/2 translate-y-1/2 rounded-none p-3 sm:p-4 z-50 flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 border-2 border-white/90 ring-4 ring-black/5 shadow-none"
           style={{
             background:
-              "linear-gradient(135deg, rgba(52, 52, 62, 0.93) 0%, rgba(26, 26, 34, 0.96) 100%)",
-            backdropFilter: "blur(32px) saturate(200%)",
-            WebkitBackdropFilter: "blur(32px) saturate(200%)",
-            border: "1px solid rgba(255, 255, 255, 0.28)",
-            boxShadow:
-              "inset 0 1.5px 2px rgba(255, 255, 255, 0.45), 0 12px 32px rgba(0, 0, 0, 0.3)",
+              "linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(235, 238, 242, 0.88) 100%)",
+            backdropFilter: "blur(20px) saturate(180%)",
+            WebkitBackdropFilter: "blur(20px) saturate(180%)",
           }}
         >
-          {/* Glossy Top Glass Curved Lens Reflection */}
-          <div className="absolute inset-x-2 top-0.5 h-3.5 rounded-t-xl bg-gradient-to-b from-white/35 to-transparent pointer-events-none opacity-85" />
+          {/* Glass Bubble Top Sheen Reflection */}
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white via-white/60 to-transparent pointer-events-none opacity-90 z-0" />
+          
+          {/* Bubble Curved Gloss Arc */}
+          <div className="absolute inset-x-2 top-1 h-10 sm:h-14 bg-gradient-to-b from-white via-white/50 to-transparent pointer-events-none opacity-90 z-0" style={{ borderRadius: "50% 50% 0 0 / 100% 100% 0 0" }} />
 
-          <LogoMark className="relative z-10 text-white w-5.5 h-5.5 sm:w-7.5 sm:h-7.5 lg:w-9.5 lg:h-9.5 drop-shadow-[0_4px_12px_rgba(255,255,255,0.4)]" />
+          {/* Big Crisp Pure Black Logo */}
+          <LogoMark className="relative z-10 text-black w-16 h-16 sm:w-22 sm:h-22 md:w-26 md:h-26 shrink-0" />
         </motion.div>
       </div>
     </div>
@@ -173,14 +172,14 @@ export const Hero = () => {
     <section
       id="top"
       data-testid="hero-section"
-      className="relative min-h-[100dvh] h-[100dvh] w-full max-w-full overflow-hidden flex flex-col items-center justify-between bg-[#fdfbf9] select-none py-2 sm:py-4"
+      className="relative min-h-[100dvh] h-[100dvh] w-full max-w-full flex flex-col items-center justify-between bg-[#fdfbf9] select-none py-2 sm:py-4 z-20"
     >
       {/* Background image */}
       <motion.div
         initial={{ scale: 1.12 }}
         animate={{ scale: 1 }}
         transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 overflow-hidden"
       >
         <img
           src={HERO_IMG}
@@ -190,10 +189,10 @@ export const Hero = () => {
       </motion.div>
 
       {/* Atmospheric overlays for readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-paper/40 via-transparent to-paper z-0" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(253,251,249,0.65),transparent_70%)] z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-paper/40 via-transparent to-paper z-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_45%,rgba(253,251,249,0.65),transparent_70%)] z-0 pointer-events-none" />
 
-      {/* Hero Headline & Subtext Content positioned slightly upward utilizing top space with balanced lower spacing */}
+      {/* Hero Headline & Subtext Content */}
       <div className="relative z-20 max-w-5xl mx-auto px-4 sm:px-8 text-center pt-7 sm:pt-10 md:pt-11 lg:pt-12 mb-2 sm:mb-4 flex-1 flex flex-col items-center justify-center">
         {/* Main Headline */}
         <motion.h1
@@ -279,10 +278,11 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <MarqueeStrip />
         <WhatWeDo />
+        <MarqueeStrip />
         <ProductShowcase />
         <About />
+        <FeaturedTestimonial />
         <Testimonials />
         <WisprFlowMarquee />
       </main>
