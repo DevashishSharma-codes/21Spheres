@@ -5,7 +5,6 @@ import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { PRODUCTS } from "../../../data/products";
-import { ProductModal } from "./ProductModal/ProductModal";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -140,17 +139,6 @@ export function ProductShowcase() {
       data-testid="product-showcase-section"
       className="relative z-10 w-full bg-[#fdfbf9] border-t border-ink/10 select-none m-0 p-0"
     >
-      {/* High-End Apple-like Transparent Product Details Modal */}
-      <ProductModal
-        isOpen={isModalOpen}
-        product={modalProduct || activeProduct}
-        onClose={handleCloseModal}
-        allProducts={PRODUCTS}
-        onSelectProduct={(p) => {
-          navigate(`/products/${p.id}`);
-        }}
-      />
-
       {/* MOBILE RESPONSIVE VIEW (<640px): Clean Full-Width Product Card */}
       <div className="block sm:hidden w-full min-h-[90dvh] bg-[#fdfbf9] text-ink p-4 pt-14 pb-6 flex flex-col justify-between">
         {/* Top Header Row with Counter & Prev/Next Arrows */}
@@ -445,7 +433,7 @@ export function ProductShowcase() {
               </span>
               <button
                 onClick={() => openProductModal(activeProduct)}
-                className="inline-flex items-center gap-1.5 font-mono text-[10px] sm:text-xs text-ink hover:text-[#C2612B] transition-colors cursor-pointer font-bold tracking-wider"
+                className="inline-flex items-center gap-1.5 font-mono text-[10px] sm:text-xs text-ink hover:text-black transition-colors cursor-pointer font-bold tracking-wider"
               >
                 <span>View Product Layer ↗</span>
               </button>

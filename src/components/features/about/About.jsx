@@ -239,7 +239,7 @@ export const About = () => {
               <div>
                 <div className="flex items-center justify-between font-mono text-[9px] sm:text-[10px] text-paper/40 mb-1.5 pb-1 border-b border-white/10 font-light">
                   <span>CHAPTER / {c.no}</span>
-                  <span className="h-1.5 w-1.5 rounded-full bg-white/40 group-hover:bg-[#C2612B] transition-colors" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-white/40 group-hover:bg-white transition-colors" />
                 </div>
                 <h3 className="font-outfit text-sm sm:text-base lg:text-lg font-light tracking-tight text-paper mb-1">
                   {c.title}

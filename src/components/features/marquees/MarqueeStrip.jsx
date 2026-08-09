@@ -34,7 +34,7 @@ export const MarqueeStrip = () => {
             <span className="font-outfit text-2xl sm:text-3xl md:text-4xl font-light tracking-tight text-ink/80 whitespace-nowrap px-6 md:px-10">
               {item}
             </span>
-            <span className="text-lg md:text-2xl text-[#C2612B]">✦</span>
+            <span className="text-lg md:text-2xl text-ink/40">✦</span>
           </div>
         ))}
       </motion.div>

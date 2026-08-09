@@ -14,7 +14,7 @@ import { Footer } from "../components/layout/Footer";
 
 export function HomePage() {
   return (
-    <div className="min-h-screen bg-paper text-ink font-sans relative selection:bg-[#C2612B] selection:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-paper text-ink font-sans relative selection:bg-ink selection:text-paper overflow-x-hidden">
       <Grain />
       <Navbar />
       <main>

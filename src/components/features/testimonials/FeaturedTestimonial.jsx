@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import featuredBg from "../../../assets/card-bgs/featured-testimonial-bg.jpg";
 
 // Sharp Boxy Double Quote Mark Icon (matching reference screenshot)
-const BoxyQuoteMark = ({ className = "w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 text-white mb-6 sm:mb-8 drop-shadow-sm" }) => (
+const BoxyQuoteMark = ({ className = "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white mb-4 sm:mb-6 drop-shadow-sm" }) => (
   <svg
     viewBox="0 0 64 64"
     fill="currentColor"
@@ -19,7 +19,7 @@ export const FeaturedTestimonial = () => {
   return (
     <section
       data-testid="featured-testimonial-section"
-      className="relative z-10 w-full min-h-[85vh] py-20 sm:py-28 md:py-36 select-none overflow-hidden flex items-center justify-center"
+      className="relative z-10 w-full min-h-[65vh] py-14 sm:py-20 md:py-24 select-none overflow-hidden flex items-center justify-center"
     >
       {/* Full-Width Edge-to-Edge Watercolor Background Image */}
       <img
@@ -28,10 +28,10 @@ export const FeaturedTestimonial = () => {
         className="absolute inset-0 w-full h-full object-cover z-0"
       />
 
-      {/* Large Glass Screen Container */}
-      <div className="relative z-10 w-full max-w-[1520px] mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
+      {/* Glass Screen Container (Slightly Reduced Size) */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         <div
-          className="relative w-full rounded-none p-10 sm:p-14 md:p-18 lg:p-24 overflow-hidden min-h-[480px] sm:min-h-[540px] flex flex-col justify-between"
+          className="relative w-full rounded-none p-6 sm:p-10 md:p-12 lg:p-16 overflow-hidden min-h-[360px] sm:min-h-[420px] flex flex-col justify-between"
           style={{
             background:
               "linear-gradient(135deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.22) 100%)",
@@ -54,19 +54,19 @@ export const FeaturedTestimonial = () => {
             <BoxyQuoteMark />
 
             {/* High-Impact Featured Quote in Uniform Font Light */}
-            <h3 className="font-outfit text-2xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-light text-white leading-[1.12] tracking-tight drop-shadow-sm max-w-5xl">
+            <h3 className="font-outfit text-xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-light text-white leading-[1.15] tracking-tight drop-shadow-sm max-w-4xl">
               There has been a lot of talk surrounding what works in digital products now. The answer is 21Spheres. Full Stop. 21Spheres is the next generation of product engineering.
             </h3>
 
             {/* Author Info */}
-            <div className="flex items-center gap-4 pt-10 sm:pt-14 md:pt-16">
+            <div className="flex items-center gap-3.5 pt-6 sm:pt-8 md:pt-10">
               <img
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
                 alt="Keshav Malpani"
-                className="w-11 h-11 sm:w-13 sm:h-13 rounded-full object-cover border-2 border-white/70 shadow-md"
+                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-white/70 shadow-md"
               />
               <div className="flex flex-col">
-                <span className="font-outfit text-sm sm:text-base md:text-lg font-semibold text-white tracking-wide drop-shadow-xs">
+                <span className="font-outfit text-sm sm:text-base font-semibold text-white tracking-wide drop-shadow-xs">
                   Keshav Malpani
                 </span>
                 <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-white/90 font-medium">
