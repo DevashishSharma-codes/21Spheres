@@ -49,7 +49,11 @@ export function ProductDetailPage() {
 
   // Scroll to top immediately on product route change
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" });
+    }
   }, [productId]);
 
   const handleCopyCode = (codeText) => {

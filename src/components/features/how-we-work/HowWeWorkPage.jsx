@@ -1,9 +1,18 @@
+import { useEffect } from "react";
 import { Navbar } from "../../layout/Navbar";
 import { Footer } from "../../layout/Footer";
 import { About } from "../about/About";
 import { HowWeWork } from "./HowWeWork";
 
 export const HowWeWorkPage = () => {
+  useEffect(() => {
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white font-sans relative selection:bg-white selection:text-black overflow-x-hidden">
       {/* Navbar for How We Work Page */}

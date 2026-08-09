@@ -18,8 +18,23 @@ export function ScrollToHash() {
           } else {
             element.scrollIntoView({ behavior: "smooth" });
           }
+        } else {
+          if (window.lenis) {
+            window.lenis.scrollTo(0, { immediate: true });
+          } else {
+            window.scrollTo(0, 0);
+          }
         }
       }, 120);
+      return () => clearTimeout(timer);
+    } else {
+      const timer = setTimeout(() => {
+        if (window.lenis) {
+          window.lenis.scrollTo(0, { immediate: true });
+        } else {
+          window.scrollTo(0, 0);
+        }
+      }, 50);
       return () => clearTimeout(timer);
     }
   }, [pathname, hash]);

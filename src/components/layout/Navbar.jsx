@@ -46,26 +46,67 @@ export const Navbar = ({ isDarkPage = false }) => {
   const handleSelectProduct = (productId) => {
     setProductsDropdownOpen(false);
     setMobileMenuOpen(false);
-    navigate(`/products/${productId}`);
+    const targetPath = `/products/${productId}`;
+    if (location.pathname === targetPath) {
+      if (window.lenis) {
+        window.lenis.scrollTo(0, { duration: 0.8 });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    } else {
+      navigate(targetPath);
+      if (window.lenis) {
+        window.lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo(0, 0);
+      }
+    }
   };
 
   const handleLinkClick = (to) => {
     setMobileMenuOpen(false);
     setProductsDropdownOpen(false);
+
     if (to.startsWith("/#")) {
-      const hash = to.replace("/", "");
+      const targetHash = to.replace("/", "");
+      const targetId = targetHash.replace("#", "");
+
       if (location.pathname !== "/") {
-        navigate("/" + hash);
+        navigate("/" + targetHash);
       } else {
-        const id = hash.replace("#", "");
-        const el = document.getElementById(id);
+        if (location.hash !== targetHash) {
+          navigate("/" + targetHash);
+        }
+        const el = document.getElementById(targetId);
         if (el) {
-          if (window.lenis) window.lenis.scrollTo(el, { offset: -60, duration: 0.8 });
-          else el.scrollIntoView({ behavior: "smooth" });
+          if (window.lenis) {
+            window.lenis.scrollTo(el, { offset: -60, duration: 0.8 });
+          } else {
+            el.scrollIntoView({ behavior: "smooth" });
+          }
+        } else {
+          if (window.lenis) {
+            window.lenis.scrollTo(0, { duration: 0.8 });
+          } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
         }
       }
     } else {
-      navigate(to);
+      if (location.pathname === to && (!location.hash || location.hash === "")) {
+        if (window.lenis) {
+          window.lenis.scrollTo(0, { duration: 0.8 });
+        } else {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      } else {
+        navigate(to);
+        if (window.lenis) {
+          window.lenis.scrollTo(0, { immediate: true });
+        } else {
+          window.scrollTo(0, 0);
+        }
+      }
     }
   };
 
@@ -88,6 +129,10 @@ export const Navbar = ({ isDarkPage = false }) => {
           {/* Logo Mark */}
           <Link
             to="/"
+            onClick={(e) => {
+              e.preventDefault();
+              handleLinkClick("/");
+            }}
             data-testid="nav-logo"
             className={`font-outfit text-lg sm:text-xl md:text-2xl font-semibold tracking-tight flex items-center gap-2 sm:gap-2.5 shrink-0 ${
               isDarkPage ? "text-white" : "text-ink"
