@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { Globe, Smartphone, Cpu, Layers } from "lucide-react";
 
-import cardBg1 from "../../../assets/card-bgs/card-bg-1.png";
+import cardBg1 from "../../../assets/card-bgs/card-bg-1.jpg";
 import cardBg2 from "../../../assets/card-bgs/card-bg-2.jpg";
 import cardBg3 from "../../../assets/card-bgs/card-bg-3.jpg";
-import cardBg4 from "../../../assets/card-bgs/card-bg-4.png";
+import cardBg4 from "../../../assets/card-bgs/card-bg-4.jpg";
 
 const SERVICES = [
   {
@@ -112,6 +112,7 @@ export const WhatWeDo = () => {
               <img
                 src={s.bg}
                 alt={s.title}
+                loading="lazy"
                 className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 group-hover:scale-105"
               />
 

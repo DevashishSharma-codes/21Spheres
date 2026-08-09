@@ -30,11 +30,8 @@ const STATS = [
 
 const OWNER_PHOTO = "/om-bawal-photo.jpg";
 
-const LEFT_CARD_BG =
-  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=85";
-
-const RIGHT_CARD_BG =
-  "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=85";
+const LEFT_CARD_BG = "/card-bg-left.jpg";
+const RIGHT_CARD_BG = "/card-bg-right.jpg";
 
 export const About = () => {
   const [isHovered, setIsHovered] = useState(false);

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
 
-const MOUNTAIN_IMG =
-  "https://static.prod-images.emergentagent.com/jobs/aaff03bd-13eb-4784-a3f9-c2ad7e7acf3a/images/7c1aafe5306058007c7c92a2a22e1fb606d2e6c48cbf50c3a393af8c07c0079a.jpeg";
+const MOUNTAIN_IMG = "/hero-bg.jpg";
 
 const WAVE_BAR_COUNT = 32;
 
@@ -59,14 +59,14 @@ const STATUS_STEPS = [
   },
 ];
 
-/* CSS-only waveform bar animation styles injected once */
-const waveformStyleId = "waveform-css-anim";
+/* CSS-only waveform bar styles */
+const marqueeStyleId = "wispr-waveform-css-anim";
 function ensureWaveformStyles() {
   if (typeof document === "undefined") return;
-  if (document.getElementById(waveformStyleId)) return;
+  if (document.getElementById(marqueeStyleId)) return;
   const style = document.createElement("style");
-  style.id = waveformStyleId;
-  // Generate 8 unique keyframe variants for visual diversity
+  style.id = marqueeStyleId;
+  
   let css = "";
   for (let i = 0; i < 8; i++) {
     const h1 = 20 + (i % 3) * 8;
@@ -81,29 +81,33 @@ function ensureWaveformStyles() {
   }
   css += `
 @keyframes waveSlide {
-  from { transform: translateX(-50%); }
-  to { transform: translateX(0%); }
-}`;
+  from { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(0%, 0, 0); }
+}
+.marquee-paused {
+  animation-play-state: paused !important;
+}
+`;
   style.textContent = css;
   document.head.appendChild(style);
 }
 
-function AudioStatusText() {
+function AudioStatusText({ isVisible }) {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
+    if (!isVisible) return;
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % STATUS_STEPS.length);
     }, 2500);
     return () => clearInterval(timer);
-  }, []);
+  }, [isVisible]);
 
   const current = STATUS_STEPS[index];
 
   return (
     <div className="absolute -top-9 sm:-top-11 md:-top-14 inset-x-0 mx-auto flex items-center justify-center z-40 pointer-events-none w-max">
       <AnimatePresence mode="wait">
-        {/* Single motion.div fade transition — no per-character blur filters */}
         <motion.div
           key={index}
           initial={{ opacity: 0, y: 10 }}
@@ -120,26 +124,27 @@ function AudioStatusText() {
   );
 }
 
-function WaveformMarquee() {
+function WaveformMarquee({ isVisible }) {
   useEffect(() => {
     ensureWaveformStyles();
   }, []);
 
   const bars = Array.from({ length: WAVE_BAR_COUNT }, (_, i) => i);
+  const pausedClass = isVisible ? "" : " marquee-paused";
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      {/* CSS-only sliding + CSS-only bar height animations — zero Framer Motion overhead */}
       <div
-        className="flex h-full w-max items-center gap-1 sm:gap-1.5 px-2 sm:px-3"
+        className={`flex h-full w-max items-center gap-1 sm:gap-1.5 px-2 sm:px-3${pausedClass}`}
         style={{
           animation: "waveSlide 4s linear infinite",
+          willChange: "transform",
         }}
       >
         {[...bars, ...bars].map((barIndex, key) => (
           <span
             key={key}
-            className="block w-1 sm:w-1.5 shrink-0 rounded-full bg-ink"
+            className={`block w-1 sm:w-1.5 shrink-0 rounded-full bg-ink${pausedClass}`}
             style={{
               animation: `waveBar${barIndex % 8} ${0.35 + (barIndex % 4) * 0.1}s linear infinite alternate`,
               animationDelay: `${barIndex * 0.05}s`,
@@ -155,16 +160,14 @@ function WaveformMarquee() {
 function Content() {
   return (
     <div className="relative z-10 flex w-full max-w-4xl flex-col items-center pt-4 sm:pt-8 md:pt-12 pb-16 sm:pb-24 md:pb-32 text-center select-none">
-      {/* Halftone Hands Graphic Asset Container */}
       <div className="relative w-full max-w-[620px] h-[260px] sm:h-[360px] md:h-[440px] flex items-center justify-center p-2 sm:p-4 mx-auto">
-        {/* Black & White Halftone Hands PNG Background Asset */}
         <img
           src="/halftone-hands.png"
           alt="Halftone hands graphic asset"
+          loading="lazy"
           className="absolute inset-0 h-full w-full object-contain grayscale brightness-90 contrast-125 pointer-events-none z-0 opacity-95 scale-100 sm:scale-105"
         />
 
-        {/* Continuous Looping Curve SVG Line */}
         <svg
           viewBox="0 0 540 420"
           className="absolute inset-0 h-full w-full pointer-events-none z-10 overflow-visible max-h-full mx-auto"
@@ -179,7 +182,6 @@ function Content() {
           <circle cx="525" cy="190" r="5" fill="#17130f" />
         </svg>
 
-        {/* Centered Journey Headline inside the loop */}
         <div className="relative z-20 text-center max-w-[260px] sm:max-w-xs md:max-w-md px-2 sm:px-4">
           <h2 className="font-outfit text-xl sm:text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-ink leading-[1.08]">
             Let's take <br />
@@ -192,7 +194,46 @@ function Content() {
   );
 }
 
-function MobileSVGAnimation() {
+function MobileSVGAnimation({ isVisible }) {
+  const text1Ref = useRef(null);
+  const text2Ref = useRef(null);
+  const tlRef = useRef(null);
+
+  useEffect(() => {
+    if (!text1Ref.current || !text2Ref.current) return;
+
+    const tl = gsap.timeline({ repeat: -1 });
+    tl.fromTo(
+      text1Ref.current,
+      { attr: { x: -1200 } },
+      { attr: { x: 0 }, duration: 20, ease: "none" },
+      0
+    );
+    tl.fromTo(
+      text2Ref.current,
+      { attr: { x: -1200 } },
+      { attr: { x: 0 }, duration: 20, ease: "none" },
+      0
+    );
+
+    tlRef.current = tl;
+    if (!isVisible) tl.pause();
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (tlRef.current) {
+      if (isVisible) {
+        tlRef.current.play();
+      } else {
+        tlRef.current.pause();
+      }
+    }
+  }, [isVisible]);
+
   return (
     <div
       aria-hidden
@@ -205,57 +246,78 @@ function MobileSVGAnimation() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Top Mobile Framing Arc */}
         <path
           id="mobile-first-curve"
           className="fill-transparent stroke-transparent"
           d="M -40 160 C 90 90, 290 90, 420 160"
         />
-        <text x="0" className="text-[11px]">
+        <text ref={text1Ref} x="-1200" className="text-[11px]">
           <textPath
-            id="mobile-marquee-text-first"
             href="#mobile-first-curve"
             className="fill-ink font-normal opacity-50"
           >
             {LEFT_TEXT}
           </textPath>
-          <animate
-            id="mobile-marquee-anim-first"
-            attributeName="x"
-            dur="20s"
-            values="-1200;0"
-            repeatCount="indefinite"
-          />
         </text>
 
-        {/* Lower Mobile Framing Arc */}
         <path
           id="mobile-second-curve"
           className="fill-transparent stroke-transparent"
           d="M -40 470 C 90 435, 290 435, 420 470"
         />
-        <text x="-1200" className="text-[11px]">
+        <text ref={text2Ref} x="-1200" className="text-[11px]">
           <textPath
-            id="mobile-marquee-text-second"
             href="#mobile-second-curve"
             className="fill-ink/75 font-semibold"
           >
             {RIGHT_TEXT}
           </textPath>
-          <animate
-            id="mobile-marquee-anim-second"
-            attributeName="x"
-            dur="20s"
-            values="-1200;0"
-            repeatCount="indefinite"
-          />
         </text>
       </svg>
     </div>
   );
 }
 
-function SVGAnimation() {
+function SVGAnimation({ isVisible }) {
+  const text1Ref = useRef(null);
+  const text2Ref = useRef(null);
+  const tlRef = useRef(null);
+
+  useEffect(() => {
+    if (!text1Ref.current || !text2Ref.current) return;
+
+    const tl = gsap.timeline({ repeat: -1 });
+    tl.fromTo(
+      text1Ref.current,
+      { attr: { x: -2000 } },
+      { attr: { x: 0 }, duration: 25, ease: "none" },
+      0
+    );
+    tl.fromTo(
+      text2Ref.current,
+      { attr: { x: -2000 } },
+      { attr: { x: 0 }, duration: 25, ease: "none" },
+      0
+    );
+
+    tlRef.current = tl;
+    if (!isVisible) tl.pause();
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (tlRef.current) {
+      if (isVisible) {
+        tlRef.current.play();
+      } else {
+        tlRef.current.pause();
+      }
+    }
+  }, [isVisible]);
+
   return (
     <div
       aria-hidden
@@ -274,21 +336,13 @@ function SVGAnimation() {
             className="fill-transparent stroke-transparent"
             d="M0.597656 50.924805C17.4612 143.2965 97.8522 293.141 284.508 353.548C440.828 399.056 583.839 294.067 500.618 184.7492C417.397 75.4309 238.217 282.098 499.258 441.668C551.913 477.802 817.468 561.26 1046.43 565.235"
           />
-          <text x="0" className="text-[15px]">
+          <text ref={text1Ref} x="-2000" className="text-[15px]">
             <textPath
-              id="marquee-text-first"
               href="#first-curve"
               className="fill-ink font-normal opacity-40 [baseline-shift:-20%]"
             >
               {LEFT_TEXT}
             </textPath>
-            <animate
-              id="marquee-anim-first"
-              attributeName="x"
-              dur="25s"
-              values="-2000;0"
-              repeatCount="indefinite"
-            />
           </text>
         </svg>
       </div>
@@ -305,21 +359,13 @@ function SVGAnimation() {
             className="stroke-ink stroke-[30]"
             d="M2.04309 563.872C111.592 558.268 316.491 554.016 517.963 490.064C703.017 431.323 875.319 444.531 1021.88 453.216"
           />
-          <text x="-2000" className="text-[15px]">
+          <text ref={text2Ref} x="-2000" className="text-[15px]">
             <textPath
-              id="marquee-text-second"
               href="#second-curve"
               className="fill-paper font-semibold [baseline-shift:-30%]"
             >
               {RIGHT_TEXT}
             </textPath>
-            <animate
-              id="marquee-anim-second"
-              attributeName="x"
-              dur="25s"
-              values="-2000;0"
-              repeatCount="indefinite"
-            />
           </text>
         </svg>
       </div>
@@ -328,28 +374,33 @@ function SVGAnimation() {
 }
 
 export function WisprFlowMarquee() {
-  useEffect(() => {
-    const id = "baskervville-font";
+  const sectionRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-    if (document.getElementById(id)) {
-      return;
+  useEffect(() => {
+    ensureWaveformStyles();
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { rootMargin: "150px 0px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
 
-    const link = document.createElement("link");
-    link.id = id;
-    link.rel = "stylesheet";
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap";
-    document.head.appendChild(link);
+    return () => observer.disconnect();
   }, []);
 
   return (
     <section
+      ref={sectionRef}
       id="what-we-do"
       data-testid="wispr-flow-marquee-section"
       className="relative flex min-h-screen h-[100dvh] w-full max-w-full items-center justify-center overflow-x-hidden overflow-y-hidden bg-[#fdfbf9] border-t border-ink/10 select-none px-4 sm:px-6 py-8 sm:py-12"
     >
-      {/* Black & White Cloud Mountains Background Image with Less Opacity */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
         <img
           src={MOUNTAIN_IMG}
@@ -361,21 +412,18 @@ export function WisprFlowMarquee() {
 
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_45%,rgba(253,251,249,0.85),transparent_75%)] pointer-events-none z-0" />
 
-      {/* Portrait Mobile SVG Animation (<640px) */}
-      <MobileSVGAnimation />
+      <MobileSVGAnimation isVisible={isVisible} />
 
-      {/* Main Content (Headline & Halftone Hands) */}
       <Content />
 
-      {/* Wispr Flow Bottom Waveform & SVG Animation Container */}
       <div className="absolute bottom-6 sm:bottom-12 md:bottom-20 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-2 sm:gap-3">
         <div className="relative w-[220px] sm:w-[280px] md:w-84 overflow-visible">
-          <AudioStatusText />
+          <AudioStatusText isVisible={isVisible} />
           <div className="hidden sm:block">
-            <SVGAnimation />
+            <SVGAnimation isVisible={isVisible} />
           </div>
           <div className="relative z-10 flex h-14 sm:h-16 md:h-20 w-full items-center overflow-hidden rounded-full border-2 border-ink bg-white/90 backdrop-blur-md shadow-xl">
-            <WaveformMarquee />
+            <WaveformMarquee isVisible={isVisible} />
           </div>
         </div>
       </div>
@@ -384,4 +432,5 @@ export function WisprFlowMarquee() {
 }
 
 export default WisprFlowMarquee;
+
 

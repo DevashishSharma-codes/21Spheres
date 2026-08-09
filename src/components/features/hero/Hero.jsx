@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { HeroLineAnimation } from "./HeroLineAnimation";
 
-const HERO_IMG =
-  "https://static.prod-images.emergentagent.com/jobs/aaff03bd-13eb-4784-a3f9-c2ad7e7acf3a/images/7c1aafe5306058007c7c92a2a22e1fb606d2e6c48cbf50c3a393af8c07c0079a.jpeg";
+const HERO_IMG = "/hero-bg.jpg";
 
 const LINES = ["Engineering Digital", "Experiences", "That Scale"];
 
@@ -36,6 +35,9 @@ export const Hero = () => {
         <img
           src={HERO_IMG}
           alt="Surreal mountains rising above a sea of pastel clouds"
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
           className="h-full w-full object-cover opacity-85"
         />
       </motion.div>

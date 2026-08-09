@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { createPortal } from "react-dom";
 import { useParams, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -11,18 +11,16 @@ import {
 } from "lucide-react";
 import { PRODUCTS } from "../data/products";
 import { Navbar } from "../components/layout/Navbar";
-import { Footer } from "../components/layout/Footer";
 import { LogoMark } from "../components/common/LogoMark";
 import { Grain } from "../components/common/Grain";
 import warmCoralBg from "../assets/card-bgs/featured-testimonial-bg.jpg";
 
+const Footer = lazy(() => import("../components/layout/Footer"));
+
 const OWNER_PHOTO = "/om-bawal-photo.jpg";
 
-const LEFT_CARD_BG =
-  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=85";
-
-const RIGHT_CARD_BG =
-  "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=85";
+const LEFT_CARD_BG = "/card-bg-left.jpg";
+const RIGHT_CARD_BG = "/card-bg-right.jpg";
 
 export function ProductDetailPage() {
   const { productId } = useParams();
@@ -478,7 +476,9 @@ export function ProductDetailPage() {
         </section>
       </main>
 
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
 
       {/* ---------------------------------------------------------
           REACT PORTAL 3-CARD FAN POPUP MODAL ON CEO PFP HOVER

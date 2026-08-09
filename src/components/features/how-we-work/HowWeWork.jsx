@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import howWeWorkStack from "../../../assets/how-we-work/how-we-work-stack-nobg.png";
 
 export const HowWeWork = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   return (
     <section
       id="how-we-work"
@@ -51,7 +52,7 @@ export const HowWeWork = () => {
             </p>
             <div className="pt-1">
               <button
-                onClick={() => navigate("/contact")}
+                onClick={() => navigate("/contact", { state: { backgroundLocation: location } })}
                 className="inline-flex items-center gap-2 rounded-none border border-white/30 bg-white/5 hover:bg-white hover:text-black text-white px-5 py-2 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium tracking-wide transition-all duration-300 shadow-sm cursor-pointer"
               >
                 <span>Start a Project</span>

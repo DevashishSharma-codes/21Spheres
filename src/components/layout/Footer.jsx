@@ -3,8 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { Logo3DCanvas } from "./Logo3DCanvas";
 
-const MOUNTAIN_IMG =
-  "https://static.prod-images.emergentagent.com/jobs/aaff03bd-13eb-4784-a3f9-c2ad7e7acf3a/images/7c1aafe5306058007c7c92a2a22e1fb606d2e6c48cbf50c3a393af8c07c0079a.jpeg";
+const MOUNTAIN_IMG = "/hero-bg.jpg";
 
 const PRODUCT_LINKS = [
   { name: "Bimakart Connect", id: "bimakart-connect" },
