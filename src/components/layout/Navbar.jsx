@@ -202,13 +202,13 @@ export const Navbar = ({ isDarkPage = false }) => {
             <button
               onClick={() => handleLinkClick("/#booking")}
               data-testid="nav-cta-booking"
-              className={`hidden md:inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 lg:px-4 lg:py-2 font-outfit text-xs font-medium transition-all duration-300 shadow-xs group cursor-pointer ${
+              className={`hidden sm:inline-flex items-center justify-center gap-1.5 rounded-full border px-4 py-2 lg:px-5 lg:py-2.5 font-outfit text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-[1.03] shadow-xs group cursor-pointer ${
                 isDarkPage
                   ? "border-white/20 bg-white/10 text-white hover:bg-white hover:text-black"
                   : "border-ink/20 bg-white/40 backdrop-blur-md text-ink hover:bg-ink hover:text-paper"
               }`}
             >
-              <Calendar className="h-3.5 w-3.5" />
+              <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span>Book a Session</span>
             </button>
 
@@ -216,7 +216,7 @@ export const Navbar = ({ isDarkPage = false }) => {
             <button
               onClick={() => navigate("/contact", { state: { backgroundLocation: location } })}
               data-testid="nav-cta-start"
-              className={`hidden sm:inline-flex group relative overflow-hidden rounded-full px-3.5 py-1.5 lg:px-5 lg:py-2.5 font-outfit text-xs sm:text-sm font-medium transition-transform duration-300 hover:scale-[1.03] shadow-xs cursor-pointer ${
+              className={`hidden sm:inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 lg:px-5 lg:py-2.5 font-outfit text-xs sm:text-sm font-medium transition-all duration-300 hover:scale-[1.03] shadow-xs cursor-pointer ${
                 isDarkPage ? "bg-white text-black hover:bg-white/90" : "bg-ink text-paper"
               }`}
             >
@@ -308,7 +308,11 @@ export const Navbar = ({ isDarkPage = false }) => {
             <div className="pt-5 border-t border-current/10 flex flex-col space-y-3 mt-6">
               <button
                 onClick={() => handleLinkClick("/#booking")}
-                className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-current/20 bg-white/10 py-3 font-outfit text-sm font-semibold shadow-xs cursor-pointer"
+                className={`w-full inline-flex items-center justify-center gap-2 rounded-full border py-3 font-outfit text-sm font-semibold shadow-xs cursor-pointer ${
+                  isDarkPage
+                    ? "border-white/20 bg-white/10 text-white"
+                    : "border-ink/20 bg-white/40 text-ink"
+                }`}
               >
                 <Calendar className="h-4 w-4" />
                 <span>Book a Session</span>
@@ -319,11 +323,11 @@ export const Navbar = ({ isDarkPage = false }) => {
                   setMobileMenuOpen(false);
                   navigate("/contact", { state: { backgroundLocation: location } });
                 }}
-                className={`w-full text-center rounded-full py-3.5 font-outfit text-sm font-semibold shadow-md cursor-pointer ${
+                className={`w-full inline-flex items-center justify-center gap-2 rounded-full py-3 font-outfit text-sm font-semibold shadow-md cursor-pointer ${
                   isDarkPage ? "bg-white text-black" : "bg-ink text-paper"
                 }`}
               >
-                Start a Project
+                <span>Start a Project</span>
               </button>
               <p className="text-center font-mono text-xs opacity-40 pt-1">
                 hello@21spheres.studio
