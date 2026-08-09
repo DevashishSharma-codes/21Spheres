@@ -1,7 +1,9 @@
 import { useState, useMemo, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Clock, ArrowRight } from "lucide-react";
-import { LogoMark } from "./LogoMark";
+import { ChevronLeft, ChevronRight, Clock, ArrowRight, Calendar as CalendarIcon } from "lucide-react";
+import { LogoMark } from "../../common/LogoMark";
+import { GoogleCalendarModal } from "./GoogleCalendarBooking";
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
@@ -58,6 +60,7 @@ export const BookingSection = () => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("02:00 PM");
   const [activeStepIndex, setActiveStepIndex] = useState(2); // Step index 2 = 100 commits (Valley default)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isGCalOpen, setIsGCalOpen] = useState(false);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
@@ -123,15 +126,10 @@ export const BookingSection = () => {
     setSelectedDay(1);
   };
 
+  const navigate = useNavigate();
+
   const handleBookingClick = () => {
-    window.dispatchEvent(
-      new CustomEvent("open-contact-modal", {
-        detail: {
-          date: `${MONTH_NAMES[month]} ${selectedDay}, ${year}`,
-          time: selectedTimeSlot,
-        },
-      })
-    );
+    setIsGCalOpen(true);
   };
 
   return (
@@ -144,6 +142,12 @@ export const BookingSection = () => {
         backgroundSize: "24px 24px",
       }}
     >
+      {/* Google Calendar Appointment Scheduling Modal */}
+      <GoogleCalendarModal
+        isOpen={isGCalOpen}
+        onClose={() => setIsGCalOpen(false)}
+      />
+
       <div className="max-w-[1480px] mx-auto px-3 sm:px-6 md:px-10 w-full flex flex-col justify-center h-full max-h-full">
         
         {/* Sharp White Rectangular Header Box Tight Wrapper */}
@@ -235,7 +239,7 @@ export const BookingSection = () => {
                 </div>
               </div>
 
-              {/* CTA Button matching screenshot */}
+              {/* CTA Button */}
               <button
                 onClick={handleBookingClick}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-none bg-white hover:bg-white/90 text-black px-4 sm:px-5 py-2 sm:py-2.5 font-outfit text-xs sm:text-sm font-semibold tracking-wide transition-all duration-300 shadow-md cursor-pointer mb-3 sm:mb-4"
@@ -373,7 +377,10 @@ export const BookingSection = () => {
                   {TIME_SLOTS.map((slot) => (
                     <button
                       key={slot}
-                      onClick={() => setSelectedTimeSlot(slot)}
+                      onClick={() => {
+                        setSelectedTimeSlot(slot);
+                        setIsGCalOpen(true);
+                      }}
                       className={`px-2 sm:px-2.5 py-0.5 sm:py-1 font-outfit text-[9.5px] sm:text-[10.5px] rounded-md border transition-all cursor-pointer ${
                         selectedTimeSlot === slot
                           ? "bg-black text-white border-black font-medium shadow-xs"
@@ -399,7 +406,7 @@ export const BookingSection = () => {
                 onClick={handleBookingClick}
                 className="w-full sm:w-auto bg-black hover:bg-black/85 text-white font-outfit text-xs font-semibold px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-200 cursor-pointer shadow-md flex items-center justify-center gap-1.5"
               >
-                <span>Confirm Time</span>
+                <span>Confirm Time & Book</span>
                 <ArrowRight size={13} />
               </button>
             </div>

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { LogoMark } from "./LogoMark";
+import { LogoMark } from "../../common/LogoMark";
 
 const CHAPTERS = [
   {

@@ -1,6 +1,6 @@
 import React from "react";
 import { Mail, Waves, PackageOpen } from "lucide-react";
-import { LogoMark } from "./LogoMark";
+import { LogoMark } from "../common/LogoMark";
 
 /**
  * MetricsComparison (MessagesSection)

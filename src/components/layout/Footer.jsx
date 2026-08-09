@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { Logo3DCanvas } from "./Logo3DCanvas";
@@ -7,34 +8,21 @@ const MOUNTAIN_IMG =
   "https://static.prod-images.emergentagent.com/jobs/aaff03bd-13eb-4784-a3f9-c2ad7e7acf3a/images/7c1aafe5306058007c7c92a2a22e1fb606d2e6c48cbf50c3a393af8c07c0079a.jpeg";
 
 const PRODUCT_LINKS = [
-  "Bimakart Connect",
-  "Bimakart Center",
-  "Bimakart Suite",
-  "Policy OCR & Fraud AI",
-  "Quotation Bot",
-  "Enspire ChatBot",
-  "WTMF Wellness Bot",
-  "HahnnemenAI",
-  "The Repertory",
-  "Futureogy",
-  "Wealth Wisdom",
-  "Aadhar & PAN OCR",
-];
-
-const DEV_LINKS = [
-  "Sample Apps",
-  "Developer Hub",
-  "API Docs & SDKs",
-  "System Status",
-  "Enterprise Security",
+  { name: "Bimakart Connect", id: "bimakart-connect" },
+  { name: "Bimakart Center", id: "bimakart-center" },
+  { name: "Bimakart Suite", id: "bimakart-suite" },
+  { name: "Policy OCR & Fraud AI", id: "policy-ocr-fraud" },
+  { name: "Quotation Bot", id: "quotation-bot" },
+  { name: "Enspire ChatBot", id: "enspire-whatsapp-bot" },
+  { name: "Kashiv AI RAG", id: "kashiv-rag" },
+  { name: "Wealth Wisdom AI", id: "wealthwisdom-ai" },
 ];
 
 const COMPANY_LINKS = [
-  "Capabilities",
-  "High Scale Platforms",
-  "Native Apps",
-  "About Studio",
-  "Careers & Hiring",
+  { name: "Capabilities", to: "/#what-we-do" },
+  { name: "How We Work", to: "/how-we-work" },
+  { name: "High Scale Platforms", to: "/#products" },
+  { name: "About Studio", to: "/#about" },
 ];
 
 const SOCIAL_LINKS = [
@@ -47,11 +35,21 @@ const SOCIAL_LINKS = [
 export const Footer = () => {
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const navigate = useNavigate();
 
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     if (newsletterEmail) {
       setIsSubscribed(true);
+    }
+  };
+
+  const handleLinkClick = (to) => {
+    if (to.startsWith("/#")) {
+      const hash = to.replace("/", "");
+      navigate("/" + hash);
+    } else {
+      navigate(to);
     }
   };
 
@@ -86,7 +84,7 @@ export const Footer = () => {
               // HAVE AN IDEA?
             </span>
             <button
-              onClick={() => window.dispatchEvent(new CustomEvent("open-contact-modal"))}
+              onClick={() => navigate("/contact")}
               className="group inline-flex items-center gap-2.5 sm:gap-3 text-2xl sm:text-4xl md:text-5xl font-outfit font-light uppercase text-ink tracking-tight hover:opacity-75 transition-opacity cursor-pointer text-left"
             >
               <span>START A PROJECT</span>
@@ -126,13 +124,16 @@ export const Footer = () => {
           {/* Column 2: Product & Developers */}
           <div className="space-y-4">
             <div>
-              <h4 className="font-outfit font-semibold text-ink mb-3 uppercase tracking-wider text-xs">Product</h4>
+              <h4 className="font-outfit font-semibold text-ink mb-3 uppercase tracking-wider text-xs">Products</h4>
               <ul className="space-y-2 text-ink/75 font-light">
-                {PRODUCT_LINKS.map((link) => (
-                  <li key={link}>
-                    <a href="#products" className="hover:text-black transition-colors">
-                      {link}
-                    </a>
+                {PRODUCT_LINKS.map((item) => (
+                  <li key={item.id}>
+                    <button
+                      onClick={() => navigate(`/products/${item.id}`)}
+                      className="hover:text-black transition-colors text-left cursor-pointer"
+                    >
+                      {item.name}
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -145,10 +146,13 @@ export const Footer = () => {
               <h4 className="font-outfit font-semibold text-ink mb-3 uppercase tracking-wider text-xs">Solutions</h4>
               <ul className="space-y-2 text-ink/75 font-light">
                 {COMPANY_LINKS.map((link) => (
-                  <li key={link}>
-                    <a href="#top" className="hover:text-black transition-colors">
-                      {link}
-                    </a>
+                  <li key={link.name}>
+                    <button
+                      onClick={() => handleLinkClick(link.to)}
+                      className="hover:text-black transition-colors text-left cursor-pointer"
+                    >
+                      {link.name}
+                    </button>
                   </li>
                 ))}
               </ul>

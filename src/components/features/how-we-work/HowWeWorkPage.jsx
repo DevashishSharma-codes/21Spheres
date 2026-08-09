@@ -1,14 +1,17 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { Search, Layers, Send, Sparkles, Cpu, ShieldCheck, ArrowRight } from "lucide-react";
-import howWeWorkStack from "../assets/how-we-work/how-we-work-stack-nobg.png";
-import { Navbar } from "../Navbar";
-import { Footer } from "./Footer";
+import howWeWorkStack from "../../../assets/how-we-work/how-we-work-stack-nobg.png";
+import { Navbar } from "../../layout/Navbar";
+import { Footer } from "../../layout/Footer";
 
-export const HowWeWorkPage = ({ onNavigate }) => {
+export const HowWeWorkPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-black text-white font-sans relative selection:bg-[#C2612B] selection:text-white overflow-x-hidden">
       {/* Navbar for How We Work Page */}
-      <Navbar currentPage="how-we-work" onNavigate={onNavigate} />
+      <Navbar isDarkPage={true} />
 
       {/* Main Content Area */}
       <main className="relative z-10 pt-28 sm:pt-36 pb-20 sm:pb-32 select-none">
@@ -17,8 +20,8 @@ export const HowWeWorkPage = ({ onNavigate }) => {
           {/* Top CTA Button Header matching reference screenshot */}
           <div className="flex justify-end mb-8 sm:mb-12">
             <button
-              onClick={() => onNavigate && onNavigate("home", "#contact")}
-              className="inline-flex items-center gap-2 rounded-none border border-white/25 bg-white/5 hover:bg-white hover:text-black text-white px-5 py-2.5 font-outfit text-xs sm:text-sm font-medium tracking-wide transition-all duration-300 shadow-sm"
+              onClick={() => navigate("/contact")}
+              className="inline-flex items-center gap-2 rounded-none border border-white/25 bg-white/5 hover:bg-white hover:text-black text-white px-5 py-2.5 font-outfit text-xs sm:text-sm font-medium tracking-wide transition-all duration-300 shadow-sm cursor-pointer"
             >
               <span>Launch for free</span>
               <ArrowRight size={14} />
@@ -133,7 +136,7 @@ export const HowWeWorkPage = ({ onNavigate }) => {
       </main>
 
       {/* Footer for How We Work Page */}
-      <Footer onNavigate={onNavigate} />
+      <Footer />
     </div>
   );
 };

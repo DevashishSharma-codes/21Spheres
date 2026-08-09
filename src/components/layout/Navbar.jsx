@@ -1,0 +1,194 @@
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Menu, X, ArrowUpRight } from "lucide-react";
+import { LogoMark } from "../common/LogoMark";
+
+const LINKS = [
+  { label: "What We Do", to: "/#what-we-do" },
+  { label: "Products", to: "/#products" },
+  { label: "How We Work", to: "/how-we-work" },
+  { label: "About", to: "/#about" },
+  { label: "Testimonials", to: "/#testimonials" },
+];
+
+export const Navbar = ({ isDarkPage = false }) => {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const handleLinkClick = (to) => {
+    setMobileMenuOpen(false);
+    if (to.startsWith("/#")) {
+      const hash = to.replace("/", "");
+      if (location.pathname !== "/") {
+        navigate("/" + hash);
+      } else {
+        const id = hash.replace("#", "");
+        const el = document.getElementById(id);
+        if (el) {
+          if (window.lenis) window.lenis.scrollTo(el, { offset: -60, duration: 0.8 });
+          else el.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    } else {
+      navigate(to);
+    }
+  };
+
+  return (
+    <>
+      <motion.header
+        data-testid="navbar"
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+        className={`fixed top-0 left-0 z-[150] w-full transition-[background-color,backdrop-filter,border-color,padding] duration-500 ${
+          scrolled
+            ? isDarkPage
+              ? "bg-black/80 backdrop-blur-2xl border-b border-white/10 py-3.5"
+              : "bg-white/70 backdrop-blur-2xl border-b border-white/50 py-3.5"
+            : "bg-transparent border-b border-transparent py-5 sm:py-6"
+        }`}
+      >
+        <nav className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 flex items-center justify-between">
+          <Link
+            to="/"
+            data-testid="nav-logo"
+            className={`font-outfit text-xl md:text-2xl font-semibold tracking-tight flex items-center gap-2.5 ${
+              isDarkPage ? "text-white" : "text-ink"
+            }`}
+          >
+            <LogoMark size={22} className={isDarkPage ? "text-white" : "text-ink"} />
+            <span>21Spheres</span>
+          </Link>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-7 lg:gap-9">
+            {LINKS.map((l) => (
+              <button
+                key={l.label}
+                onClick={() => handleLinkClick(l.to)}
+                data-testid={`nav-link-${l.label.toLowerCase().replace(/\s+/g, "-")}`}
+                className={`group relative font-outfit text-sm transition-colors duration-300 cursor-pointer ${
+                  isDarkPage
+                    ? "text-white/75 hover:text-white"
+                    : "text-ink/75 hover:text-ink"
+                }`}
+              >
+                {l.label}
+                <span
+                  className={`absolute -bottom-1 left-0 h-px w-0 transition-[width] duration-300 group-hover:w-full ${
+                    isDarkPage ? "bg-white" : "bg-ink"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
+
+          {/* Desktop Dual CTA Buttons & Mobile Menu Toggle Button */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              onClick={() => handleLinkClick("/#products")}
+              data-testid="nav-cta-products"
+              className={`hidden sm:inline-flex items-center gap-1.5 rounded-full border px-4 py-2 sm:px-5 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium transition-all duration-300 shadow-xs group cursor-pointer ${
+                isDarkPage
+                  ? "border-white/20 bg-white/10 text-white hover:bg-white hover:text-black"
+                  : "border-ink/20 bg-white/40 backdrop-blur-md text-ink hover:bg-ink hover:text-paper"
+              }`}
+            >
+              <span>See Products</span>
+              <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </button>
+
+            <button
+              onClick={() => navigate("/contact")}
+              data-testid="nav-cta-start"
+              className={`hidden sm:inline-flex group relative overflow-hidden rounded-full px-4 py-2 sm:px-5 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium transition-transform duration-300 hover:scale-[1.03] shadow-xs cursor-pointer ${
+                isDarkPage ? "bg-white text-black hover:bg-white/90" : "bg-ink text-paper"
+              }`}
+            >
+              <span className="relative z-10">Start a Project</span>
+            </button>
+
+            {/* Mobile Hamburger Toggle Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className={`flex md:hidden h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-colors active:scale-95 ${
+                isDarkPage
+                  ? "border-white/20 bg-white/10 text-white"
+                  : "border-ink/15 bg-white/60 text-ink"
+              }`}
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+        </nav>
+      </motion.header>
+
+      {/* Mobile Full-Screen Navigation Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className={`fixed inset-0 z-[140] flex flex-col justify-between backdrop-blur-3xl pt-28 pb-12 px-6 md:hidden ${
+              isDarkPage ? "bg-black/95 text-white" : "bg-paper/95 text-ink"
+            }`}
+          >
+            <div className="flex flex-col space-y-6">
+              <div className="text-xs uppercase tracking-[0.2em] font-semibold opacity-40 mb-2">
+                / NAVIGATION
+              </div>
+              {LINKS.map((l) => (
+                <button
+                  key={l.label}
+                  onClick={() => handleLinkClick(l.to)}
+                  className="font-outfit text-3xl font-medium tracking-tight text-left hover:text-[#C2612B] transition-colors cursor-pointer"
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="pt-8 border-t border-current/10 flex flex-col space-y-3">
+              <button
+                onClick={() => handleLinkClick("/#products")}
+                className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-current/20 bg-white/10 py-3 font-outfit text-sm font-semibold shadow-xs cursor-pointer"
+              >
+                <span>See Products</span>
+                <ArrowUpRight className="h-4 w-4" />
+              </button>
+
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  navigate("/contact");
+                }}
+                className={`w-full text-center rounded-full py-3.5 font-outfit text-sm font-semibold shadow-md cursor-pointer ${
+                  isDarkPage ? "bg-white text-black" : "bg-ink text-paper"
+                }`}
+              >
+                Start a Project
+              </button>
+              <p className="text-center font-mono text-xs opacity-40 pt-1">
+                hello@21spheres.studio
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};

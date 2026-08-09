@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Folder, ChevronLeft, ChevronRight, Layers } from "lucide-react";
-import { PRODUCTS } from "./products";
+import { PRODUCTS } from "../../data/products";
 
 const FILTERS = [
   { id: "all", label: "All", count: PRODUCTS.length },

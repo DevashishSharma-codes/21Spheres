@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { Search, Calendar, Scan, Send } from "lucide-react";
 
-import cardBg1 from "../assets/card-bgs/card-bg-1.png";
-import cardBg2 from "../assets/card-bgs/card-bg-2.jpg";
-import cardBg3 from "../assets/card-bgs/card-bg-3.jpg";
-import cardBg4 from "../assets/card-bgs/card-bg-4.png";
+import cardBg1 from "../../../assets/card-bgs/card-bg-1.png";
+import cardBg2 from "../../../assets/card-bgs/card-bg-2.jpg";
+import cardBg3 from "../../../assets/card-bgs/card-bg-3.jpg";
+import cardBg4 from "../../../assets/card-bgs/card-bg-4.png";
 
 const SERVICES = [
   {

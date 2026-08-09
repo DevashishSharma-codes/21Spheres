@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { PRODUCTS } from "./products";
+import { PRODUCTS } from "../../../data/products";
 import { ProductModal } from "./ProductModal/ProductModal";
 
 if (typeof window !== "undefined") {
@@ -17,6 +18,9 @@ const CLOUD_BACKDROP_IMAGE =
   "https://static.prod-images.emergentagent.com/jobs/aaff03bd-13eb-4784-a3f9-c2ad7e7acf3a/images/7c1aafe5306058007c7c92a2a22e1fb606d2e6c48cbf50c3a393af8c07c0079a.jpeg";
 
 export function ProductShowcase() {
+  const { productId } = useParams();
+  const navigate = useNavigate();
+
   const [activeIdx, setActiveIdx] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalProduct, setModalProduct] = useState(null);
@@ -26,9 +30,33 @@ export function ProductShowcase() {
   const pinnedCanvasRef = useRef(null);
   const stRef = useRef(null);
 
+  // Synchronize modal state with URL parameter /products/:productId
+  useEffect(() => {
+    if (productId) {
+      const found = PRODUCTS.find((p) => p.id === productId);
+      if (found) {
+        setModalProduct(found);
+        setIsModalOpen(true);
+        const idx = PRODUCTS.findIndex((p) => p.id === productId);
+        if (idx !== -1) setActiveIdx(idx);
+      } else {
+        setIsModalOpen(false);
+        setModalProduct(null);
+      }
+    } else {
+      setIsModalOpen(false);
+      setModalProduct(null);
+    }
+  }, [productId]);
+
   const openProductModal = (prod) => {
-    setModalProduct(prod || activeProduct);
-    setIsModalOpen(true);
+    const target = prod || activeProduct;
+    navigate(`/products/${target.id}`);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    navigate("/");
   };
 
   // GSAP ScrollTrigger Synchronized Pinning (Tablet & Desktop >= 640px)
@@ -44,21 +72,17 @@ export function ProductShowcase() {
         trigger: el,
         pin: canvas,
         start: "top top",
-        // More scroll distance per product (~580px each on a 1080p laptop)
         end: () => `+=${window.innerHeight * 7}`,
         pinSpacing: true,
-        // Higher scrub value = more damping for trackpad inertia
         scrub: 0.8,
         anticipatePin: 1,
         invalidateOnRefresh: true,
-        // Snap to discrete product indices so scroll always lands on one product
         snap: {
           snapTo: 1 / PRODUCTS.length,
           duration: { min: 0.2, max: 0.4 },
           ease: "power1.inOut",
         },
         onUpdate: (self) => {
-          // Equal distribution across all products so each gets equal scroll height
           const rawIdx = Math.round(self.progress * (PRODUCTS.length - 1));
           const clampedIdx = Math.min(PRODUCTS.length - 1, Math.max(0, rawIdx));
           if (clampedIdx !== activeIdxRef.current) {
@@ -120,12 +144,10 @@ export function ProductShowcase() {
       <ProductModal
         isOpen={isModalOpen}
         product={modalProduct || activeProduct}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         allProducts={PRODUCTS}
         onSelectProduct={(p) => {
-          setModalProduct(p);
-          const foundIdx = PRODUCTS.findIndex((item) => item.id === p.id);
-          if (foundIdx !== -1) handleSelectProduct(foundIdx);
+          navigate(`/products/${p.id}`);
         }}
       />
 

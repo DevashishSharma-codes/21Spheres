@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import featuredBg from "../assets/card-bgs/featured-testimonial-bg.jpg";
+import featuredBg from "../../../assets/card-bgs/featured-testimonial-bg.jpg";
 
 // Sharp Boxy Double Quote Mark Icon (matching reference screenshot)
 const BoxyQuoteMark = ({ className = "w-10 h-10 sm:w-14 sm:h-14 md:w-16 md:h-16 text-white mb-6 sm:mb-8 drop-shadow-sm" }) => (
