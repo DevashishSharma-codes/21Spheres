@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -18,7 +18,9 @@ export const ContactModal = ({ isOpen: propIsOpen, onClose: propOnClose, booking
       propOnClose();
     }
     if (isContactRoute) {
-      if (window.history.length > 2) {
+      if (location.state && location.state.backgroundLocation) {
+        navigate(-1);
+      } else if (window.history.length > 2) {
         navigate(-1);
       } else {
         navigate("/");
@@ -35,12 +37,22 @@ export const ContactModal = ({ isOpen: propIsOpen, onClose: propOnClose, booking
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
+  const savedScrollY = useRef(0);
+
   useEffect(() => {
     if (isOpen) {
+      savedScrollY.current = window.scrollY;
       document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-      setIsSubmitted(false);
+      return () => {
+        document.body.style.overflow = "unset";
+        setIsSubmitted(false);
+        const y = savedScrollY.current;
+        if (window.lenis) {
+          window.lenis.scrollTo(y, { immediate: true });
+        } else {
+          window.scrollTo(0, y);
+        }
+      };
     }
   }, [isOpen]);
 

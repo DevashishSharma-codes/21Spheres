@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Search, Calendar, Scan, Send } from "lucide-react";
+import { Globe, Smartphone, Cpu, Layers } from "lucide-react";
 
 import cardBg1 from "../../../assets/card-bgs/card-bg-1.png";
 import cardBg2 from "../../../assets/card-bgs/card-bg-2.jpg";
@@ -16,7 +16,7 @@ const SERVICES = [
       borderColor: "rgba(116, 192, 252, 0.85)",
       boxShadow: "inset 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(116, 192, 252, 0.4)",
     },
-    Icon: Search,
+    Icon: Globe,
   },
   {
     num: "02",
@@ -27,7 +27,7 @@ const SERVICES = [
       borderColor: "rgba(255, 146, 43, 0.85)",
       boxShadow: "inset 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(255, 146, 43, 0.4)",
     },
-    Icon: Calendar,
+    Icon: Smartphone,
   },
   {
     num: "03",
@@ -38,7 +38,7 @@ const SERVICES = [
       borderColor: "rgba(59, 201, 219, 0.85)",
       boxShadow: "inset 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(59, 201, 219, 0.4)",
     },
-    Icon: Scan,
+    Icon: Cpu,
   },
   {
     num: "04",
@@ -49,7 +49,7 @@ const SERVICES = [
       borderColor: "rgba(130, 201, 30, 0.85)",
       boxShadow: "inset 0 0 0 2px rgba(255, 255, 255, 0.4), 0 0 0 1px rgba(130, 201, 30, 0.4)",
     },
-    Icon: Send,
+    Icon: Layers,
   },
 ];
 
@@ -60,8 +60,8 @@ export const WhatWeDo = () => {
       data-testid="what-we-do-section"
       className="relative z-10 w-full bg-white pt-28 sm:pt-36 pb-20 sm:pb-28 border-t border-ink/10 select-none overflow-hidden"
     >
-      {/* Fine Dotted Matrix Canvas Overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(#17130f_1px,transparent_1px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
+      {/* Fine Dotted Matrix Canvas Overlay with Enhanced Contrast for Lower Resolution Screens */}
+      <div className="absolute inset-0 bg-[radial-gradient(#17130f_1px,transparent_1px)] [background-size:16px_16px] opacity-30 max-lg:opacity-30 lg:opacity-22 pointer-events-none" />
 
       <span id="services" className="absolute -top-24" aria-hidden="true" />
       

@@ -9,7 +9,7 @@ const LINKS = [
   { label: "What We Do", to: "/#what-we-do" },
   { label: "Products", to: "/#products", hasDropdown: true },
   { label: "How We Work", to: "/how-we-work" },
-  { label: "Book a Session", to: "/#booking" },
+  { label: "Reserve Sprint", to: "/#booking" },
   { label: "Testimonials", to: "/#testimonials" },
 ];
 
@@ -211,7 +211,7 @@ export const Navbar = ({ isDarkPage = false }) => {
             </button>
 
             <button
-              onClick={() => navigate("/contact")}
+              onClick={() => navigate("/contact", { state: { backgroundLocation: location } })}
               data-testid="nav-cta-start"
               className={`hidden sm:inline-flex group relative overflow-hidden rounded-full px-4 py-2 sm:px-5 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium transition-transform duration-300 hover:scale-[1.03] shadow-xs cursor-pointer ${
                 isDarkPage ? "bg-white text-black hover:bg-white/90" : "bg-ink text-paper"
@@ -314,7 +314,7 @@ export const Navbar = ({ isDarkPage = false }) => {
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  navigate("/contact");
+                  navigate("/contact", { state: { backgroundLocation: location } });
                 }}
                 className={`w-full text-center rounded-full py-3.5 font-outfit text-sm font-semibold shadow-md cursor-pointer ${
                   isDarkPage ? "bg-white text-black" : "bg-ink text-paper"

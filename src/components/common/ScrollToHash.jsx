@@ -5,6 +5,9 @@ export function ScrollToHash() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
+    // Ignore route changes for contact modal to preserve background scroll position
+    if (pathname === "/contact") return;
+
     if (hash) {
       const id = hash.replace("#", "");
       const timer = setTimeout(() => {
@@ -18,12 +21,6 @@ export function ScrollToHash() {
         }
       }, 120);
       return () => clearTimeout(timer);
-    } else {
-      if (window.lenis) {
-        window.lenis.scrollTo(0, { immediate: true });
-      } else {
-        window.scrollTo(0, 0);
-      }
     }
   }, [pathname, hash]);
 

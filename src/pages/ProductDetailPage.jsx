@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
@@ -26,6 +26,7 @@ const RIGHT_CARD_BG =
 
 export function ProductDetailPage() {
   const { productId } = useParams();
+  const location = useLocation();
 
   const [activeTab, setActiveTab] = useState("python");
   const [copied, setCopied] = useState(false);
@@ -223,6 +224,7 @@ export function ProductDetailPage() {
                 <div className="flex flex-wrap items-center gap-3 pt-2">
                   <Link
                     to="/contact"
+                    state={{ backgroundLocation: location }}
                     className="inline-flex items-center gap-2 rounded-full bg-ink text-paper px-6 py-3 font-outfit text-xs sm:text-sm font-medium shadow-lg hover:bg-black transition-all cursor-pointer active:scale-95 group"
                   >
                     <span>Start Integration</span>
