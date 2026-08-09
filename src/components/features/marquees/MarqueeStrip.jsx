@@ -20,7 +20,7 @@ export const MarqueeStrip = () => {
       <div className="absolute inset-0 bg-[radial-gradient(#17130f_1px,transparent_1px)] [background-size:16px_16px] opacity-15 pointer-events-none" />
 
       <motion.div
-        className="relative z-10 flex whitespace-nowrap shrink-0"
+        className="relative z-10 flex whitespace-nowrap shrink-0 gpu-layer"
         animate={{ x: ["0%", "-50%"] }}
         transition={{
           repeat: Infinity,

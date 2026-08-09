@@ -69,14 +69,14 @@ function ensureWaveformStyles() {
   
   let css = "";
   for (let i = 0; i < 8; i++) {
-    const h1 = 20 + (i % 3) * 8;
-    const h2 = 30 + (i % 8) * 7;
-    const h3 = 50;
+    const s1 = 0.3 + (i % 3) * 0.15;
+    const s2 = 0.5 + (i % 8) * 0.1;
+    const s3 = 0.9;
     css += `
 @keyframes waveBar${i} {
-  0%, 100% { height: ${h1}%; }
-  50% { height: ${h2}%; }
-  75% { height: ${h3}%; }
+  0%, 100% { transform: scaleY(${s1}); }
+  50% { transform: scaleY(${s2}); }
+  75% { transform: scaleY(${s3}); }
 }`;
   }
   css += `
@@ -144,11 +144,12 @@ function WaveformMarquee({ isVisible }) {
         {[...bars, ...bars].map((barIndex, key) => (
           <span
             key={key}
-            className={`block w-1 sm:w-1.5 shrink-0 rounded-full bg-ink${pausedClass}`}
+            className={`block w-1 sm:w-1.5 h-7 sm:h-10 shrink-0 rounded-full bg-ink${pausedClass}`}
             style={{
               animation: `waveBar${barIndex % 8} ${0.35 + (barIndex % 4) * 0.1}s linear infinite alternate`,
               animationDelay: `${barIndex * 0.05}s`,
-              height: "20%",
+              transformOrigin: "bottom center",
+              willChange: "transform",
             }}
           />
         ))}
@@ -197,50 +198,46 @@ function Content() {
 function MobileSVGAnimation({ isVisible }) {
   const text1Ref = useRef(null);
   const text2Ref = useRef(null);
-  const tlRef = useRef(null);
 
   useEffect(() => {
     if (!text1Ref.current || !text2Ref.current) return;
 
-    const tl = gsap.timeline({ repeat: -1 });
-    tl.fromTo(
-      text1Ref.current,
-      { attr: { x: -1200 } },
-      { attr: { x: 0 }, duration: 20, ease: "none" },
-      0
-    );
-    tl.fromTo(
-      text2Ref.current,
-      { attr: { x: -1200 } },
-      { attr: { x: 0 }, duration: 20, ease: "none" },
-      0
-    );
+    let rafId;
+    let offset = -1200;
+    let lastTime = performance.now();
 
-    tlRef.current = tl;
-    if (!isVisible) tl.pause();
+    const tick = (now) => {
+      const delta = Math.min((now - lastTime) / 16.666, 2.5);
+      lastTime = now;
+
+      offset += 1.5 * delta;
+      if (offset >= 0) offset = -1200;
+
+      if (text1Ref.current) text1Ref.current.setAttribute("startOffset", `${offset}px`);
+      if (text2Ref.current) text2Ref.current.setAttribute("startOffset", `${offset}px`);
+
+      if (isVisible) {
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    if (isVisible) {
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(tick);
+    }
 
     return () => {
-      tl.kill();
+      cancelAnimationFrame(rafId);
     };
-  }, []);
-
-  useEffect(() => {
-    if (tlRef.current) {
-      if (isVisible) {
-        tlRef.current.play();
-      } else {
-        tlRef.current.pause();
-      }
-    }
   }, [isVisible]);
 
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden block sm:hidden"
+      className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden block sm:hidden gpu-layer"
     >
       <svg
-        className="h-full w-full opacity-40"
+        className="h-full w-full opacity-40 gpu-layer"
         viewBox="0 0 380 620"
         preserveAspectRatio="xMidYMid meet"
         fill="none"
@@ -251,9 +248,11 @@ function MobileSVGAnimation({ isVisible }) {
           className="fill-transparent stroke-transparent"
           d="M -40 160 C 90 90, 290 90, 420 160"
         />
-        <text ref={text1Ref} x="-1200" className="text-[11px]">
+        <text className="text-[11px] gpu-layer">
           <textPath
+            ref={text1Ref}
             href="#mobile-first-curve"
+            startOffset="-1200px"
             className="fill-ink font-normal opacity-50"
           >
             {LEFT_TEXT}
@@ -265,9 +264,11 @@ function MobileSVGAnimation({ isVisible }) {
           className="fill-transparent stroke-transparent"
           d="M -40 470 C 90 435, 290 435, 420 470"
         />
-        <text ref={text2Ref} x="-1200" className="text-[11px]">
+        <text className="text-[11px] gpu-layer">
           <textPath
+            ref={text2Ref}
             href="#mobile-second-curve"
+            startOffset="-1200px"
             className="fill-ink/75 font-semibold"
           >
             {RIGHT_TEXT}
@@ -281,52 +282,48 @@ function MobileSVGAnimation({ isVisible }) {
 function SVGAnimation({ isVisible }) {
   const text1Ref = useRef(null);
   const text2Ref = useRef(null);
-  const tlRef = useRef(null);
 
   useEffect(() => {
     if (!text1Ref.current || !text2Ref.current) return;
 
-    const tl = gsap.timeline({ repeat: -1 });
-    tl.fromTo(
-      text1Ref.current,
-      { attr: { x: -2000 } },
-      { attr: { x: 0 }, duration: 25, ease: "none" },
-      0
-    );
-    tl.fromTo(
-      text2Ref.current,
-      { attr: { x: -2000 } },
-      { attr: { x: 0 }, duration: 25, ease: "none" },
-      0
-    );
+    let rafId;
+    let offset = -2000;
+    let lastTime = performance.now();
 
-    tlRef.current = tl;
-    if (!isVisible) tl.pause();
+    const tick = (now) => {
+      const delta = Math.min((now - lastTime) / 16.666, 2.5);
+      lastTime = now;
+
+      offset += 1.4 * delta;
+      if (offset >= 0) offset = -2000;
+
+      if (text1Ref.current) text1Ref.current.setAttribute("startOffset", `${offset}px`);
+      if (text2Ref.current) text2Ref.current.setAttribute("startOffset", `${offset}px`);
+
+      if (isVisible) {
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    if (isVisible) {
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(tick);
+    }
 
     return () => {
-      tl.kill();
+      cancelAnimationFrame(rafId);
     };
-  }, []);
-
-  useEffect(() => {
-    if (tlRef.current) {
-      if (isVisible) {
-        tlRef.current.play();
-      } else {
-        tlRef.current.pause();
-      }
-    }
   }, [isVisible]);
 
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute bottom-1/2 left-1/2 z-0 h-152 w-6xl -translate-x-1/2 translate-y-[45%]"
+      className="pointer-events-none absolute bottom-1/2 left-1/2 z-0 h-152 w-6xl -translate-x-1/2 translate-y-[45%] gpu-layer"
     >
-      <div className="absolute -left-80 -top-80 overflow-hidden">
+      <div className="absolute -left-80 -top-80 overflow-hidden gpu-layer">
         <svg
           id="hero-svg"
-          className="h-auto w-[1200px] -translate-x-72 -translate-y-20 scale-150"
+          className="h-auto w-[1200px] -translate-x-72 -translate-y-20 scale-150 gpu-layer"
           viewBox="0 0 1048 594"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -336,9 +333,11 @@ function SVGAnimation({ isVisible }) {
             className="fill-transparent stroke-transparent"
             d="M0.597656 50.924805C17.4612 143.2965 97.8522 293.141 284.508 353.548C440.828 399.056 583.839 294.067 500.618 184.7492C417.397 75.4309 238.217 282.098 499.258 441.668C551.913 477.802 817.468 561.26 1046.43 565.235"
           />
-          <text ref={text1Ref} x="-2000" className="text-[15px]">
+          <text className="text-[15px] gpu-layer">
             <textPath
+              ref={text1Ref}
               href="#first-curve"
+              startOffset="-2000px"
               className="fill-ink font-normal opacity-40 [baseline-shift:-20%]"
             >
               {LEFT_TEXT}
@@ -347,9 +346,9 @@ function SVGAnimation({ isVisible }) {
         </svg>
       </div>
 
-      <div className="absolute -right-60 -top-92 w-[780px]">
+      <div className="absolute -right-60 -top-92 w-[780px] gpu-layer">
         <svg
-          className="h-auto w-[1200px] scale-[1.2]"
+          className="h-auto w-[1200px] scale-[1.2] gpu-layer"
           viewBox="0 0 1024 620"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -359,9 +358,11 @@ function SVGAnimation({ isVisible }) {
             className="stroke-ink stroke-[30]"
             d="M2.04309 563.872C111.592 558.268 316.491 554.016 517.963 490.064C703.017 431.323 875.319 444.531 1021.88 453.216"
           />
-          <text ref={text2Ref} x="-2000" className="text-[15px]">
+          <text className="text-[15px] gpu-layer">
             <textPath
+              ref={text2Ref}
               href="#second-curve"
+              startOffset="-2000px"
               className="fill-paper font-semibold [baseline-shift:-30%]"
             >
               {RIGHT_TEXT}

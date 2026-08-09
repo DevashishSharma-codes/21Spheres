@@ -70,6 +70,33 @@ export const Logo3DCanvas = () => {
       { stop: 1, color: "#64748B" },
     ];
 
+    // Pre-rendered offscreen canvas sprite for high-performance 3D spheres
+    const spriteCanvas = document.createElement("canvas");
+    spriteCanvas.width = 32;
+    spriteCanvas.height = 32;
+    const sCtx = spriteCanvas.getContext("2d");
+    if (sCtx) {
+      const sr = 14;
+      const scx = 16;
+      const scy = 16;
+      const sGrad = sCtx.createRadialGradient(
+        scx - sr * 0.35,
+        scy - sr * 0.35,
+        sr * 0.05,
+        scx,
+        scy,
+        sr
+      );
+      SPHERE_COLORS.forEach(({ stop, color }) => sGrad.addColorStop(stop, color));
+      sCtx.beginPath();
+      sCtx.arc(scx, scy, sr, 0, Math.PI * 2);
+      sCtx.fillStyle = sGrad;
+      sCtx.fill();
+      sCtx.strokeStyle = "rgba(15, 23, 42, 0.4)";
+      sCtx.lineWidth = 0.8;
+      sCtx.stroke();
+    }
+
     let frameCount = 0;
 
     const startLoop = () => {
@@ -172,28 +199,8 @@ export const Logo3DCanvas = () => {
       const frontDots = projectedDots.filter((d) => d.z <= 0).sort((a, b) => b.z - a.z);
 
       const renderSphere = ({ x, y, scale }) => {
-        const r = 5.6 * scale;
-        const sphereGrad = ctx.createRadialGradient(
-          x - r * 0.35,
-          y - r * 0.35,
-          r * 0.05,
-          x,
-          y,
-          r
-        );
-        for (let i = 0; i < SPHERE_COLORS.length; i++) {
-          sphereGrad.addColorStop(SPHERE_COLORS[i].stop, SPHERE_COLORS[i].color);
-        }
-
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fillStyle = sphereGrad;
-        ctx.shadowBlur = 0;
-        ctx.fill();
-
-        ctx.strokeStyle = "rgba(15, 23, 42, 0.4)";
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
+        const size = 11.2 * scale;
+        ctx.drawImage(spriteCanvas, x - size / 2, y - size / 2, size, size);
       };
 
       backDots.forEach(renderSphere);
@@ -211,13 +218,8 @@ export const Logo3DCanvas = () => {
         ctx.lineTo(p3.x, p3.y);
         ctx.closePath();
 
-        const grad = ctx.createLinearGradient(p1.x, p1.y, p3.x, p3.y);
-        const alpha = 0.98;
         const colorVal = Math.floor(brightness * 245);
-        grad.addColorStop(0, `rgba(${colorVal}, ${colorVal}, ${colorVal + 15}, ${alpha})`);
-        grad.addColorStop(1, `rgba(${Math.floor(colorVal * 0.35)}, ${Math.floor(colorVal * 0.35)}, ${Math.floor(colorVal * 0.45)}, ${alpha})`);
-
-        ctx.fillStyle = grad;
+        ctx.fillStyle = `rgba(${colorVal}, ${colorVal}, ${colorVal + 15}, 0.98)`;
         ctx.fill();
 
         ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";

@@ -123,4 +123,89 @@ html.lenis, html.lenis body {
   animation-play-state: paused;
 }
 
+/* Ultra-smooth hardware-accelerated SVG dash animations (Compositor thread offloaded) */
+@keyframes hero-svg-dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+.animate-hero-dash {
+  stroke-dasharray: 0.2 0.8;
+  stroke-dashoffset: 0;
+  animation: hero-svg-dash 2.2s linear infinite;
+  will-change: stroke-dashoffset;
+  transform: translateZ(0);
+}
+
+.animate-line-dash {
+  stroke-dasharray: 0.1 0.9;
+  stroke-dashoffset: 0;
+  animation: hero-svg-dash 2.5s linear infinite;
+  will-change: stroke-dashoffset;
+  transform: translateZ(0);
+}
+
+/* Hardware layer isolation for SVG stages and backdrop filters */
+.gpu-layer {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Valley AI Style Glowing Active Underline Progress Line */
+@keyframes underline-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(194, 97, 43, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(194, 97, 43, 0.85);
+  }
+}
+
+.animate-underline-glow {
+  animation: underline-glow-pulse 2.2s ease-in-out infinite;
+}
+
+/* GPU-Accelerated SVG TextPath Marquee Animations (60-120 FPS Buttery-Smooth) */
+@keyframes svg-textpath-marquee-desktop {
+  0% {
+    startOffset: -2000px;
+  }
+  100% {
+    startOffset: 0px;
+  }
+}
+
+@keyframes svg-textpath-marquee-mobile {
+  0% {
+    startOffset: -1200px;
+  }
+  100% {
+    startOffset: 0px;
+  }
+}
+
+.animate-textpath-desktop {
+  animation: svg-textpath-marquee-desktop 25s linear infinite;
+  will-change: startOffset;
+  transform: translateZ(0);
+}
+
+.animate-textpath-mobile {
+  animation: svg-textpath-marquee-mobile 20s linear infinite;
+  will-change: startOffset;
+  transform: translateZ(0);
+}
+
+.marquee-textpath-paused {
+  animation-play-state: paused !important;
+}
+
+
+
+
 

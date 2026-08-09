@@ -75,6 +75,7 @@ export const Testimonials = () => {
   const [activePhraseIndex, setActivePhraseIndex] = useState(0);
   // Globe marker positions updated at ~10fps via interval (not 60fps rAF)
   const [markerPositions, setMarkerPositions] = useState([]);
+  const sectionRef = useRef(null);
 
   // Refs for direct DOM manipulation of SVG ellipses (no React re-renders)
   const ellipse1Ref = useRef(null);
@@ -83,9 +84,12 @@ export const Testimonials = () => {
   const rotationRef = useRef(0);
   const animFrameRef = useRef(null);
 
-  // 3D Globe SVG ellipse rotation via direct DOM mutation (zero React re-renders)
+  // 3D Globe SVG ellipse rotation via direct DOM mutation (zero React re-renders) - Runs ONLY when in viewport
   useEffect(() => {
+    let isVisible = false;
+
     const animate = () => {
+      if (!isVisible) return;
       rotationRef.current = (rotationRef.current + 0.6) % 360;
       const angle = rotationRef.current;
 
@@ -102,12 +106,41 @@ export const Testimonials = () => {
 
       animFrameRef.current = requestAnimationFrame(animate);
     };
-    animFrameRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animFrameRef.current);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          if (!animFrameRef.current) {
+            animFrameRef.current = requestAnimationFrame(animate);
+          }
+        } else {
+          if (animFrameRef.current) {
+            cancelAnimationFrame(animFrameRef.current);
+            animFrameRef.current = null;
+          }
+        }
+      },
+      { rootMargin: "100px 0px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+        animFrameRef.current = null;
+      }
+    };
   }, []);
 
-  // Globe markers updated at 10fps via setInterval (not 60fps)
+  // Globe markers updated at 10fps via setInterval ONLY when in viewport
   useEffect(() => {
+    let interval = null;
+
     const updateMarkers = () => {
       const angle = rotationRef.current;
       const positions = GLOBE_MARKERS.map((marker) => {
@@ -124,9 +157,29 @@ export const Testimonials = () => {
       setMarkerPositions(positions);
     };
 
-    updateMarkers(); // Initial
-    const interval = setInterval(updateMarkers, 100); // 10fps
-    return () => clearInterval(interval);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          updateMarkers();
+          if (!interval) interval = setInterval(updateMarkers, 100);
+        } else {
+          if (interval) {
+            clearInterval(interval);
+            interval = null;
+          }
+        }
+      },
+      { rootMargin: "100px 0px" }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+      if (interval) clearInterval(interval);
+    };
   }, []);
 
   // Smooth circular card carousel timer
@@ -156,6 +209,7 @@ export const Testimonials = () => {
 
   return (
     <section
+      ref={sectionRef}
       id="testimonials"
       data-testid="testimonials-section"
       className="relative z-10 bg-[#0c0a08] text-paper py-6 sm:py-10 lg:py-12 min-h-screen max-h-none lg:max-h-[920px] flex flex-col justify-between select-none overflow-hidden border-t border-white/10"

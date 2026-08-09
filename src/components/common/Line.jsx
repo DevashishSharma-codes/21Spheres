@@ -47,22 +47,13 @@ function AnimatedLine({ d, transform }) {
         stroke="rgba(255, 255, 255, 0.25)"
         strokeWidth={3}
       />
-      <motion.path
+      <path
         d={d}
         pathLength={1}
         stroke="#ffffff"
         strokeWidth={1.5}
         strokeLinecap="butt"
-        strokeDasharray={`${SEGMENT} ${GAP}`}
-        initial={{ strokeDashoffset: 0 }}
-        animate={{ strokeDashoffset: -(SEGMENT + GAP) }}
-        transition={{
-          duration: 2.5,
-          ease: "linear",
-          repeat: Infinity,
-          repeatType: "loop",
-          repeatDelay: 0.5,
-        }}
+        className="animate-line-dash"
       />
     </g>
   );

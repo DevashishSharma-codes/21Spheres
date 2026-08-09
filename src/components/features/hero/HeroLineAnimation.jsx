@@ -29,7 +29,7 @@ export function HeroLineAnimation() {
           initial={{ opacity: 0, y: 16, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[50.41%] top-0 z-30 w-fit -translate-x-1/2 -translate-y-1/2"
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[50.41%] top-0 z-30 w-fit -translate-x-1/2 -translate-y-1/2 gpu-layer"
         >
           Autonomous AI Agents
         </motion.div>
@@ -37,7 +37,7 @@ export function HeroLineAnimation() {
           initial={{ opacity: 0, y: 16, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.28, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[24.68%] top-[27.16%] z-30 w-fit -translate-x-1/2 -translate-y-1/2"
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[24.68%] top-[27.16%] z-30 w-fit -translate-x-1/2 -translate-y-1/2 gpu-layer"
         >
           High Scale Platforms
         </motion.div>
@@ -45,7 +45,7 @@ export function HeroLineAnimation() {
           initial={{ opacity: 0, y: 16, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.36, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[76.84%] top-[27.16%] z-30 w-fit max-w-[55%] -translate-x-1/2 -translate-y-1/2 sm:max-w-none"
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[76.84%] top-[27.16%] z-30 w-fit max-w-[55%] -translate-x-1/2 -translate-y-1/2 sm:max-w-none gpu-layer"
         >
           Native Mobile Apps
         </motion.div>
@@ -53,7 +53,7 @@ export function HeroLineAnimation() {
           initial={{ opacity: 0, y: 16, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.44, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[12%] sm:left-0 top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2"
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[12%] sm:left-0 top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2 gpu-layer"
         >
           <span className="block sm:inline">Cloud </span>
           <span className="block sm:inline">Infrastructure</span>
@@ -62,19 +62,20 @@ export function HeroLineAnimation() {
           initial={{ opacity: 0, y: 16, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.52, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[88%] sm:left-full top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2"
+          className="pointer-events-auto border border-white/40 bg-gradient-to-br from-black/45 via-black/35 to-black/25 backdrop-blur-xl px-2 py-0.5 sm:px-3 sm:py-1.5 text-center font-mono text-[8px] sm:text-[9px] md:text-xs font-semibold uppercase text-white shadow-xl sm:px-4 sm:py-2 md:w-56 md:px-4 tracking-wider absolute left-[88%] sm:left-full top-[54.56%] z-30 w-fit -translate-x-1/2 -translate-y-1/2 gpu-layer"
         >
           Enterprise Systems
         </motion.div>
 
-        {/* Converging SVG Line Paths Fade-In Entrance */}
+        {/* Converging SVG Line Paths Fade-In Entrance (Pure CSS Hardware Accelerated) */}
         <motion.svg
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.0, delay: 1.35, ease: "easeOut" }}
           role="presentation"
           viewBox="0 0 734 405"
-          className="absolute inset-0 h-full w-full z-10"
+          className="absolute inset-0 h-full w-full z-10 gpu-layer"
+          shapeRendering="geometricPrecision"
           fill="none"
         >
           {PATHS.map((path) => (
@@ -84,20 +85,13 @@ export function HeroLineAnimation() {
                 stroke="rgba(23, 19, 15, 0.15)"
                 strokeWidth={3}
               />
-              <motion.path
+              <path
                 d={path.d}
                 pathLength={1}
                 stroke="#17130f"
                 strokeWidth={2.5}
                 strokeLinecap="butt"
-                strokeDasharray="0.2 0.8"
-                animate={{ strokeDashoffset: [0, -1] }}
-                transition={{
-                  duration: 2.2,
-                  ease: "linear",
-                  repeat: Infinity,
-                  repeatDelay: 0,
-                }}
+                className="animate-hero-dash"
               />
             </g>
           ))}
@@ -108,7 +102,7 @@ export function HeroLineAnimation() {
           initial={{ opacity: 0, y: 24, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, delay: 1.55, ease: [0.22, 1, 0.36, 1] }}
-          className="pointer-events-auto absolute bottom-0 left-[50.41%] size-24 sm:size-30 md:size-34 lg:size-38 aspect-square -translate-x-1/2 translate-y-1/2 rounded-none p-3 sm:p-4 z-50 flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 border-2 border-white/90 ring-4 ring-black/5 shadow-none"
+          className="pointer-events-auto absolute bottom-0 left-[50.41%] size-24 sm:size-30 md:size-34 lg:size-38 aspect-square -translate-x-1/2 translate-y-1/2 rounded-none p-3 sm:p-4 z-50 flex items-center justify-center overflow-hidden transition-transform duration-300 hover:scale-105 border-2 border-white/90 ring-4 ring-black/5 shadow-none gpu-layer"
           style={{
             background:
               "linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(235, 238, 242, 0.88) 100%)",
