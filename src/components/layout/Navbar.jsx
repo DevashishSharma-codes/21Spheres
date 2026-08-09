@@ -79,25 +79,26 @@ export const Navbar = ({ isDarkPage = false }) => {
         className={`fixed top-0 left-0 z-[150] w-full transition-[background-color,backdrop-filter,border-color,padding] duration-500 ${
           scrolled
             ? isDarkPage
-              ? "bg-black/80 backdrop-blur-2xl border-b border-white/10 py-3.5"
-              : "bg-white/80 backdrop-blur-2xl border-b border-black/5 py-3.5"
-            : "bg-transparent border-b border-transparent py-5 sm:py-6"
+              ? "bg-black/80 backdrop-blur-2xl border-b border-white/10 py-3"
+              : "bg-white/80 backdrop-blur-2xl border-b border-black/5 py-3"
+            : "bg-transparent border-b border-transparent py-4 sm:py-6"
         }`}
       >
-        <nav className="max-w-7xl mx-auto px-5 sm:px-8 md:px-12 flex items-center justify-between">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-12 flex items-center justify-between">
+          {/* Logo Mark */}
           <Link
             to="/"
             data-testid="nav-logo"
-            className={`font-outfit text-xl md:text-2xl font-semibold tracking-tight flex items-center gap-2.5 ${
+            className={`font-outfit text-lg sm:text-xl md:text-2xl font-semibold tracking-tight flex items-center gap-2 sm:gap-2.5 shrink-0 ${
               isDarkPage ? "text-white" : "text-ink"
             }`}
           >
-            <LogoMark size={22} className={isDarkPage ? "text-white" : "text-ink"} />
+            <LogoMark size={20} className={isDarkPage ? "text-white" : "text-ink"} />
             <span>21Spheres</span>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center gap-7 lg:gap-9 relative">
+          {/* Desktop Navigation Links - Visible on Large Screens (lg: 1024px+) */}
+          <div className="hidden lg:flex items-center gap-5 xl:gap-8 relative">
             {LINKS.map((l) => {
               if (l.hasDropdown) {
                 return (
@@ -109,7 +110,7 @@ export const Navbar = ({ isDarkPage = false }) => {
                   >
                     <button
                       onClick={() => handleLinkClick(l.to)}
-                      className={`group relative font-outfit text-sm transition-colors duration-300 cursor-pointer flex items-center gap-1 py-1 ${
+                      className={`group relative font-outfit text-xs xl:text-sm transition-colors duration-300 cursor-pointer flex items-center gap-1 py-1 ${
                         isDarkPage
                           ? "text-white/75 hover:text-white"
                           : "text-ink/75 hover:text-ink"
@@ -136,7 +137,7 @@ export const Navbar = ({ isDarkPage = false }) => {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 8, scale: 0.98 }}
                           transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-                          className="absolute top-full -left-16 pt-2 z-[200] w-[380px] sm:w-[420px] pointer-events-auto"
+                          className="absolute top-full -left-10 sm:-left-16 pt-2 z-[200] w-[320px] sm:w-[380px] lg:w-[420px] pointer-events-auto"
                         >
                           <div className="rounded-2xl bg-white/95 text-ink border border-black/10 shadow-xl p-3 backdrop-blur-2xl overflow-hidden">
                             <div className="flex items-center justify-between pb-2 mb-1 border-b border-black/5 px-2">
@@ -149,7 +150,7 @@ export const Navbar = ({ isDarkPage = false }) => {
                             </div>
 
                             {/* Minimal 2-Column Product List */}
-                            <div className="grid grid-cols-2 gap-1 max-h-[360px] overflow-y-auto pr-0.5">
+                            <div className="grid grid-cols-2 gap-1 max-h-[340px] overflow-y-auto pr-0.5">
                               {PRODUCTS.map((prod) => (
                                 <button
                                   key={prod.id}
@@ -178,7 +179,7 @@ export const Navbar = ({ isDarkPage = false }) => {
                   key={l.label}
                   onClick={() => handleLinkClick(l.to)}
                   data-testid={`nav-link-${l.label.toLowerCase().replace(/\s+/g, "-")}`}
-                  className={`group relative font-outfit text-sm transition-colors duration-300 cursor-pointer ${
+                  className={`group relative font-outfit text-xs xl:text-sm transition-colors duration-300 cursor-pointer ${
                     isDarkPage
                       ? "text-white/75 hover:text-white"
                       : "text-ink/75 hover:text-ink"
@@ -195,12 +196,13 @@ export const Navbar = ({ isDarkPage = false }) => {
             })}
           </div>
 
-          {/* Desktop Dual CTA Buttons & Mobile Menu Toggle Button */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          {/* Dual CTA Buttons & Mobile Menu Toggle Button */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* Book a Session CTA */}
             <button
               onClick={() => handleLinkClick("/#booking")}
               data-testid="nav-cta-booking"
-              className={`hidden sm:inline-flex items-center gap-1.5 rounded-full border px-4 py-2 sm:px-5 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium transition-all duration-300 shadow-xs group cursor-pointer ${
+              className={`hidden md:inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 lg:px-4 lg:py-2 font-outfit text-xs font-medium transition-all duration-300 shadow-xs group cursor-pointer ${
                 isDarkPage
                   ? "border-white/20 bg-white/10 text-white hover:bg-white hover:text-black"
                   : "border-ink/20 bg-white/40 backdrop-blur-md text-ink hover:bg-ink hover:text-paper"
@@ -210,33 +212,34 @@ export const Navbar = ({ isDarkPage = false }) => {
               <span>Book a Session</span>
             </button>
 
+            {/* Start a Project CTA */}
             <button
               onClick={() => navigate("/contact", { state: { backgroundLocation: location } })}
               data-testid="nav-cta-start"
-              className={`hidden sm:inline-flex group relative overflow-hidden rounded-full px-4 py-2 sm:px-5 sm:py-2.5 font-outfit text-xs sm:text-sm font-medium transition-transform duration-300 hover:scale-[1.03] shadow-xs cursor-pointer ${
+              className={`hidden sm:inline-flex group relative overflow-hidden rounded-full px-3.5 py-1.5 lg:px-5 lg:py-2.5 font-outfit text-xs sm:text-sm font-medium transition-transform duration-300 hover:scale-[1.03] shadow-xs cursor-pointer ${
                 isDarkPage ? "bg-white text-black hover:bg-white/90" : "bg-ink text-paper"
               }`}
             >
               <span className="relative z-10">Start a Project</span>
             </button>
 
-            {/* Mobile Hamburger Toggle Button */}
+            {/* Mobile / Tablet Hamburger Toggle Button (lg:hidden) */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`flex md:hidden h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-colors active:scale-95 ${
+              className={`flex lg:hidden h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full border backdrop-blur-md transition-colors active:scale-95 ${
                 isDarkPage
                   ? "border-white/20 bg-white/10 text-white"
                   : "border-ink/15 bg-white/60 text-ink"
               }`}
               aria-label="Toggle Navigation Menu"
             >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileMenuOpen ? <X size={18} className="sm:w-5 sm:h-5" /> : <Menu size={18} className="sm:w-5 sm:h-5" />}
             </button>
           </div>
         </nav>
       </motion.header>
 
-      {/* Mobile Full-Screen Navigation Drawer */}
+      {/* Mobile & Tablet Full-Screen Navigation Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -244,12 +247,12 @@ export const Navbar = ({ isDarkPage = false }) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
-            className={`fixed inset-0 z-[140] flex flex-col justify-between backdrop-blur-3xl pt-24 pb-8 px-6 md:hidden overflow-y-auto ${
+            className={`fixed inset-0 z-[140] flex flex-col justify-between backdrop-blur-3xl pt-20 sm:pt-24 pb-8 px-5 sm:px-8 lg:hidden overflow-y-auto ${
               isDarkPage ? "bg-black/95 text-white" : "bg-paper/95 text-ink"
             }`}
           >
-            <div className="flex flex-col space-y-4">
-              <div className="text-xs uppercase tracking-[0.2em] font-semibold opacity-40 mb-1">
+            <div className="flex flex-col space-y-3 sm:space-y-4">
+              <div className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-semibold opacity-40 mb-1">
                 / NAVIGATION
               </div>
 
@@ -259,11 +262,11 @@ export const Navbar = ({ isDarkPage = false }) => {
                     <div key={l.label} className="flex flex-col">
                       <button
                         onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-                        className="font-outfit text-3xl font-medium tracking-tight text-left hover:opacity-70 transition-opacity cursor-pointer flex items-center justify-between py-1"
+                        className="font-outfit text-2xl sm:text-3xl font-medium tracking-tight text-left hover:opacity-70 transition-opacity cursor-pointer flex items-center justify-between py-1"
                       >
                         <span>{l.label}</span>
                         <ChevronDown
-                          className={`w-6 h-6 transition-transform duration-300 ${
+                          className={`w-5 h-5 sm:w-6 sm:h-6 transition-transform duration-300 ${
                             mobileProductsOpen ? "rotate-180" : ""
                           }`}
                         />
@@ -271,12 +274,12 @@ export const Navbar = ({ isDarkPage = false }) => {
 
                       {/* Mobile Products Expandable List */}
                       {mobileProductsOpen && (
-                        <div className="mt-3 pl-3 border-l-2 border-current/20 flex flex-col space-y-2 max-h-[260px] overflow-y-auto">
+                        <div className="mt-2 pl-3 border-l-2 border-current/20 flex flex-col space-y-2 max-h-[240px] overflow-y-auto">
                           {PRODUCTS.map((p) => (
                             <button
                               key={p.id}
                               onClick={() => handleSelectProduct(p.id)}
-                              className="text-left font-outfit text-base font-medium opacity-80 hover:opacity-100 py-1 cursor-pointer flex items-center justify-between"
+                              className="text-left font-outfit text-sm sm:text-base font-medium opacity-80 hover:opacity-100 py-1 cursor-pointer flex items-center justify-between"
                             >
                               <span>{p.name}</span>
                               <span className="font-mono text-[10px] opacity-50">
@@ -294,7 +297,7 @@ export const Navbar = ({ isDarkPage = false }) => {
                   <button
                     key={l.label}
                     onClick={() => handleLinkClick(l.to)}
-                    className="font-outfit text-3xl font-medium tracking-tight text-left hover:opacity-70 transition-opacity cursor-pointer py-1"
+                    className="font-outfit text-2xl sm:text-3xl font-medium tracking-tight text-left hover:opacity-70 transition-opacity cursor-pointer py-1"
                   >
                     {l.label}
                   </button>
@@ -302,7 +305,7 @@ export const Navbar = ({ isDarkPage = false }) => {
               })}
             </div>
 
-            <div className="pt-6 border-t border-current/10 flex flex-col space-y-3 mt-6">
+            <div className="pt-5 border-t border-current/10 flex flex-col space-y-3 mt-6">
               <button
                 onClick={() => handleLinkClick("/#booking")}
                 className="w-full inline-flex items-center justify-center gap-2 rounded-full border border-current/20 bg-white/10 py-3 font-outfit text-sm font-semibold shadow-xs cursor-pointer"
