@@ -21,11 +21,10 @@ export const ProductModal = ({
     }
   }, [product, allProducts]);
 
-  // SCROLL LOCK CONTROL: Pause Lenis and lock body scroll strictly when modal is open
+  // SCROLL LOCK CONTROL: Lock body scroll strictly when modal is open
   useEffect(() => {
     if (!isOpen) {
       if (typeof window !== "undefined") {
-        if (window.lenis) window.lenis.start();
         document.body.style.overflow = "auto";
         document.body.style.touchAction = "";
       }
@@ -33,7 +32,6 @@ export const ProductModal = ({
     }
 
     if (typeof window !== "undefined") {
-      if (window.lenis) window.lenis.stop();
       document.body.style.overflow = "hidden";
     }
 
@@ -47,7 +45,6 @@ export const ProductModal = ({
 
     return () => {
       if (typeof window !== "undefined") {
-        if (window.lenis) window.lenis.start();
         document.body.style.overflow = "auto";
       }
       window.removeEventListener("keydown", handleKeyDown);
@@ -146,8 +143,6 @@ export const ProductModal = ({
 
           {/* RESPONSIVE SMOOTH SCROLLABLE CONTAINER FOR MOBILE & PC */}
           <div
-            data-lenis-prevent="true"
-            data-lenis-prevent-touch="true"
             onWheel={(e) => e.stopPropagation()}
             onTouchMove={(e) => e.stopPropagation()}
             className="flex-1 w-full min-h-0 overflow-y-auto overflow-x-hidden overscroll-contain p-4 sm:p-7 flex flex-col lg:grid lg:grid-cols-[48%_52%] gap-6 sm:gap-8 touch-pan-y"
@@ -155,8 +150,6 @@ export const ProductModal = ({
           >
             {/* EDITORIAL CONTENT PANEL WITH DEDICATED SCROLL */}
             <div
-              data-lenis-prevent="true"
-              data-lenis-prevent-touch="true"
               onWheel={(e) => e.stopPropagation()}
               onTouchMove={(e) => e.stopPropagation()}
               className="w-full h-auto lg:h-full lg:min-h-0 lg:overflow-y-auto overflow-x-hidden pr-0 lg:pr-4 overscroll-contain touch-pan-y"

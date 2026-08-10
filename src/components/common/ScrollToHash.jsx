@@ -13,27 +13,16 @@ export function ScrollToHash() {
       const timer = setTimeout(() => {
         const element = document.getElementById(id);
         if (element) {
-          if (window.lenis) {
-            window.lenis.scrollTo(element, { offset: -60, duration: 0.8 });
-          } else {
-            element.scrollIntoView({ behavior: "smooth" });
-          }
+          const top = element.getBoundingClientRect().top + window.scrollY - 60;
+          window.scrollTo({ top, behavior: "smooth" });
         } else {
-          if (window.lenis) {
-            window.lenis.scrollTo(0, { immediate: true });
-          } else {
-            window.scrollTo(0, 0);
-          }
+          window.scrollTo(0, 0);
         }
       }, 120);
       return () => clearTimeout(timer);
     } else {
       const timer = setTimeout(() => {
-        if (window.lenis) {
-          window.lenis.scrollTo(0, { immediate: true });
-        } else {
-          window.scrollTo(0, 0);
-        }
+        window.scrollTo(0, 0);
       }, 50);
       return () => clearTimeout(timer);
     }

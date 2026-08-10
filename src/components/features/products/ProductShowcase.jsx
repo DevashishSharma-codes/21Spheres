@@ -132,11 +132,7 @@ export function ProductShowcase() {
       const progressRatio = (clamped + 0.1) / PRODUCTS.length;
       const targetScroll = st.start + progressRatio * (st.end - st.start);
 
-      if (window.lenis) {
-        window.lenis.scrollTo(targetScroll, { duration: 0.65 });
-      } else {
-        window.scrollTo({ top: targetScroll, behavior: "smooth" });
-      }
+      window.scrollTo({ top: targetScroll, behavior: "smooth" });
     }
   };
 

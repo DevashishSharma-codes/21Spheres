@@ -7,11 +7,7 @@ const HowWeWork = lazy(() => import("./HowWeWork"));
 
 export const HowWeWorkPage = () => {
   useEffect(() => {
-    if (window.lenis) {
-      window.lenis.scrollTo(0, { immediate: true });
-    } else {
-      window.scrollTo(0, 0);
-    }
+    window.scrollTo(0, 0);
   }, []);
 
   return (

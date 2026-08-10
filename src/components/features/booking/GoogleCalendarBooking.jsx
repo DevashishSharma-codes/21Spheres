@@ -13,7 +13,6 @@ export function GoogleCalendarModal({ isOpen, onClose }) {
 
     if (typeof window !== "undefined") {
       document.body.style.overflow = "hidden";
-      if (window.lenis) window.lenis.stop();
     }
 
     const handleKeyDown = (e) => {
@@ -24,7 +23,6 @@ export function GoogleCalendarModal({ isOpen, onClose }) {
     return () => {
       if (typeof window !== "undefined") {
         document.body.style.overflow = "unset";
-        if (window.lenis) window.lenis.start();
       }
       window.removeEventListener("keydown", handleKeyDown);
     };

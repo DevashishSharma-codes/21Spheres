@@ -55,33 +55,18 @@ export const Footer = () => {
         }
         const el = document.getElementById(targetId);
         if (el) {
-          if (window.lenis) {
-            window.lenis.scrollTo(el, { offset: -60, duration: 0.8 });
-          } else {
-            el.scrollIntoView({ behavior: "smooth" });
-          }
+          const top = el.getBoundingClientRect().top + window.scrollY - 60;
+          window.scrollTo({ top, behavior: "smooth" });
         } else {
-          if (window.lenis) {
-            window.lenis.scrollTo(0, { duration: 0.8 });
-          } else {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
+          window.scrollTo({ top: 0, behavior: "smooth" });
         }
       }
     } else {
       if (location.pathname === to && (!location.hash || location.hash === "")) {
-        if (window.lenis) {
-          window.lenis.scrollTo(0, { duration: 0.8 });
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
       } else {
         navigate(to);
-        if (window.lenis) {
-          window.lenis.scrollTo(0, { immediate: true });
-        } else {
-          window.scrollTo(0, 0);
-        }
+        window.scrollTo(0, 0);
       }
     }
   };

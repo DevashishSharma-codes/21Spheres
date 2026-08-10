@@ -47,11 +47,7 @@ export const ContactModal = ({ isOpen: propIsOpen, onClose: propOnClose, booking
         document.body.style.overflow = "unset";
         setIsSubmitted(false);
         const y = savedScrollY.current;
-        if (window.lenis) {
-          window.lenis.scrollTo(y, { immediate: true });
-        } else {
-          window.scrollTo(0, y);
-        }
+        window.scrollTo(0, y);
       };
     }
   }, [isOpen]);
