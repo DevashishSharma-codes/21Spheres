@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ArrowUpRight, ChevronDown, Calendar } from "lucide-react";
 import { LogoMark } from "../common/LogoMark";
 import { PRODUCTS } from "../../data/products";
+import { scrollToElement } from "../../utils/scroll";
 
 const LINKS = [
   { label: "What We Do", to: "/#what-we-do" },
@@ -69,13 +70,7 @@ export const Navbar = ({ isDarkPage = false }) => {
         if (location.hash !== targetHash) {
           navigate("/" + targetHash);
         }
-        const el = document.getElementById(targetId);
-        if (el) {
-          const top = el.getBoundingClientRect().top + window.scrollY - 60;
-          window.scrollTo({ top, behavior: "smooth" });
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
+        scrollToElement(targetId);
       }
     } else {
       if (location.pathname === to && (!location.hash || location.hash === "")) {

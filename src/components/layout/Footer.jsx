@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
 import { Logo3DCanvas } from "./Logo3DCanvas";
+import { scrollToElement } from "../../utils/scroll";
 
 const MOUNTAIN_IMG = "/hero-bg.jpg";
 
@@ -53,13 +54,7 @@ export const Footer = () => {
         if (location.hash !== targetHash) {
           navigate("/" + targetHash);
         }
-        const el = document.getElementById(targetId);
-        if (el) {
-          const top = el.getBoundingClientRect().top + window.scrollY - 60;
-          window.scrollTo({ top, behavior: "smooth" });
-        } else {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }
+        scrollToElement(targetId);
       }
     } else {
       if (location.pathname === to && (!location.hash || location.hash === "")) {

@@ -38,7 +38,7 @@ export function ProductShowcase() {
   const lineRefs = useRef([]);
 
   const startLenis = () => {
-    if (typeof window === "undefined" || lenisRef.current) return;
+    if (typeof window === "undefined" || lenisRef.current || window.__isProgrammaticScroll) return;
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

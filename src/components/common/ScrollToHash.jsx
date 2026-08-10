@@ -1,28 +1,30 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { scrollToElement } from "../../utils/scroll";
 
 export function ScrollToHash() {
   const { pathname, hash } = useLocation();
+  const prevPathnameRef = useRef(pathname);
 
   useEffect(() => {
-    // Ignore route changes for contact modal to preserve background scroll position
-    if (pathname === "/contact") return;
+    const prevPathname = prevPathnameRef.current;
+    prevPathnameRef.current = pathname;
+
+    // Ignore route changes for contact modal or when returning from contact modal
+    if (pathname === "/contact" || prevPathname === "/contact") {
+      return;
+    }
 
     if (hash) {
-      const id = hash.replace("#", "");
       const timer = setTimeout(() => {
-        const element = document.getElementById(id);
-        if (element) {
-          const top = element.getBoundingClientRect().top + window.scrollY - 60;
-          window.scrollTo({ top, behavior: "smooth" });
-        } else {
-          window.scrollTo(0, 0);
-        }
+        scrollToElement(hash);
       }, 120);
       return () => clearTimeout(timer);
     } else {
       const timer = setTimeout(() => {
-        window.scrollTo(0, 0);
+        if (!window.__isProgrammaticScroll) {
+          window.scrollTo(0, 0);
+        }
       }, 50);
       return () => clearTimeout(timer);
     }
