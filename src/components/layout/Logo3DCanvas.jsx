@@ -11,11 +11,32 @@ export const Logo3DCanvas = () => {
 
     let animationFrameId = null;
     let isVisible = false;
-    let isScrolling = false;
-    let scrollTimeout = null;
 
-    let width = (canvas.width = canvas.parentElement?.clientWidth || 400);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || 400);
+    // High-DPI Canvas Buffer Sizing
+    let cssWidth = 0;
+    let cssHeight = 0;
+    let dpr = Math.min(window.devicePixelRatio || 1, 3);
+
+    // Mouse Tracking for dynamic interactive 3D tilt
+    let currentTiltX = 0;
+    let currentTiltY = 0;
+    let targetTiltX = 0;
+    let targetTiltY = 0;
+
+    const updateCanvasDimensions = () => {
+      if (!canvas.parentElement) return;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      cssWidth = rect.width || canvas.clientWidth || 320;
+      cssHeight = rect.height || canvas.clientHeight || 240;
+      dpr = Math.min(window.devicePixelRatio || 1, 3);
+
+      canvas.width = Math.floor(cssWidth * dpr);
+      canvas.height = Math.floor(cssHeight * dpr);
+      canvas.style.width = `${cssWidth}px`;
+      canvas.style.height = `${cssHeight}px`;
+    };
+
+    updateCanvasDimensions();
 
     // STATIC 3D Core Octahedron Vertices
     const BASE_VERTICES = [
@@ -32,71 +53,68 @@ export const Logo3DCanvas = () => {
       [1, 4, 2], [1, 3, 4], [1, 5, 3], [1, 2, 5], // Bottom 4 pyramids
     ];
 
-    // Fixed Static Angles for the Central 3D Logo
+    // Fixed Static Base Angles for the Central 3D Logo
     const STATIC_ANGLE_X = 0.28;
     const STATIC_ANGLE_Y = 0.45;
 
-    // Hover Physics for Orbit Speed & Scale
+    // Physics Lerp States
     let spinSpeed = 0.7;
     let targetSpinSpeed = 0.7;
     let hoverScale = 1;
     let targetScale = 1;
 
-    const handleMouseEnter = () => {
+    const handleMouseMove = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const ny = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+      targetTiltX = ny * 0.25;
+      targetTiltY = nx * 0.35;
+    };
+
+    const handleMouseEnter = (e) => {
       targetSpinSpeed = 1.5;
-      targetScale = 1.15;
+      targetScale = 1.12;
+      handleMouseMove(e);
     };
 
     const handleMouseLeave = () => {
       targetSpinSpeed = 0.7;
       targetScale = 1.0;
+      targetTiltX = 0;
+      targetTiltY = 0;
     };
 
     const handleResize = () => {
-      if (!canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.clientWidth || 400;
-      height = canvas.height = canvas.parentElement.clientHeight || 400;
-    };
-
-    // Pause loop during scrolling for 100% smooth scroll performance
-    const handleScroll = () => {
-      isScrolling = true;
-      stopLoop();
-
-      if (scrollTimeout) clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        isScrolling = false;
-        if (isVisible) {
-          startLoop();
-        }
-      }, 100);
+      updateCanvasDimensions();
     };
 
     window.addEventListener("resize", handleResize, { passive: true });
-    window.addEventListener("scroll", handleScroll, { passive: true });
     canvas.addEventListener("mouseenter", handleMouseEnter);
+    canvas.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("mouseleave", handleMouseLeave);
 
     let time = 0;
     let lastTimeStamp = performance.now();
 
-    // Pre-compute sphere gradient color stops
+    // High-Resolution 128x128 Sphere Sprite for 3D spheres
     const SPHERE_COLORS = [
       { stop: 0, color: "#FFFFFF" },
-      { stop: 0.4, color: "#F1F5F9" },
-      { stop: 0.75, color: "#CBD5E1" },
-      { stop: 1, color: "#64748B" },
+      { stop: 0.35, color: "#F8FAFC" },
+      { stop: 0.65, color: "#CBD5E1" },
+      { stop: 0.9, color: "#64748B" },
+      { stop: 1, color: "#334155" },
     ];
 
-    // Pre-rendered offscreen canvas sprite for high-performance 3D spheres
     const spriteCanvas = document.createElement("canvas");
-    spriteCanvas.width = 32;
-    spriteCanvas.height = 32;
+    spriteCanvas.width = 128;
+    spriteCanvas.height = 128;
     const sCtx = spriteCanvas.getContext("2d");
     if (sCtx) {
-      const sr = 14;
-      const scx = 16;
-      const scy = 16;
+      sCtx.imageSmoothingEnabled = true;
+      sCtx.imageSmoothingQuality = "high";
+      const sr = 56;
+      const scx = 64;
+      const scy = 64;
       const sGrad = sCtx.createRadialGradient(
         scx - sr * 0.35,
         scy - sr * 0.35,
@@ -110,15 +128,13 @@ export const Logo3DCanvas = () => {
       sCtx.arc(scx, scy, sr, 0, Math.PI * 2);
       sCtx.fillStyle = sGrad;
       sCtx.fill();
-      sCtx.strokeStyle = "rgba(15, 23, 42, 0.4)";
-      sCtx.lineWidth = 0.8;
+      sCtx.strokeStyle = "rgba(15, 23, 42, 0.35)";
+      sCtx.lineWidth = 2.5;
       sCtx.stroke();
     }
 
-    let frameCount = 0;
-
     const startLoop = () => {
-      if (!animationFrameId && isVisible && !isScrolling) {
+      if (!animationFrameId && isVisible) {
         lastTimeStamp = performance.now();
         animationFrameId = requestAnimationFrame(render);
       }
@@ -131,52 +147,59 @@ export const Logo3DCanvas = () => {
       }
     };
 
-    // IntersectionObserver to run loop ONLY when canvas is visible
+    // IntersectionObserver to run loop ONLY when canvas is visible on screen
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
-        if (isVisible && !isScrolling) {
+        if (isVisible) {
           startLoop();
         } else {
           stopLoop();
         }
       },
-      { rootMargin: "50px 0px" }
+      { rootMargin: "100px 0px" }
     );
     observer.observe(canvas);
 
-    // High-Precision Delta Render Loop
+    // High-Precision Delta Render Loop (Smooth 60/120/144 FPS)
     const render = (now) => {
-      if (!isVisible || isScrolling) return;
+      if (!isVisible) return;
 
-      const delta = Math.min((now - lastTimeStamp) / 1000, 0.033);
+      const delta = Math.min((now - lastTimeStamp) / 1000, 0.05);
       lastTimeStamp = now;
 
-      frameCount++;
-      if (frameCount % 2 !== 0) {
-        animationFrameId = requestAnimationFrame(render);
-        return;
-      }
+      // Frame-rate independent exponential lerping
+      const lerpFactor = 1 - Math.exp(-12 * delta);
+      spinSpeed += (targetSpinSpeed - spinSpeed) * lerpFactor;
+      hoverScale += (targetScale - hoverScale) * lerpFactor;
+      currentTiltX += (targetTiltX - currentTiltX) * lerpFactor;
+      currentTiltY += (targetTiltY - currentTiltY) * lerpFactor;
 
-      // Smooth speed lerp
-      spinSpeed += (targetSpinSpeed - spinSpeed) * (delta * 6);
-      hoverScale += (targetScale - hoverScale) * (delta * 6);
       time += delta * spinSpeed * 0.85;
 
-      ctx.clearRect(0, 0, width, height);
+      ctx.save();
+      ctx.scale(dpr, dpr);
+      ctx.clearRect(0, 0, cssWidth, cssHeight);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
 
-      const cx = width / 2;
-      const cy = height / 2;
-      const baseRadius = Math.min(width, height) * 0.32 * hoverScale;
+      const cx = cssWidth / 2;
+      const cy = cssHeight / 2;
+      const baseRadius = Math.min(cssWidth, cssHeight) * 0.32 * hoverScale;
       const focalLength = 450;
 
-      // Project function for STATIC core
-      const projectStatic = ([x, y, z]) => {
-        let x1 = x * Math.cos(STATIC_ANGLE_Y) + z * Math.sin(STATIC_ANGLE_Y);
-        let z1 = -x * Math.sin(STATIC_ANGLE_Y) + z * Math.cos(STATIC_ANGLE_Y);
+      const angleX = STATIC_ANGLE_X + currentTiltX;
+      const angleY = STATIC_ANGLE_Y + currentTiltY;
 
-        let y2 = y * Math.cos(STATIC_ANGLE_X) - z1 * Math.sin(STATIC_ANGLE_X);
-        let z2 = y * Math.sin(STATIC_ANGLE_X) + z1 * Math.cos(STATIC_ANGLE_X);
+      // Project function for STATIC core with dynamic tilt
+      const projectStatic = ([x, y, z]) => {
+        let x1 = x * Math.cos(angleY) + z * Math.sin(angleY);
+        let z1 = -x * Math.sin(angleY) + z * Math.cos(angleY);
+
+        let y2 = y * Math.cos(angleX) - z1 * Math.sin(angleX);
+        let z2 = y * Math.sin(angleX) + z1 * Math.cos(angleX);
 
         const scale = focalLength / (focalLength + z2 * 45);
         return {
@@ -247,7 +270,9 @@ export const Logo3DCanvas = () => {
 
       frontDots.forEach(renderSphere);
 
-      if (isVisible && !isScrolling) {
+      ctx.restore();
+
+      if (isVisible) {
         animationFrameId = requestAnimationFrame(render);
       }
     };
@@ -255,10 +280,9 @@ export const Logo3DCanvas = () => {
     return () => {
       observer.disconnect();
       stopLoop();
-      if (scrollTimeout) clearTimeout(scrollTimeout);
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
       canvas.removeEventListener("mouseenter", handleMouseEnter);
+      canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, []);
@@ -266,7 +290,7 @@ export const Logo3DCanvas = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="relative w-56 h-44 sm:w-72 sm:h-56 md:w-80 md:h-60 cursor-pointer mx-auto gpu-layer"
+      className="relative w-56 h-44 sm:w-72 sm:h-56 md:w-80 md:h-60 cursor-pointer mx-auto gpu-layer transition-transform duration-300 ease-out"
       style={{ transform: "translateZ(0)", willChange: "transform" }}
       title="Hover over 3D logo to accelerate the 21 orbiting white 3D spheres"
     />
@@ -274,3 +298,4 @@ export const Logo3DCanvas = () => {
 };
 
 export default Logo3DCanvas;
+
