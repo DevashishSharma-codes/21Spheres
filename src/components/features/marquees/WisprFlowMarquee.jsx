@@ -1,8 +1,4 @@
-import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import gsap from "gsap";
-
-const MOUNTAIN_IMG = "/hero-bg.jpg";
+import { useEffect, memo } from "react";
 
 const WAVE_BAR_COUNT = 32;
 
@@ -17,41 +13,41 @@ const RIGHT_TEXT = `${RIGHT_BASE} · ${RIGHT_BASE} · ${RIGHT_BASE}`;
 
 const STATUS_STEPS = [
   {
-    text: "AI Agents",
+    text: "Listening...",
     icon: (
-      <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-amber-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
+      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-amber-500 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
         <circle cx="12" cy="12" r="6" />
       </svg>
     ),
   },
   {
-    text: "Sub-Second",
+    text: "Cleaning up...",
     icon: (
-      <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-sky-500 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-sky-500 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
         <path d="M12 3v3m0 12v3M3 12h3m12 0h3m-3.5-6.5l-2 2m-7 7l-2 2m11 0l-2-2m-7-7l-2-2" />
       </svg>
     ),
   },
   {
-    text: "High-Scale",
+    text: "Filler identified",
     icon: (
-      <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-        <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
+      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+        <path d="M5 13l4 4L19 7" />
       </svg>
     ),
   },
   {
-    text: "Cloud Native",
+    text: "Formatting...",
     icon: (
-      <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-[#C2612B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-        <path d="M19 18a3.5 3.5 0 0 0 .5-7 5 5 0 0 0-9.5-1.5A4.5 4.5 0 0 0 2 13.5 4.5 4.5 0 0 0 6.5 18" />
+      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#C2612B]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+        <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83" />
       </svg>
     ),
   },
   {
-    text: "System Active",
+    text: "Polished & Ready",
     icon: (
-      <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+      <svg className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
         <polyline points="22 4 12 14.01 9 11.01" />
       </svg>
@@ -59,120 +55,105 @@ const STATUS_STEPS = [
   },
 ];
 
-/* CSS-only waveform bar styles */
-const marqueeStyleId = "wispr-waveform-css-anim";
-function ensureWaveformStyles() {
-  if (typeof document === "undefined") return;
-  if (document.getElementById(marqueeStyleId)) return;
-  const style = document.createElement("style");
-  style.id = marqueeStyleId;
-  
-  let css = "";
-  for (let i = 0; i < 8; i++) {
-    const s1 = 0.3 + (i % 3) * 0.15;
-    const s2 = 0.5 + (i % 8) * 0.1;
-    const s3 = 0.9;
-    css += `
-@keyframes waveBar${i} {
-  0%, 100% { transform: scaleY(${s1}); }
-  50% { transform: scaleY(${s2}); }
-  75% { transform: scaleY(${s3}); }
-}`;
-  }
-  css += `
-@keyframes waveSlide {
-  from { transform: translate3d(-50%, 0, 0); }
-  to { transform: translate3d(0%, 0, 0); }
-}
-.marquee-paused {
-  animation-play-state: paused !important;
-}
-`;
-  style.textContent = css;
-  document.head.appendChild(style);
-}
-
-function AudioStatusText({ isVisible }) {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    if (!isVisible) return;
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % STATUS_STEPS.length);
-    }, 2500);
-    return () => clearInterval(timer);
-  }, [isVisible]);
-
-  const current = STATUS_STEPS[index];
-
+// OPTIMIZATION: Eradicated Framer Motion & React State. 
+// Uses 100% native GPU-accelerated CSS keyframes. Zero main thread usage.
+const AudioStatusText = memo(function AudioStatusText() {
   return (
-    <div className="absolute -top-9 sm:-top-11 md:-top-14 inset-x-0 mx-auto flex items-center justify-center z-40 pointer-events-none w-max">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-          className="flex items-center justify-center gap-1.5 sm:gap-2 md:gap-2.5 text-xs sm:text-base md:text-lg lg:text-xl font-outfit font-semibold text-ink drop-shadow-xs"
+    <div className="absolute -top-12 sm:-top-14 left-1/2 -translate-x-1/2 z-40 pointer-events-none w-max h-8 flex items-center justify-center">
+      <style>{`
+        @keyframes status-cycle {
+          0% { opacity: 0; transform: translateY(10px) scale(0.98); }
+          3% { opacity: 1; transform: translateY(0) scale(1); }
+          17% { opacity: 1; transform: translateY(0) scale(1); }
+          20% { opacity: 0; transform: translateY(-10px) scale(0.98); }
+          100% { opacity: 0; transform: translateY(-10px) scale(0.98); }
+        }
+        .status-item {
+          position: absolute;
+          opacity: 0;
+          animation: status-cycle 12.5s infinite;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          white-space: nowrap;
+        }
+      `}</style>
+      
+      {STATUS_STEPS.map((step, i) => (
+        <div 
+          key={i} 
+          className="status-item text-sm sm:text-lg md:text-xl font-outfit font-semibold text-ink drop-shadow-xs"
+          style={{ animationDelay: `${i * 2.5}s` }}
         >
-          {current.icon}
-          <span>{current.text}</span>
-        </motion.div>
-      </AnimatePresence>
+          {step.icon}
+          <span>{step.text}</span>
+        </div>
+      ))}
     </div>
   );
-}
+});
 
-function WaveformMarquee({ isVisible }) {
-  useEffect(() => {
-    ensureWaveformStyles();
-  }, []);
-
-  const bars = Array.from({ length: WAVE_BAR_COUNT }, (_, i) => i);
-  const pausedClass = isVisible ? "" : " marquee-paused";
+// OPTIMIZATION: 100% native CSS keyframes. Zero React state.
+const WaveformMarquee = memo(function WaveformMarquee() {
+  const bars = Array.from({ length: WAVE_BAR_COUNT }, (_, index) => index);
 
   return (
     <div className="relative h-full w-full overflow-hidden">
-      <div
-        className={`flex h-full w-max items-center gap-1 sm:gap-1.5 px-2 sm:px-3${pausedClass}`}
-        style={{
-          animation: "waveSlide 4s linear infinite",
-          willChange: "transform",
-        }}
-      >
-        {[...bars, ...bars].map((barIndex, key) => (
-          <span
-            key={key}
-            className={`block w-1 sm:w-1.5 h-7 sm:h-10 shrink-0 rounded-full bg-ink${pausedClass}`}
-            style={{
-              animation: `waveBar${barIndex % 8} ${0.35 + (barIndex % 4) * 0.1}s linear infinite alternate`,
-              animationDelay: `${barIndex * 0.05}s`,
-              transformOrigin: "bottom center",
-              willChange: "transform",
-            }}
-          />
-        ))}
+      <style>{`
+        @keyframes slide-mq { 0% { transform: translateX(-50%); } 100% { transform: translateX(0%); } }
+        .animate-slide-mq { animation: slide-mq 4s linear infinite; }
+        
+        ${Array.from({ length: 8 })
+          .map(
+            (_, i) => `
+          @keyframes bar-pulse-${i} {
+            0% { transform: scaleY(0.2); }
+            33.33% { transform: scaleY(${(30 + i * 7) / 100}); }
+            66.66% { transform: scaleY(0.5); }
+            100% { transform: scaleY(0.2); }
+          }
+        `
+          )
+          .join("\n")}
+      `}</style>
+      
+      <div className="flex h-full w-max items-center gap-1.5 px-3 animate-slide-mq">
+        {[...bars, ...bars].map((index, key) => {
+          const mod8 = index % 8;
+          const dur = 0.35 + (index % 4) * 0.1;
+          const delay = index * 0.05;
+          return (
+            <span
+              key={key}
+              className="block w-1.5 h-full shrink-0 rounded-full bg-ink origin-center"
+              style={{
+                animation: `bar-pulse-${mod8} ${dur}s linear ${delay}s infinite alternate`,
+              }}
+            />
+          );
+        })}
       </div>
     </div>
   );
-}
+});
 
-function Content() {
+const Content = memo(function Content() {
   return (
-    <div className="relative z-10 flex w-full max-w-4xl flex-col items-center pt-4 sm:pt-8 md:pt-12 pb-16 sm:pb-24 md:pb-32 text-center select-none">
-      <div className="relative w-full max-w-[620px] h-[260px] sm:h-[360px] md:h-[440px] flex items-center justify-center p-2 sm:p-4 mx-auto">
+    <div className="relative z-10 flex w-full max-w-5xl flex-col items-center pt-6 sm:pt-10 md:pt-12 pb-6 sm:pb-10 md:pb-12 text-center select-none">
+      <div className="relative w-full min-h-[340px] sm:min-h-[480px] md:min-h-[620px] flex items-center justify-center p-3 sm:p-4">
+        {/* Make sure halftone-hands.png is edited to B&W natively to remove CSS filter lag */}
         <img
           src="/halftone-hands.png"
           alt="Halftone hands graphic asset"
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-contain grayscale brightness-90 contrast-125 pointer-events-none z-0 opacity-95 scale-100 sm:scale-105"
+          className="absolute inset-0 h-full w-full object-contain pointer-events-none z-0 opacity-95 scale-110 sm:scale-115"
+          style={{ transform: "translateZ(0)" }}
         />
 
         <svg
           viewBox="0 0 540 420"
-          className="absolute inset-0 h-full w-full pointer-events-none z-10 overflow-visible max-h-full mx-auto"
+          className="absolute inset-0 h-full w-full pointer-events-none z-10 overflow-visible scale-105 sm:scale-110"
           fill="none"
+          style={{ transform: "translateZ(0)" }}
         >
           <path
             d="M 60 140 C 160 30, 360 30, 420 160 C 480 300, 220 400, 110 300 C 20 190, 140 40, 320 60 C 440 80, 510 190, 525 190"
@@ -183,8 +164,8 @@ function Content() {
           <circle cx="525" cy="190" r="5" fill="#17130f" />
         </svg>
 
-        <div className="relative z-20 text-center max-w-[260px] sm:max-w-xs md:max-w-md px-2 sm:px-4">
-          <h2 className="font-outfit text-xl sm:text-3xl md:text-5xl lg:text-6xl font-bold tracking-tight text-ink leading-[1.08]">
+        <div className="relative z-20 text-center max-w-xs sm:max-w-md px-3 sm:px-4">
+          <h2 className="font-outfit text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-ink leading-[1.08]">
             Let's take <br />
             this <span className="font-playfair italic text-[#C2612B] font-normal">journey</span> <br />
             together.
@@ -193,238 +174,85 @@ function Content() {
       </div>
     </div>
   );
-}
+});
 
-function MobileSVGAnimation({ isVisible }) {
-  const text1Ref = useRef(null);
-  const text2Ref = useRef(null);
-
-  useEffect(() => {
-    if (!text1Ref.current || !text2Ref.current) return;
-
-    let rafId;
-    let offset = -1200;
-    let lastTime = performance.now();
-
-    const tick = (now) => {
-      const delta = Math.min((now - lastTime) / 16.666, 2.5);
-      lastTime = now;
-
-      offset += 1.5 * delta;
-      if (offset >= 0) offset = -1200;
-
-      if (text1Ref.current) text1Ref.current.setAttribute("startOffset", `${offset}px`);
-      if (text2Ref.current) text2Ref.current.setAttribute("startOffset", `${offset}px`);
-
-      if (isVisible) {
-        rafId = requestAnimationFrame(tick);
-      }
-    };
-
-    if (isVisible) {
-      lastTime = performance.now();
-      rafId = requestAnimationFrame(tick);
-    }
-
-    return () => {
-      cancelAnimationFrame(rafId);
-    };
-  }, [isVisible]);
-
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden block sm:hidden gpu-layer"
-    >
-      <svg
-        className="h-full w-full opacity-40 gpu-layer"
-        viewBox="0 0 380 620"
-        preserveAspectRatio="xMidYMid meet"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          id="mobile-first-curve"
-          className="fill-transparent stroke-transparent"
-          d="M -40 160 C 90 90, 290 90, 420 160"
-        />
-        <text className="text-[11px] gpu-layer">
-          <textPath
-            ref={text1Ref}
-            href="#mobile-first-curve"
-            startOffset="-1200px"
-            className="fill-ink font-normal opacity-50"
-          >
-            {LEFT_TEXT}
-          </textPath>
-        </text>
-
-        <path
-          id="mobile-second-curve"
-          className="fill-transparent stroke-transparent"
-          d="M -40 470 C 90 435, 290 435, 420 470"
-        />
-        <text className="text-[11px] gpu-layer">
-          <textPath
-            ref={text2Ref}
-            href="#mobile-second-curve"
-            startOffset="-1200px"
-            className="fill-ink/75 font-semibold"
-          >
-            {RIGHT_TEXT}
-          </textPath>
+const SVGAnimation = memo(function SVGAnimation() {
+  // THE FINAL WISPRFLOW HACK: 
+  // Pushed natively as an HTML string so React Virtual DOM completely ignores it.
+  
+  const rawSVG = `
+    <!-- Left Curve -->
+    <div class="absolute -left-80 -top-80" style="contain: layout paint;">
+      <svg class="h-auto w-[1200px] -translate-x-72 -translate-y-20 scale-150" viewBox="0 0 1048 594" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <style>
+          #curve1 { fill: transparent; stroke: transparent; }
+          #marquee-text-hero1 { font-family: inherit; font-size: 15px; font-weight: 400; fill: rgba(23, 19, 15, 0.4); }
+        </style>
+        <path id="curve1" d="M0.597656 50.924805C17.4612 143.2965 97.8522 293.141 284.508 353.548C440.828 399.056 583.839 294.067 500.618 184.7492C417.397 75.4309 238.217 282.098 499.258 441.668C551.913 477.802 817.468 561.26 1046.43 565.235"></path>
+        <text x="-2947" text-rendering="optimizeSpeed">
+          <textPath href="#curve1" id="marquee-text-hero1" baseline-shift="-20%">${LEFT_TEXT}</textPath>
+          <animate attributeName="x" dur="35s" values="-2947; 0" repeatCount="indefinite" />
         </text>
       </svg>
     </div>
-  );
-}
 
-function SVGAnimation({ isVisible }) {
-  const text1Ref = useRef(null);
-  const text2Ref = useRef(null);
-
-  useEffect(() => {
-    if (!text1Ref.current || !text2Ref.current) return;
-
-    let rafId;
-    let offset = -2000;
-    let lastTime = performance.now();
-
-    const tick = (now) => {
-      const delta = Math.min((now - lastTime) / 16.666, 2.5);
-      lastTime = now;
-
-      offset += 1.4 * delta;
-      if (offset >= 0) offset = -2000;
-
-      if (text1Ref.current) text1Ref.current.setAttribute("startOffset", `${offset}px`);
-      if (text2Ref.current) text2Ref.current.setAttribute("startOffset", `${offset}px`);
-
-      if (isVisible) {
-        rafId = requestAnimationFrame(tick);
-      }
-    };
-
-    if (isVisible) {
-      lastTime = performance.now();
-      rafId = requestAnimationFrame(tick);
-    }
-
-    return () => {
-      cancelAnimationFrame(rafId);
-    };
-  }, [isVisible]);
+    <!-- Right Curve -->
+    <div class="absolute -right-60 -top-92 w-[780px]" style="contain: layout paint;">
+      <svg class="h-auto w-[1200px] scale-[1.2]" viewBox="0 0 1024 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <style>
+          #curve2 { fill: transparent; stroke: #17130f; stroke-width: 30; }
+          #marquee-text-hero2 { font-family: inherit; font-size: 15px; font-weight: 600; fill: #FDFBF9; }
+        </style>
+        <path id="curve2" d="M2.04309 563.872C111.592 558.268 316.491 554.016 517.963 490.064C703.017 431.323 875.319 444.531 1021.88 453.216"></path>
+        <text x="-4018" text-rendering="optimizeSpeed">
+          <textPath href="#curve2" id="marquee-text-hero2" baseline-shift="-30%">${RIGHT_TEXT}</textPath>
+          <animate attributeName="x" dur="50s" values="-4018; 0" repeatCount="indefinite" />
+        </text>
+      </svg>
+    </div>
+  `;
 
   return (
     <div
-      aria-hidden
-      className="pointer-events-none absolute bottom-1/2 left-1/2 z-0 h-152 w-6xl -translate-x-1/2 translate-y-[45%] gpu-layer"
-    >
-      <div className="absolute -left-80 -top-80 overflow-hidden gpu-layer">
-        <svg
-          id="hero-svg"
-          className="h-auto w-[1200px] -translate-x-72 -translate-y-20 scale-150 gpu-layer"
-          viewBox="0 0 1048 594"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            id="first-curve"
-            className="fill-transparent stroke-transparent"
-            d="M0.597656 50.924805C17.4612 143.2965 97.8522 293.141 284.508 353.548C440.828 399.056 583.839 294.067 500.618 184.7492C417.397 75.4309 238.217 282.098 499.258 441.668C551.913 477.802 817.468 561.26 1046.43 565.235"
-          />
-          <text className="text-[15px] gpu-layer">
-            <textPath
-              ref={text1Ref}
-              href="#first-curve"
-              startOffset="-2000px"
-              className="fill-ink font-normal opacity-40 [baseline-shift:-20%]"
-            >
-              {LEFT_TEXT}
-            </textPath>
-          </text>
-        </svg>
-      </div>
-
-      <div className="absolute -right-60 -top-92 w-[780px] gpu-layer">
-        <svg
-          className="h-auto w-[1200px] scale-[1.2] gpu-layer"
-          viewBox="0 0 1024 620"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            id="second-curve"
-            className="stroke-ink stroke-[30]"
-            d="M2.04309 563.872C111.592 558.268 316.491 554.016 517.963 490.064C703.017 431.323 875.319 444.531 1021.88 453.216"
-          />
-          <text className="text-[15px] gpu-layer">
-            <textPath
-              ref={text2Ref}
-              href="#second-curve"
-              startOffset="-2000px"
-              className="fill-paper font-semibold [baseline-shift:-30%]"
-            >
-              {RIGHT_TEXT}
-            </textPath>
-          </text>
-        </svg>
-      </div>
-    </div>
+      aria-hidden="true"
+      className="pointer-events-none absolute bottom-1/2 left-1/2 z-0 h-152 w-6xl -translate-x-1/2 translate-y-[45%]"
+      dangerouslySetInnerHTML={{ __html: rawSVG }}
+    />
   );
-}
+});
 
 export function WisprFlowMarquee() {
-  const sectionRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-
   useEffect(() => {
-    ensureWaveformStyles();
+    const id = "baskervville-font";
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { rootMargin: "150px 0px" }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    if (document.getElementById(id)) {
+      return;
     }
 
-    return () => observer.disconnect();
+    const link = document.createElement("link");
+    link.id = id;
+    link.rel = "stylesheet";
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Baskervville:ital@0;1&display=swap";
+    document.head.appendChild(link);
   }, []);
 
   return (
     <section
-      ref={sectionRef}
       id="what-we-do"
       data-testid="wispr-flow-marquee-section"
-      className="relative flex min-h-screen h-[100dvh] w-full max-w-full items-center justify-center overflow-x-hidden overflow-y-hidden bg-[#fdfbf9] border-t border-ink/10 select-none px-4 sm:px-6 py-8 sm:py-12"
+      className="relative min-h-[80vh] md:min-h-[92vh] pt-10 sm:pt-12 md:pt-16 pb-24 sm:pb-28 md:pb-36 w-full overflow-hidden flex flex-col items-center justify-center bg-[#fdfbf9] border-t border-ink/10 select-none"
     >
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden opacity-20">
-        <img
-          src={MOUNTAIN_IMG}
-          alt="Cloud mountains background"
-          loading="lazy"
-          className="w-full h-full object-cover grayscale brightness-75 contrast-125 scale-105"
-        />
-      </div>
-
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_45%,rgba(253,251,249,0.85),transparent_75%)] pointer-events-none z-0" />
-
-      <MobileSVGAnimation isVisible={isVisible} />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_60%_at_50%_45%,rgba(253,251,249,0.95),transparent_75%)] pointer-events-none" />
 
       <Content />
 
-      <div className="absolute bottom-6 sm:bottom-12 md:bottom-20 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-2 sm:gap-3">
-        <div className="relative w-[220px] sm:w-[280px] md:w-84 overflow-visible">
-          <AudioStatusText isVisible={isVisible} />
-          <div className="hidden sm:block">
-            <SVGAnimation isVisible={isVisible} />
-          </div>
-          <div className="relative z-10 flex h-14 sm:h-16 md:h-20 w-full items-center overflow-hidden rounded-full border-2 border-ink bg-white/90 backdrop-blur-md shadow-xl">
-            <WaveformMarquee isVisible={isVisible} />
+      <div className="absolute bottom-5 sm:bottom-10 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-3">
+        <div className="relative w-64 sm:w-84 overflow-visible">
+          <AudioStatusText />
+          <SVGAnimation />
+          <div className="relative z-10 flex h-16 sm:h-20 w-full items-center overflow-hidden rounded-full border-2 border-ink bg-white/95 shadow-xl">
+            <WaveformMarquee />
           </div>
         </div>
       </div>
@@ -433,5 +261,3 @@ export function WisprFlowMarquee() {
 }
 
 export default WisprFlowMarquee;
-
-

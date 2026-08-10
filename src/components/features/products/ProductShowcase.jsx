@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
 import { PRODUCTS } from "../../../data/products";
 
 if (typeof window !== "undefined") {
@@ -29,10 +30,43 @@ export function ProductShowcase() {
   const pinnedCanvasRef = useRef(null);
   const stRef = useRef(null);
   const activeIdxRef = useRef(0);
+  const lenisRef = useRef(null);
+  const lenisTickerFn = useRef(null);
 
   const listRef = useRef(null);
   const itemRefs = useRef([]);
   const lineRefs = useRef([]);
+
+  const startLenis = () => {
+    if (typeof window === "undefined" || lenisRef.current) return;
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+    lenisRef.current = lenis;
+    window.lenis = lenis;
+
+    lenis.on("scroll", ScrollTrigger.update);
+    const tick = (time) => lenis.raf(time * 1000);
+    lenisTickerFn.current = tick;
+    gsap.ticker.add(tick);
+    gsap.ticker.lagSmoothing(0);
+  };
+
+  const stopLenis = () => {
+    if (lenisTickerFn.current) {
+      gsap.ticker.remove(lenisTickerFn.current);
+      lenisTickerFn.current = null;
+    }
+    if (lenisRef.current) {
+      lenisRef.current.destroy();
+      lenisRef.current = null;
+    }
+    if (typeof window !== "undefined" && window.lenis) {
+      window.lenis = null;
+    }
+  };
 
   // Synchronize modal state with URL parameter /products/:productId
   useEffect(() => {
@@ -71,7 +105,7 @@ export function ProductShowcase() {
     }
   }, [activeIdx]);
 
-  // GSAP ScrollTrigger Synchronized Pinning with Direct DOM Mutation (0 React re-renders on scroll)
+  // GSAP ScrollTrigger Synchronized Pinning - Lenis DYNAMICALLY CREATED ONLY inside Product Showcase
   useEffect(() => {
     if (typeof window === "undefined" || window.innerWidth < 640) return;
 
@@ -84,28 +118,38 @@ export function ProductShowcase() {
         trigger: el,
         pin: canvas,
         start: "top top",
-        end: () => `+=${window.innerHeight * (PRODUCTS.length * 0.75)}`,
+        end: () => `+=${window.innerHeight * (PRODUCTS.length * 1.0)}`,
         pinSpacing: true,
-        scrub: 0.3, // Ultra-fast responsive scrub
+        scrub: 0.5,
         anticipatePin: 1,
         invalidateOnRefresh: true,
+        onEnter: startLenis,
+        onLeave: stopLenis,
+        onEnterBack: startLenis,
+        onLeaveBack: stopLenis,
         onUpdate: (self) => {
           const totalProducts = PRODUCTS.length;
           const raw = self.progress * totalProducts;
           const clampedIdx = Math.min(totalProducts - 1, Math.max(0, Math.floor(raw)));
-          const itemProgress = raw - Math.floor(raw); // 0.0 to 1.0 item progress
+          const itemProgress = Math.min(1, Math.max(0, raw - clampedIdx));
 
           if (clampedIdx !== activeIdxRef.current) {
             activeIdxRef.current = clampedIdx;
             setActiveIdx(clampedIdx);
           }
 
-          // Direct DOM mutation for 60/120fps smooth line fill without React re-render overhead
-          const lineEl = lineRefs.current[clampedIdx];
-          if (lineEl) {
-            const widthPct = Math.max(20, Math.min(100, (itemProgress + 0.15) * 100));
-            lineEl.style.width = `${widthPct}%`;
-          }
+          // Direct DOM mutation for smooth line fill across all items
+          lineRefs.current.forEach((lineEl, idx) => {
+            if (!lineEl) return;
+            if (idx < clampedIdx) {
+              lineEl.style.width = "100%";
+            } else if (idx === clampedIdx) {
+              const widthPct = Math.max(15, Math.min(100, (itemProgress + 0.15) * 100));
+              lineEl.style.width = `${widthPct}%`;
+            } else {
+              lineEl.style.width = "0%";
+            }
+          });
         },
       });
     }, containerRef);
@@ -115,6 +159,7 @@ export function ProductShowcase() {
     }, 150);
 
     return () => {
+      stopLenis();
       clearTimeout(timer);
       ctx.revert();
     };
@@ -132,7 +177,11 @@ export function ProductShowcase() {
       const progressRatio = (clamped + 0.1) / PRODUCTS.length;
       const targetScroll = st.start + progressRatio * (st.end - st.start);
 
-      window.scrollTo({ top: targetScroll, behavior: "smooth" });
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(targetScroll, { duration: 0.65 });
+      } else {
+        window.scrollTo({ top: targetScroll, behavior: "smooth" });
+      }
     }
   };
 
@@ -408,7 +457,7 @@ export function ProductShowcase() {
                       {isActive ? (
                         <div
                           ref={(el) => (lineRefs.current[idx] = el)}
-                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#e58b82] via-[#ff922b] via-[#74c0fc] to-[#d8f28c] rounded-full transition-all duration-75 will-change-[width]"
+                          className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#e58b82] via-[#ff922b] via-[#74c0fc] to-[#d8f28c] rounded-full transition-all duration-200 ease-out will-change-[width]"
                           style={{ width: "35%" }}
                         />
                       ) : (

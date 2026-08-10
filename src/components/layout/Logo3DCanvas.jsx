@@ -9,8 +9,11 @@ export const Logo3DCanvas = () => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animationFrameId;
+    let animationFrameId = null;
     let isVisible = false;
+    let isScrolling = false;
+    let scrollTimeout = null;
+
     let width = (canvas.width = canvas.parentElement?.clientWidth || 400);
     let height = (canvas.height = canvas.parentElement?.clientHeight || 400);
 
@@ -55,7 +58,22 @@ export const Logo3DCanvas = () => {
       height = canvas.height = canvas.parentElement.clientHeight || 400;
     };
 
-    window.addEventListener("resize", handleResize);
+    // Pause loop during scrolling for 100% smooth scroll performance
+    const handleScroll = () => {
+      isScrolling = true;
+      stopLoop();
+
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+        if (isVisible) {
+          startLoop();
+        }
+      }, 100);
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
     canvas.addEventListener("mouseenter", handleMouseEnter);
     canvas.addEventListener("mouseleave", handleMouseLeave);
 
@@ -100,7 +118,7 @@ export const Logo3DCanvas = () => {
     let frameCount = 0;
 
     const startLoop = () => {
-      if (!animationFrameId) {
+      if (!animationFrameId && isVisible && !isScrolling) {
         lastTimeStamp = performance.now();
         animationFrameId = requestAnimationFrame(render);
       }
@@ -117,19 +135,19 @@ export const Logo3DCanvas = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry.isIntersecting;
-        if (isVisible) {
+        if (isVisible && !isScrolling) {
           startLoop();
         } else {
           stopLoop();
         }
       },
-      { rootMargin: "100px 0px" }
+      { rootMargin: "50px 0px" }
     );
     observer.observe(canvas);
 
-    // High-Precision 30fps Sub-Pixel Delta Render Loop
+    // High-Precision Delta Render Loop
     const render = (now) => {
-      if (!isVisible) return;
+      if (!isVisible || isScrolling) return;
 
       const delta = Math.min((now - lastTimeStamp) / 1000, 0.033);
       lastTimeStamp = now;
@@ -229,7 +247,7 @@ export const Logo3DCanvas = () => {
 
       frontDots.forEach(renderSphere);
 
-      if (isVisible) {
+      if (isVisible && !isScrolling) {
         animationFrameId = requestAnimationFrame(render);
       }
     };
@@ -237,7 +255,9 @@ export const Logo3DCanvas = () => {
     return () => {
       observer.disconnect();
       stopLoop();
+      if (scrollTimeout) clearTimeout(scrollTimeout);
       window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
       canvas.removeEventListener("mouseenter", handleMouseEnter);
       canvas.removeEventListener("mouseleave", handleMouseLeave);
     };
@@ -246,9 +266,11 @@ export const Logo3DCanvas = () => {
   return (
     <canvas
       ref={canvasRef}
-      className="relative w-56 h-44 sm:w-72 sm:h-56 md:w-80 md:h-60 cursor-pointer mx-auto"
+      className="relative w-56 h-44 sm:w-72 sm:h-56 md:w-80 md:h-60 cursor-pointer mx-auto gpu-layer"
+      style={{ transform: "translateZ(0)", willChange: "transform" }}
       title="Hover over 3D logo to accelerate the 21 orbiting white 3D spheres"
     />
   );
 };
 
+export default Logo3DCanvas;

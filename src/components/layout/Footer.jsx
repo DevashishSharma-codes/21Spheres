@@ -91,10 +91,16 @@ export const Footer = () => {
       </div>
 
       {/* Vibrant Lime Aurora Radial Glow at Bottom-Left */}
-      <div className="absolute -bottom-20 -left-20 w-[26rem] sm:w-[38rem] h-[26rem] sm:h-[38rem] bg-[#bef264]/40 rounded-full blur-[100px] pointer-events-none z-0 opacity-90 animate-pulse" />
+      <div
+        className="absolute -bottom-20 -left-20 w-[26rem] sm:w-[38rem] h-[26rem] sm:h-[38rem] bg-[#bef264]/40 rounded-full blur-[90px] pointer-events-none z-0 opacity-80 animate-pulse gpu-layer"
+        style={{ transform: "translateZ(0)" }}
+      />
 
       {/* Vibrant Soft Green Top-Right Ambient Glow */}
-      <div className="absolute -top-20 -right-20 w-[24rem] sm:w-[32rem] h-[24rem] sm:h-[32rem] bg-[#a3e635]/20 rounded-full blur-[90px] pointer-events-none z-0 opacity-75" />
+      <div
+        className="absolute -top-20 -right-20 w-[24rem] sm:w-[32rem] h-[24rem] sm:h-[32rem] bg-[#a3e635]/20 rounded-full blur-[80px] pointer-events-none z-0 opacity-70 gpu-layer"
+        style={{ transform: "translateZ(0)" }}
+      />
 
       {/* Main Full-Width Container */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
