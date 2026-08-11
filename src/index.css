@@ -112,10 +112,25 @@ html, body {
   }
 }
 
+@keyframes hero-svg-pixel-dash {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -400;
+  }
+}
+
 .animate-hero-dash {
   stroke-dasharray: 0.2 0.8;
   stroke-dashoffset: 0;
   animation: hero-svg-dash 2.2s linear infinite;
+  will-change: stroke-dashoffset;
+  transform: translateZ(0);
+}
+
+.animate-hero-pixel-dash {
+  animation: hero-svg-pixel-dash 2.2s linear infinite;
   will-change: stroke-dashoffset;
   transform: translateZ(0);
 }

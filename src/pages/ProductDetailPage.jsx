@@ -14,6 +14,7 @@ import { Navbar } from "../components/layout/Navbar";
 import { LogoMark } from "../components/common/LogoMark";
 import { Grain } from "../components/common/Grain";
 import warmCoralBg from "../assets/card-bgs/featured-testimonial-bg.jpg";
+import { BoxyQuoteMark } from "../components/features/testimonials/FeaturedTestimonial";
 
 const Footer = lazy(() => import("../components/layout/Footer"));
 
@@ -386,8 +387,11 @@ export function ProductDetailPage() {
               <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/40 via-white/10 to-transparent pointer-events-none z-0" />
 
               <div className="relative z-10 flex flex-col justify-between">
+                {/* Big Boxy Quotation Marks Icon */}
+                <BoxyQuoteMark className="w-8 h-8 sm:w-12 sm:h-12 text-white mb-4 sm:mb-6 drop-shadow-sm" />
+
                 {/* Eyebrow Label */}
-                <div className="flex items-center gap-2 mb-6 font-mono text-xs uppercase tracking-widest text-white/80 font-semibold">
+                <div className="flex items-center gap-2 mb-4 font-mono text-xs uppercase tracking-widest text-white/80 font-semibold">
                   <LogoMark className="w-4 h-4 text-white" />
                   <span>FOUNDER ARCHITECTURE PERSPECTIVE</span>
                 </div>
@@ -397,7 +401,7 @@ export function ProductDetailPage() {
                   "{currentProduct.ceoQuote || "Engineering isn't just about making things work — it's about sub-second responsiveness, zero friction, and building architectures that hold up under extreme scale."}"
                 </blockquote>
 
-                {/* CEO Author Footer with Manifesto Interactive Hover Trigger */}
+                {/* CEO Author Footer with Character Avatar Face */}
                 <div className="flex items-center gap-4 pt-6 border-t border-white/30">
                   <div
                     ref={pillRef}
@@ -405,11 +409,11 @@ export function ProductDetailPage() {
                     onMouseLeave={handleMouseLeave}
                     className="relative group cursor-pointer"
                   >
-                    <div className="relative p-[1.5px] rounded-full bg-gradient-to-r from-white/60 via-white/20 to-white/60 animate-shimmer-border">
+                    <div className="relative p-[2px] rounded-full bg-gradient-to-r from-white/80 via-white/40 to-white/80 shadow-md">
                       <img
                         src={OWNER_PHOTO}
                         alt="Om Bawal"
-                        className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-md group-hover:scale-105 transition-transform"
+                        className="w-11 h-11 sm:w-13 sm:h-13 rounded-full object-cover border-2 border-white shadow-md group-hover:scale-105 transition-transform"
                       />
                     </div>
                   </div>
@@ -423,7 +427,7 @@ export function ProductDetailPage() {
                       Om Bawal
                     </span>
                     <span className="font-mono text-xs text-white/80 font-medium uppercase tracking-wider block">
-                      Founder & Chief Architect @ 21Spheres
+                      Founder &amp; Chief Architect @ 21Spheres
                     </span>
                   </div>
                 </div>

@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import featuredBg from "../../../assets/card-bgs/featured-testimonial-bg.jpg";
 
-// Sharp Boxy Double Quote Mark Icon (matching reference screenshot)
-const BoxyQuoteMark = ({ className = "w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-white mb-4 sm:mb-6 drop-shadow-sm" }) => (
+// Sharp Boxy Double Quote Mark Icon
+export const BoxyQuoteMark = ({ className = "w-10 h-10 sm:w-14 sm:h-14 text-white mb-4 sm:mb-6 drop-shadow-sm" }) => (
   <svg
     viewBox="0 0 64 64"
     fill="currentColor"
@@ -28,7 +28,7 @@ export const FeaturedTestimonial = () => {
         className="absolute inset-0 w-full h-full object-cover z-0"
       />
 
-      {/* Glass Screen Container (Slightly Reduced Size) */}
+      {/* Glass Screen Container */}
       <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
         <div
           className="relative w-full rounded-none p-6 sm:p-10 md:p-12 lg:p-16 overflow-hidden min-h-[360px] sm:min-h-[420px] flex flex-col justify-between"
@@ -50,23 +50,25 @@ export const FeaturedTestimonial = () => {
 
           {/* Quote & Author Details Container */}
           <div className="relative z-10 flex flex-col justify-between h-full my-auto">
-            {/* Boxy Quotation Marks Icon */}
+            {/* Big Boxy Quotation Marks Icon */}
             <BoxyQuoteMark />
 
-            {/* High-Impact Featured Quote in Uniform Font Light */}
+            {/* High-Impact Featured Quote */}
             <h3 className="font-outfit text-xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-light text-white leading-[1.15] tracking-tight drop-shadow-sm max-w-4xl">
               There has been a lot of talk surrounding what works in digital products now. The answer is 21Spheres. Full Stop. 21Spheres is the next generation of product engineering.
             </h3>
 
-            {/* Author Info */}
+            {/* Character Face & Author Info */}
             <div className="flex items-center gap-3.5 pt-6 sm:pt-8 md:pt-10">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
-                alt="Keshav Malpani"
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-white/70 shadow-md"
-              />
+              <div className="relative p-[2px] rounded-full bg-gradient-to-r from-white/80 via-white/40 to-white/80 shadow-md">
+                <img
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+                  alt="Keshav Malpani - CEO of Wealth Wisdom"
+                  className="w-11 h-11 sm:w-14 sm:h-14 rounded-full object-cover border-2 border-white shadow-md"
+                />
+              </div>
               <div className="flex flex-col">
-                <span className="font-outfit text-sm sm:text-base font-semibold text-white tracking-wide drop-shadow-xs">
+                <span className="font-outfit text-base sm:text-lg font-semibold text-white tracking-wide drop-shadow-xs">
                   Keshav Malpani
                 </span>
                 <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-white/90 font-medium">

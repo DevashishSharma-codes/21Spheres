@@ -6,17 +6,21 @@ function cn(...classes) {
 }
 
 const PATHS = [
-  { d: "M 0 0 L 0 404.609", transform: "translate(370 0)", dim: 20 },
+  { d: "M 0 0 L 0 404.609", transform: "translate(370 0)", startX: 0, startY: 0 },
   {
     d: "M 164 0 L 98.814 0 L 0 83.557 L 0 205",
     transform: "translate(400 110)",
+    startX: 164,
+    startY: 0,
   },
   {
-    d: "M 0 0 L 56.317 0 C 93.572 34.834 114.632 53.417 155 84.826 L 155 206",
-    transform: "translate(181.152 110)",
+    d: "M -164 0 L -98.814 0 L 0 83.557 L 0 205",
+    transform: "translate(340 110)",
+    startX: -164,
+    startY: 0,
   },
-  { d: "M 0 0 L 295 0 L 295 81", transform: "translate(0 221)" },
-  { d: "M 296 0 L 0 0 L 0 79", transform: "translate(438 221)" },
+  { d: "M 0 0 L 295 0 L 295 81", transform: "translate(0 221)", startX: 0, startY: 0 },
+  { d: "M 296 0 L 0 0 L 0 79", transform: "translate(438 221)", startX: 296, startY: 0 },
 ];
 
 const SEGMENT = 0.1;
@@ -42,17 +46,19 @@ function Tag({ children, className }) {
 function AnimatedLine({ d, transform }) {
   return (
     <g transform={transform}>
+      {/* Background Guide Line */}
       <path
         d={d}
         stroke="rgba(255, 255, 255, 0.25)"
         strokeWidth={3}
       />
+      {/* Sleek Moving Line Dash with Square Ends */}
       <path
         d={d}
         pathLength={1}
         stroke="#ffffff"
         strokeWidth={1.5}
-        strokeLinecap="butt"
+        strokeLinecap="square"
         className="animate-line-dash"
       />
     </g>
