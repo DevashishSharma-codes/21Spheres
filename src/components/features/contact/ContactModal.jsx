@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, ArrowRight } from "lucide-react";
+import { X, Check, ArrowRight, Calendar } from "lucide-react";
 import { LogoMark } from "../../common/LogoMark";
 
 export const ContactModal = ({ isOpen: propIsOpen, onClose: propOnClose, bookingDetails: propBookingDetails }) => {
@@ -135,8 +135,9 @@ export const ContactModal = ({ isOpen: propIsOpen, onClose: propOnClose, booking
                           {bookingDetails ? "Confirm Session" : "Start a Project"}
                         </h3>
                         {bookingDetails ? (
-                          <div className="mt-1 bg-black/5 border border-black/10 rounded-lg p-1.5 sm:p-2 font-outfit text-[10px] sm:text-[11px] text-black font-medium">
-                            🗓️ {bookingDetails.date} at {bookingDetails.time}
+                          <div className="mt-1 bg-black/5 border border-black/10 rounded-lg p-1.5 sm:p-2 font-outfit text-[10px] sm:text-[11px] text-black font-medium flex items-center gap-1.5">
+                            <Calendar size={13} className="text-black/70 shrink-0" />
+                            <span>{bookingDetails.date} at {bookingDetails.time}</span>
                           </div>
                         ) : (
                           <p className="font-outfit text-[10px] sm:text-[11px] text-black/60 font-light mt-0.5">
