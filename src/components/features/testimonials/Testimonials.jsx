@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Globe as GlobeIcon } from "lucide-react";
+import { Globe as GlobeIcon, Heart } from "lucide-react";
 import testimonialsBg from "../../../assets/card-bgs/testimonials-section-bg.png";
 import blueWatercolorBg from "../../../assets/card-bgs/blue-watercolor-bg.png";
 import userBgPinkPurple from "../../../assets/card-bgs/user-bg-pink-purple.png";
@@ -272,8 +272,10 @@ export const Testimonials = () => {
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full relative z-10 flex flex-col items-center pt-1 sm:pt-2 mb-auto">
         <div className="text-center mb-3 sm:mb-4 relative z-10">
-          <h2 className="font-outfit text-2xl sm:text-4xl lg:text-5xl font-light tracking-tight text-ink uppercase leading-none">
-            Wall of loooooveee
+          <h2 className="font-outfit text-2xl sm:text-4xl lg:text-5xl font-light tracking-tight text-ink uppercase leading-none inline-flex items-center justify-center">
+            <span>Wall of L</span>
+            <Heart className="w-5 h-5 sm:w-8 sm:h-8 lg:w-9 lg:h-9 fill-slate-950 text-slate-950 shrink-0 self-center mx-[2px] -mt-0.5" />
+            <span>VE</span>
           </h2>
           <p className="font-outfit text-xs sm:text-xs text-ink/70 font-light mt-1 max-w-md mx-auto">
             Automatically engage & book qualified pipeline without manual outreach.
