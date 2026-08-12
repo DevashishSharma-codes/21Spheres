@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Globe as GlobeIcon } from "lucide-react";
-import testimonialsBg from "/Users/devashishsharma/.gemini/antigravity-ide/brain/b132fab3-3e1c-4d52-8121-1193841ebc8b/media__1786547702055.png";
-import blueWatercolorBg from "/Users/devashishsharma/.gemini/antigravity-ide/brain/b132fab3-3e1c-4d52-8121-1193841ebc8b/media__1786552077303.png";
-import userBgPinkPurple from "/Users/devashishsharma/.gemini/antigravity-ide/brain/b132fab3-3e1c-4d52-8121-1193841ebc8b/media__1786554472573.png";
-import userBgYellowPeach from "/Users/devashishsharma/.gemini/antigravity-ide/brain/b132fab3-3e1c-4d52-8121-1193841ebc8b/media__1786554506398.jpg";
-import userBgGreenGradient from "/Users/devashishsharma/.gemini/antigravity-ide/brain/b132fab3-3e1c-4d52-8121-1193841ebc8b/media__1786554546470.png";
+import testimonialsBg from "../../../assets/card-bgs/testimonials-section-bg.png";
+import blueWatercolorBg from "../../../assets/card-bgs/blue-watercolor-bg.png";
+import userBgPinkPurple from "../../../assets/card-bgs/user-bg-pink-purple.png";
+import userBgYellowPeach from "../../../assets/card-bgs/user-bg-yellow-peach.jpg";
+import userBgGreenGradient from "../../../assets/card-bgs/user-bg-green-gradient.png";
 import cardBg1 from "../../../assets/card-bgs/card-bg-1.jpg";
 import cardBg2 from "../../../assets/card-bgs/card-bg-2.jpg";
 import cardBg3 from "../../../assets/card-bgs/card-bg-3.jpg";
@@ -111,15 +111,18 @@ const GLOBE_MARKERS = [
 ];
 
 const StaticValleyTestimonialCard = ({ card }) => (
-  <div className="relative p-2 sm:p-2.5 bg-white/40 backdrop-blur-md border border-white/60 rounded-none shadow-none transition-transform duration-300 hover:-translate-y-1.5 group">
-    {/* Inner Card Body Matching Exact Layout of Reference Image */}
+  <div className="relative p-2 sm:p-2.5 bg-white/50 backdrop-blur-md border border-white/70 rounded-none shadow-none transition-transform duration-300 hover:-translate-y-1.5 group">
+    {/* Inner Card Body with Lighter Pastel Background & Clear Designation Text */}
     <div className="relative w-full min-h-[340px] sm:min-h-[370px] lg:min-h-[390px] p-6 sm:p-7 text-slate-950 rounded-none flex flex-col justify-between overflow-hidden">
-      {/* 100% Full Vibrant Background Watercolor Image */}
+      {/* Soft Lighter Background Watercolor Image */}
       <img
         src={card.bgImage}
         alt={`${card.company} watercolor background`}
-        className="absolute inset-0 w-full h-full object-cover z-0 opacity-100 transition-transform duration-700 ease-out group-hover:scale-105"
+        className="absolute inset-0 w-full h-full object-cover z-0 opacity-85 transition-transform duration-700 ease-out group-hover:scale-105"
       />
+
+      {/* Light soft white tint overlay for enhanced designation legibility */}
+      <div className="absolute inset-0 bg-white/20 z-0" />
 
       {/* TOP BLOCK: Company Logo + Quote Text right at the top */}
       <div className="relative z-10 flex flex-col items-start gap-4">
@@ -129,23 +132,23 @@ const StaticValleyTestimonialCard = ({ card }) => (
         </span>
 
         {/* Quote Text immediately at top under logo */}
-        <p className="font-outfit text-sm sm:text-base font-normal text-slate-900 leading-snug tracking-tight text-left">
+        <p className="font-outfit text-sm sm:text-base font-normal text-slate-950 leading-snug tracking-tight text-left">
           {card.subhead}
         </p>
       </div>
 
-      {/* BOTTOM BLOCK: Author Avatar + Name & Role at the very bottom */}
+      {/* BOTTOM BLOCK: Author Avatar + Name & Role (Clearly Visible Designation) */}
       <div className="relative z-10 flex items-center gap-3 pt-6">
         <img
           src={card.avatar}
           alt={card.name}
-          className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover shrink-0 shadow-none"
+          className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover shrink-0 border border-slate-950/20 shadow-none"
         />
         <div className="flex flex-col leading-tight">
-          <span className="font-outfit text-sm sm:text-base font-semibold text-slate-950">
+          <span className="font-outfit text-sm sm:text-base font-bold text-slate-950">
             {card.name}
           </span>
-          <span className="font-outfit text-xs text-slate-600 font-normal mt-0.5">
+          <span className="font-outfit text-xs font-semibold text-slate-800 mt-0.5">
             {card.role}
           </span>
         </div>
@@ -365,19 +368,23 @@ export const Testimonials = () => {
           </div>
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 items-start relative z-10 pb-4">
-          <div className="flex flex-col gap-4 sm:gap-5">
+          {/* Column 1 (Leftmost - Shifted Upwards) */}
+          <div className="flex flex-col gap-4 sm:gap-5 lg:-mt-16">
             <StaticValleyTestimonialCard card={CARDS[0]} />
             <StaticValleyTestimonialCard card={CARDS[1]} />
           </div>
-          <div className="flex flex-col gap-4 sm:gap-5 lg:pt-6">
+          {/* Column 2 (Center Left - Shifted Downwards) */}
+          <div className="flex flex-col gap-4 sm:gap-5 lg:pt-8">
             <StaticValleyTestimonialCard card={CARDS[2]} />
             <StaticValleyTestimonialCard card={CARDS[3]} />
           </div>
-          <div className="flex flex-col gap-4 sm:gap-5 lg:pt-6">
+          {/* Column 3 (Center Right - Shifted Downwards) */}
+          <div className="flex flex-col gap-4 sm:gap-5 lg:pt-8">
             <StaticValleyTestimonialCard card={CARDS[4]} />
             <StaticValleyTestimonialCard card={CARDS[5]} />
           </div>
-          <div className="flex flex-col gap-4 sm:gap-5">
+          {/* Column 4 (Rightmost - Shifted Upwards) */}
+          <div className="flex flex-col gap-4 sm:gap-5 lg:-mt-16">
             <StaticValleyTestimonialCard card={CARDS[6]} />
             <StaticValleyTestimonialCard card={CARDS[7]} />
           </div>
