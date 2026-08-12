@@ -145,10 +145,10 @@ const StaticValleyTestimonialCard = ({ card }) => (
           className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover shrink-0 border border-slate-950/20 shadow-none"
         />
         <div className="flex flex-col leading-tight">
-          <span className="font-outfit text-sm sm:text-base font-bold text-slate-950">
+          <span className="font-outfit text-xs sm:text-sm font-medium text-slate-950">
             {card.name}
           </span>
-          <span className="font-outfit text-xs font-semibold text-slate-800 mt-0.5">
+          <span className="font-outfit text-[11px] font-normal text-slate-700 mt-0.5">
             {card.role}
           </span>
         </div>
